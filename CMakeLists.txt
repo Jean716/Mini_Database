@@ -54,6 +54,10 @@ enable_testing()
 #   Grab all cpp files from includes folder
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 set(INCLUDES_FOLDER includes)
+# Add the includes folder to the include paths
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/includes)
+include_directories(${PROJECT_SOURCE_DIR}/includes/tokenizer)
+include_directories(${PROJECT_SOURCE_DIR}/includes/parser)
 FILE(GLOB_RECURSE SOURCE_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}   "${INCLUDES_FOLDER}/*.cpp" )
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
