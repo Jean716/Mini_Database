@@ -300,7 +300,9 @@ int Table::field_col_no(string field_name) {
             }
         return _field_map.at(field_name);
         }
-    return -1;
+
+    cout << "Field not found: " << field_name << ". Returning -3." << endl;
+    return -3;
     }
 
 //LINK - get_matching_recnos
@@ -470,6 +472,10 @@ vectorlong Table::cond(const Queue<Token*>& postfix) {
             int field_index = field_col_no(field_name);
             if (field_index == -1) {
                 throw runtime_error("Field not found: " + field_name);
+                }
+            if (field_index == -3) {
+                cout << "Field not found: " << field_name << ". Returning empty results." << endl;
+                return {};
                 }
 
             const auto& field_index_map = _indices[field_index];
