@@ -95,16 +95,14 @@ void STokenizer::make_table(int _table[][MAX_COLUMNS]) {
     mark_cell(START_STATE, _table, ')', RIGHT_PAREN_STATE);
 
 
-    // mark_fail(_table, RELATIONAL_OPEN_STATE);  // 中间状态标记为失败
-    mark_success(_table, RELATIONAL_STATE); // 关系运算符最终状态
+    // mark_fail(_table, RELATIONAL_OPEN_STATE);  
+    mark_success(_table, RELATIONAL_STATE);
 
-    // 单字符运算符
     mark_cell(START_STATE, _table, '>', RELATIONAL_STATE);
     mark_cell(START_STATE, _table, '<', RELATIONAL_STATE);
     mark_cell(START_STATE, _table, '=', RELATIONAL_STATE);
     mark_cell(START_STATE, _table, '!', RELATIONAL_STATE);
 
-    // 双字符运算符
     mark_cell('>', _table, '=', RELATIONAL_STATE);
     mark_cell('<', _table, '=', RELATIONAL_STATE);
     mark_cell('!', _table, '=', RELATIONAL_STATE);

@@ -6,7 +6,6 @@
 #include "../../includes/rpn/resultset.h"
 #include "../../includes/token/token.h"
 #include "../../includes/token/child_tokens.h"
-#include "../../includes/token/tokenstr.h"
 #include <vector>
 
 class RPN

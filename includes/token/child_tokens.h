@@ -1,5 +1,5 @@
-#ifndef CHILDTOKEN_H
-#define CHILDTOKEN_H
+#ifndef CHILD_TOKENS_H
+#define CHILD_TOKENS_H
 
 #include "token.h"
 #include "../../includes/tokenizer/constants.h" 
