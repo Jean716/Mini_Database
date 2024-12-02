@@ -26,7 +26,6 @@ STokenizer::STokenizer(char str[]) {
     make_table(_table);
     _done = false;
 
-
     }
 
 bool STokenizer::done() {
@@ -43,7 +42,7 @@ bool STokenizer::more() {
 
 
 void STokenizer::set_string(const char str[]) {
-    // cout << "STokenizer::set_string called with input: " << str << endl;
+    cout << "STokenizer::set_string called with input: " << str << endl;
     strncpy(_buffer, str, MAX_BUFFER - 1);
     _pos = 0;
     _done = false;
@@ -76,6 +75,7 @@ void STokenizer::make_table(int _table[][MAX_COLUMNS]) {
     mark_cells(ALFA_STATE, _table, DIGITS, ALFA_STATE);
     mark_cell(START_STATE, _table, '_', ALFA_STATE);  // underscore 
     mark_cell(ALFA_STATE, _table, '_', ALFA_STATE);  // underscore 
+
 
 
     mark_success(_table, COMMA_STATE);
@@ -119,6 +119,7 @@ void STokenizer::make_table(int _table[][MAX_COLUMNS]) {
     mark_cells(OPEN_STRING_STATE, _table, PUNC, OPEN_STRING_STATE);
     mark_cell(OPEN_STRING_STATE, _table, '"', STRING_STATE);
 
+
     }
 
 
@@ -129,9 +130,6 @@ bool STokenizer::get_token(int& start_state, string & token) {
     int state = start_state;
     int last_success_state = -1;
     int last_pos = _pos;
-
-
-
     while (_pos < strlen(_buffer)) {
         char current_char = _buffer[_pos];
 
@@ -201,10 +199,18 @@ STokenizer& operator>>(STokenizer& s, Token*& t) {
                     t = new NumberToken(token_str);
                     break;
                 case STRING_STATE:
+                    if (token_str == "and" || token_str == "or" || token_str == "not") {
+                        t = new LogicalOperatorToken(token_str);
+                        }
                     t = new StringToken(token_str);
                     break;
                 case ALFA_STATE:
-                    t = new ALFAToken(token_str);
+                    if (token_str == "and" || token_str == "or" || token_str == "not") {
+                        t = new LogicalOperatorToken(token_str);
+                        }
+                    else {
+                        t = new ALFAToken(token_str);
+                        }
                     break;
                 case SPACE_STATE:
                     t = new SpaceToken();
@@ -215,9 +221,9 @@ STokenizer& operator>>(STokenizer& s, Token*& t) {
                 case ASTERISK_STATE:
                     t = new AsteriskToken();
                     break;
-                case DOT_STATE:
-                    t = new DotToken();
-                    break;
+                    // case DOT_STATE:
+                    //     t = new DotToken();
+                    //     break;
                 case LEFT_PAREN_STATE:
                     t = new LeftParenToken();
                     break;
@@ -228,9 +234,9 @@ STokenizer& operator>>(STokenizer& s, Token*& t) {
                 case RELATIONAL_STATE:
                     t = new RelationalOperatorToken(token_str);
                     break;
-                case LOGICAL_STATE:
-                    t = new LogicalOperatorToken(token_str);
-                    break;
+                    // case LOGICAL_STATE:
+                    //     t = new LogicalOperatorToken(token_str);
+                    //     break;
                 default:
                     throw runtime_error("Unrecognized token: " + token_str);
             }

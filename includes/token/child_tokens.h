@@ -104,20 +104,19 @@ class AsteriskToken : public Token
 //             }
 //     };
 
-// 点号 Token
-class DotToken : public Token
-    {
-    public:
-        DotToken() : Token(TOKEN_DOT, ".") {}
-        int type() const override { return _type; }
-        string value() const override { return _value; }
-        string type_string() const override { return "DOT"; }
-        void print(ostream& outs) const override {
-            outs << "[Dot: .]";
-            }
-    };
 
-// 引号 Token
+// class DotToken : public Token
+//     {
+//     public:
+//         DotToken() : Token(TOKEN_DOT, ".") {}
+//         int type() const override { return _type; }
+//         string value() const override { return _value; }
+//         string type_string() const override { return "DOT"; }
+//         void print(ostream& outs) const override {
+//             outs << "[Dot: .]";
+//             }
+//     };
+
 class QuoteToken : public Token
     {
     public:
@@ -221,7 +220,7 @@ class LogicalOperatorToken : public Token
     public:
         LogicalOperatorToken(const string& op) : Token(TOKEN_LOGICAL_OPERATOR, op) {}
 
-        int type() const override { return TOKEN_LOGICAL_OPERATOR; } // 返回具体的类型
+        int type() const override { return TOKEN_LOGICAL_OPERATOR; }
 
         string value() const override {
             if (_value == "and") return "and";

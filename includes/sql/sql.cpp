@@ -70,10 +70,12 @@ Table SQL::command(const string& cmd) {
             vector<string> infix = ptree.get("condition");
             string cond;
             for (size_t i = 0; i < infix.size(); ++i) {
-                cond += infix[i];
+                cond += infix[i] + " ";
                 }
+            cout << ">>> Condition string: " << cond << endl;
 
             _parser.tokenize(cond, infix_condition);
+            //cout << ">>> Infix condition: " << infix_condition << endl;
             // Convert the condition to postfix expression using the Parser's function
             Queue<Token*> postfix_condition = _parser.convert_to_postfix(infix_condition);
 

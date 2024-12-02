@@ -293,6 +293,11 @@ int Table::field_col_no(string field_name) {
         return -2;   // -2 indicates all fields
         }
     if (_field_map.find(field_name) != _field_map.end()) {
+        cout << "Field found: " << field_name << " at index " << _field_map.at(field_name) << endl;
+        cout << "Field map contents:" << endl;
+        for (const auto& pair : _field_map) {
+            cout << pair.first << " -> " << pair.second << endl;
+            }
         return _field_map.at(field_name);
         }
     return -1;

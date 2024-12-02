@@ -6,19 +6,23 @@
 
 ShuntingYard::ShuntingYard(Queue<Token*>& input) : _infix(input) {
     cout << "-------ShuntingYard constructor FIred!-------" << endl;
-    cout << "_infix: " << _infix << endl;
-    cout << "Input queue size: " << input.size() << endl;
-    cout << "_infix tokens: ";
-    Queue<Token*> temp = _infix;
-    while (!temp.empty()) {
-        cout << temp.front()->value() << " ";
-        temp.pop();
+    // Clear _infix to ensure it's empty before copying
+    while (!_infix.empty()) {
+        _infix.pop();
         }
-    cout << endl;
+
+    // Copy each element from input to _infix
+    Queue<Token*> temp_input = input; // Use a temporary queue to preserve input
+    while (!temp_input.empty()) {
+        Token* token = temp_input.front();
+        temp_input.pop();
+        _infix.push(token); // Push into _infix
+        }
+
     }
 Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
     cout << "-------ShuntingYard::to_postfix Fired!-------" << endl;
-
+    cout << "Input Queue: " << input << endl;
     Queue<Token*> output;
     Stack<Token*> operators;
 
@@ -31,13 +35,16 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
         if (token->type() == TOKEN_NUMBER || token->type() == TOKEN_STRING || token->type() == TOKEN_ALFA) {
             output.push(token);
             }
-        else if (is_operator(token)) {
+        else if (is_operator(token) || is_relational_operator(token) || is_logical_operator(token)) {
             while (!operators.empty() &&
                 !is_left_paren(operators.top()) &&
-                precedence(operators.top()) > precedence(token)) {
+                precedence(operators.top()) >= precedence(token)) {
+                cout << "Popping operator: " << operators.top()->value() << " from stack." << endl;
+
                 output.push(operators.top());
                 operators.pop();
                 }
+            cout << "Pushing operator: " << token->value() << " to stack." << endl;
             operators.push(token);
             }
         else if (is_left_paren(token)) {
@@ -103,21 +110,22 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
 int ShuntingYard::precedence(Token* token) {
     if (token->type() == TOKEN_OPERATOR) {
         string op = token->value();
-        if (op == "*" || op == "/") return 3;  // Highest priority
-        if (op == "+" || op == "-") return 2;
+        if (op == "*" || op == "/") return 6;  // Highest priority
+        if (op == "+" || op == "-") return 5;
         }
     else if (token->type() == TOKEN_RELATIONAL_OPERATOR) {
-        return 1; // Relational operators: <, <=, >, >=, ==, !=
+        return 4; // Relational operators: <, <=, >, >=, ==, !=
         }
     else if (token->type() == TOKEN_LOGICAL_OPERATOR) {
         string op = token->value();
-        if (op == "and") return 0; // Lowest priority
-        if (op == "or") return -1; // Lower than &&
+        if (op == "not") return 3; // Highest priority
+        if (op == "and") return 2; // Lowest priority
+        if (op == "or") return 1; // Lower than &&
         }
     else if (token->type() == TOKEN_LEFT_PAREN || token->type() == TOKEN_RIGHT_PAREN) {
-        return 4; // Parentheses have the highest priority
+        return 10; // Parentheses have the highest priority
         }
-    return -10; // Unknown token type
+    return -1; // Unknown token type
     }
 
 bool ShuntingYard::is_left_paren(Token * token) {
@@ -131,8 +139,7 @@ bool ShuntingYard::is_right_paren(Token * token) {
 bool ShuntingYard::is_operator(Token * token) {
     string op = token->value();
     return (token->type() == TOKEN_OPERATOR &&
-        (op == "+" || op == "-" || op == "*" || op == "/")) ||
-        is_relational_operator(token) || is_logical_operator(token);
+        (op == "+" || op == "-" || op == "*" || op == "/"));
     }
 
 bool ShuntingYard::is_relational_operator(Token * token) {
@@ -144,6 +151,5 @@ bool ShuntingYard::is_relational_operator(Token * token) {
 bool ShuntingYard::is_logical_operator(Token * token) {
     string op = token->value();
     return token->type() == TOKEN_LOGICAL_OPERATOR &&
-        (op == "&&" || op == "||" || op == "AND" || op == "OR"
-        || op == "NOT" || op == "and" || op == "or" || op == "not");
+        (op == "and" || op == "or" || op == "not");
     }

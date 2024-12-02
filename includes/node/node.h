@@ -31,7 +31,7 @@ struct node
 
     //Overload output operator to output node content)
     friend ostream& operator<< (ostream& outs, const node<T>& print_me) {
-        outs << "<-[" << print_me._item << "]->";
+        outs << "[" << print_me._item << "]->";
         return outs;
         }
     };

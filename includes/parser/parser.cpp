@@ -4,6 +4,7 @@
 #include <string>
 #include <iomanip>
 #include <cassert>
+#include <queue>
 using namespace std;
 #include "../../includes/tokenizer/state_machine_functions.h"
 #include "../../includes/parser/typedefs.h"
@@ -42,6 +43,7 @@ mmap_ss Parser::parse_tree() const {
 void Parser::set_string(const string & input) {
     cout << "Set String Function Fired!" << endl;
     Queue<Token*> postfix;
+    cout << "set string : Input string: " << input << endl;
     tokenize(input, postfix);
     init_adjacency_table();
     if (!get_parse_tree()) {
@@ -52,14 +54,17 @@ void Parser::set_string(const string & input) {
 
 void Parser::tokenize(const string& input, Queue<Token*>& infix) {
     cout << "Tokenize Function Fired!" << endl;
+    cout << "Input string: " << input << endl;
     char c_input[MAX_BUFFER];
     strncpy(c_input, input.c_str(), MAX_BUFFER - 1);
     c_input[MAX_BUFFER - 1] = '\0';
 
+    cout << "Input string: " << c_input << endl;
+
     STokenizer tokenizer(c_input);
     Token* token = nullptr;
     _tokens.clear();
-    //-----------------Debug----------------------
+    //---------------------------------------
     cout << "Tokens:" << endl;
     while (tokenizer.more()) {
         tokenizer >> token;
@@ -68,12 +73,13 @@ void Parser::tokenize(const string& input, Queue<Token*>& infix) {
             infix.push(token);
             cout << *token << endl;
             }
-
         }
     //---------------------------------------
-    cout << "infix_queue size: " << infix.size() << endl;
-    cout << "Tokenization Completed! Token Count: " << _tokens.size() << endl;
+    cout << "!!!!Tokenize()::Infix:" << endl;
+    cout << infix << endl;
 
+    //---------------------------------------
+    cout << "Tokenization done!" << endl;
     }
 
 void Parser::init_adjacency_table() {
@@ -274,8 +280,10 @@ void Parser::build_keyword_list(map_sl & list) {
     }
 Queue<Token*> Parser::convert_to_postfix(Queue<Token*>& infix_queue) {
     cout << "Converting Infix to Postfix..." << endl;
+    // cout << "Infix Queue  " << infix_queue << endl;
 
     ShuntingYard shunting_yard(infix_queue);
+
     Queue<Token*> postfix = shunting_yard.postfix(infix_queue);
 
     cout << "Postfix Expression: ";

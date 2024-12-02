@@ -5,7 +5,7 @@
 using namespace std;
 
 #include "../../includes/node/node.h"
-#include "../../includes/linked_list_functions/linkedlistfunctionsTemplated.h"
+#include "../../includes/linked_list_functions/linked_list_functions.h"
 
 template <typename T>
 class Stack

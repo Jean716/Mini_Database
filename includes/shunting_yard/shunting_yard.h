@@ -11,6 +11,7 @@
 class ShuntingYard
     {
     public:
+        ShuntingYard() :_infix(), _operator_stack() {}
         ShuntingYard(Queue<Token*>& input);
         Queue<Token*> to_postfix() { return postfix(_infix); }
         Queue<Token*> postfix(Queue<Token*>& input);
