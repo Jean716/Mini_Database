@@ -554,22 +554,22 @@ ostream& operator<<(ostream & outs, const Table & t) {
     cout << "Table name: " << t._name << ", records: " << t._last_record + 1 << endl;
     cout << "_last_record: " << t._last_record << endl;
 
-    outs << string(10 + 20 * t.get_field_names().size(), '-') << endl;
-    outs << setw(10) << "Record#";
+    outs << string(15 + 15 * t.get_field_names().size(), '-') << endl;
+    outs << setw(15) << "Record#";
     for (const auto& field : t.get_field_names()) {
-        outs << setw(20) << field;
+        outs << setw(15) << field;
         }
     outs << endl;
-    outs << string(10 + 20 * t.get_field_names().size(), '-') << endl;
+    outs << string(15 + 15 * t.get_field_names().size(), '-') << endl;
 
     fstream file;
     open_fileRW(file, t.get_file_name().c_str());
     for (const auto& recno : t.get_select_recnos()) {
         FileRecord record;
         record.read(file, recno);
-        outs << setw(10) << recno;
+        outs << setw(15) << recno;
         for (int i = 0; i < t.get_field_names().size(); ++i) {
-            outs << setw(20) << record._record[i];
+            outs << setw(15) << record._record[i];
             }
         outs << endl;
         }
