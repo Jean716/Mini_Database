@@ -18,25 +18,35 @@ bool file_exists(const char filename[]) {
     return true;
     }
 
-void open_fileRW(fstream& f, const char filename[]) { // open file for reading and writing
-    cout << "open_fileRW fired!" << endl;
-    try {
-        cout << "Checking file: " << filename << endl;
-        if (!file_exists(filename)) { // check if file exists
-            f.open(filename, fstream::out | fstream::binary); // create file
-            if (f.fail()) {
-                throw "file RW failed";
-                }
-            }
-        f.open(filename, fstream::in | fstream::out | fstream::binary);
-        if (f.fail()) {
-            throw "file failed to open.";
-            }
+// void open_fileRW(fstream& f, const char filename[]) { // open file for reading and writing
+//     cout << "open_fileRW fired!" << endl;
+//     try {
+//         cout << "Checking file: " << filename << endl;
+//         if (!file_exists(filename)) { // check if file exists
+//             f.open(filename, fstream::out | fstream::binary); // create file
+//             if (f.fail()) {
+//                 throw "file RW failed";
+//                 }
+//             }
+//         f.open(filename, fstream::in | fstream::out | fstream::binary);
+//         if (f.fail()) {
+//             throw "file failed to open.";
+//             }
+//         }
+//     catch (const char* e) {
+//         cerr << "Exception: " << e << endl;
+//         throw;
+//         }
+//     }
+
+void open_fileRW(fstream& file, const char* filename) {
+    cout << "Opening file: " << filename << endl;
+    file.open(filename, ios::in | ios::out | ios::binary);
+    if (!file.is_open()) {
+        cerr << "Error: Unable to open file: " << filename << endl;
+        throw runtime_error("File could not be opened");
         }
-    catch (const char* e) {
-        cerr << "Exception: " << e << endl;
-        throw;
-        }
+    cout << "File opened successfully: " << filename << endl;
     }
 
 void open_fileW(fstream & f, const char filename[]) {

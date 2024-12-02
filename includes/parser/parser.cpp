@@ -1,7 +1,9 @@
 #include "parser.h"
 #include <iostream>
 #include <cstring>
+#include <string>
 #include <iomanip>
+#include <cassert>
 using namespace std;
 #include "../../includes/tokenizer/state_machine_functions.h"
 #include "../../includes/parser/typedefs.h"
@@ -11,6 +13,7 @@ using namespace std;
 #include "../../includes/queue/MyQueue.h"
 #include "../../includes/token/token.h"
 #include "../../includes/token/child_tokens.h"  
+#include "../../includes/shunting_yard/shunting_yard.h"
 extern int make_table[MAX_ROWS][MAX_COLUMNS];
 extern int insert_table[MAX_ROWS][MAX_COLUMNS];
 extern int select_table[MAX_ROWS][MAX_COLUMNS];
@@ -38,7 +41,8 @@ mmap_ss Parser::parse_tree() const {
 
 void Parser::set_string(const string & input) {
     cout << "Set String Function Fired!" << endl;
-    tokenize(input);
+    Queue<Token*> postfix;
+    tokenize(input, postfix);
     init_adjacency_table();
     if (!get_parse_tree()) {
         cout << "Failed to parse the input string." << endl;
@@ -46,27 +50,30 @@ void Parser::set_string(const string & input) {
 
     }
 
-void Parser::tokenize(const string& input) {
+void Parser::tokenize(const string& input, Queue<Token*>& infix) {
     cout << "Tokenize Function Fired!" << endl;
     char c_input[MAX_BUFFER];
     strncpy(c_input, input.c_str(), MAX_BUFFER - 1);
     c_input[MAX_BUFFER - 1] = '\0';
+
     STokenizer tokenizer(c_input);
     Token* token = nullptr;
     _tokens.clear();
+    //-----------------Debug----------------------
     cout << "Tokens:" << endl;
     while (tokenizer.more()) {
         tokenizer >> token;
         if (token && token->type() != TOKEN_SPACE) {
             _tokens.push_back(token);
+            infix.push(token);
             cout << *token << endl;
             }
-        else {
-            delete token;
-            }
-        }
 
+        }
+    //---------------------------------------
+    cout << "infix_queue size: " << infix.size() << endl;
     cout << "Tokenization Completed! Token Count: " << _tokens.size() << endl;
+
     }
 
 void Parser::init_adjacency_table() {
@@ -265,3 +272,20 @@ void Parser::build_keyword_list(map_sl & list) {
     cout << "Keyword list built successfully!" << endl;
 
     }
+Queue<Token*> Parser::convert_to_postfix(Queue<Token*>& infix_queue) {
+    cout << "Converting Infix to Postfix..." << endl;
+
+    ShuntingYard shunting_yard(infix_queue);
+    Queue<Token*> postfix = shunting_yard.postfix(infix_queue);
+
+    cout << "Postfix Expression: ";
+    Queue<Token*> temp_queue = postfix;
+    while (!temp_queue.empty()) {
+        Token* t = temp_queue.pop();
+        cout << t->value() << " ";
+        }
+    cout << endl;
+
+    return postfix;
+    }
+

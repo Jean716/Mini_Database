@@ -35,7 +35,7 @@ Table::Table() {
     DEBUG_PRINT("Table serial number: " << serial);
     DEBUG_PRINT("Table file name: " << _file_name);
 
-    cout << "-------------------Table ctor 1 Done!----------------------------" << endl;
+    cout << "-------------Table ctor 1 Done!-----" << endl;
     }
 
 Table::Table(const string& name) {
@@ -128,14 +128,15 @@ Table::Table(const string& name, const vector<string> &fields_names) {
 
 //LINK - insert_into
 int Table::insert_into(vector<string>& fields) {
-    DEBUG_PRINT("-------Table::insert_into fired!-------");
-    //cout << "Fields to insert: " << fields << endl;
-
+    cout << "-------Table::insert_into fired!-------" << endl;
+    cout << "Fields to insert : " << fields << endl;
+    cout << "Field names " << _field_names << endl;
 
     // 1. check if the number of fields matches the table definition
-    if (fields.size() != _field_names.size()) {
-        throw runtime_error("The number of fields does not match the table definition.");
-        }
+    // if (fields.size() != _field_names.size()) {
+    //     throw runtime_error("The number of fields does not match the table definition.");
+    //     }
+
 
     // 2. create FileRecord object and open the file
     FileRecord record(fields);
@@ -177,8 +178,8 @@ int Table::insert_into(vector<string>& fields) {
     }
 
 //LINK - vector_to_table
-Table Table::vector_to_table(const vectorstr & fields, const vectorlong & vector_of_recnos) {
-    DEBUG_PRINT("-------Table::vector_to_table fired!-------");
+Table Table::vector_to_table(const vector<string> & fields, const vector<long> & vector_of_recnos) {
+    cout << "-------Table::vector_to_table fired!-------" << endl;
 
     Table new_table = Table();
     new_table._field_names = fields;
@@ -191,28 +192,43 @@ Table Table::vector_to_table(const vectorstr & fields, const vectorlong & vector
 
     fstream file;
     open_fileRW(file, _file_name.c_str());
+    cout << "File opened for reading: " << _file_name << endl;
+
     string new_file_name = _name + "_updated.tbl";
     fstream new_file;
 
     open_fileW(new_file, new_file_name.c_str()); // open the new file for writing
-
     for (const auto& recno : vector_of_recnos) {
         FileRecord record;
         record.read(file, recno); // read the record from the file
 
-        vectorstr record_fields;
+        vector<string> record_fields;
 
-        // get the data based on the field names
         for (const auto& field : fields) {
-            long new_recno = 0;
-            int field_index = field_col_no(field); //  get the field index
-            record_fields.push_back(record._record[field_index]); // get the field value
-            }
+            int field_index = field_col_no(field);
 
+            if (field_index == -2) {
+                if (_field_names.empty()) {
+                    throw runtime_error("Field names are empty. Cannot process '*'.");
+                    }
+
+                for (size_t i = 0; i < _field_names.size(); ++i) {
+                    record_fields.push_back(record._record[i]);
+                    }
+
+                cout << "record_fields.size(): " << record_fields.size() << endl;
+                break;
+                }
+            else if (field_index == -1) {
+                throw runtime_error("Field not found: " + field);
+                }
+            else {
+                record_fields.push_back(record._record[field_index]);
+                }
+            }
         // write the record to the new file
         FileRecord new_record(record_fields);
         new_record.write(new_file);
-
         // update the indices
         new_table.insert_into(record_fields);
         }
@@ -232,7 +248,7 @@ Table Table::vector_to_table(const vectorstr & fields, const vectorlong & vector
 
     new_table._file_name = new_file_name;
 
-
+    cout << "-------------------Table::vector_to_table done!----------------------------" << endl;
     return new_table;
     }
 
@@ -259,6 +275,10 @@ bool Table::is_empty() { return _empty; }
 //LINK - field_col_no
 int Table::field_col_no(string field_name) {
     //cout<< "-------Table::field_col_no fired!-------" << endl;
+    if (field_name == "*") {
+        cout << "'*' detected; returning -2 (indicating all fields)." << endl;
+        return -2;   // -2 indicates all fields
+        }
     if (_field_map.find(field_name) != _field_map.end()) {
         return _field_map.at(field_name);
         }
@@ -282,66 +302,66 @@ vectorlong Table::get_matching_recnos(const string& field_name, const string& fi
     return recnos;
     }
 
-// //LINK - select_all
-// Table Table::select_all(vectorstr fields) {
-//     DEBUG_PRINT("-------Table::select_all fired!-------");
+//LINK - select_all
+Table Table::select_all(vector<string> fields) {
+    DEBUG_PRINT("-------Table::select_all fired!-------");
 
-//     Table new_table;
-//     // new_table._field_names = fields;
-//     // new_table._field_map = _field_map;
+    Table new_table;
+    new_table._field_names = fields;
+    new_table._field_map = _field_map;
 
-//     // new_table._select_recnos = _select_recnos;
+    new_table._select_recnos = _select_recnos;
 
-//     // DEBUG_PRINT("Records selected in select_all:");
-//     // for (const auto& recno : _select_recnos) {
-//     //     DEBUG_PRINT("  Record#: " << recno);
-//     //     }
+    DEBUG_PRINT("Records selected in select_all:");
+    for (const auto& recno : _select_recnos) {
+        DEBUG_PRINT("  Record#: " << recno);
+        }
 
-//     // for (const auto& index : _indices) {
-//     //     new_table._indices.push_back(index);
-//     //     }
+    for (const auto& index : _indices) {
+        new_table._indices.push_back(index);
+        }
 
-//     // DEBUG_PRINT("All fields and records selected into new table");
-//     return new_table;
-//     }
+    DEBUG_PRINT("All fields and records selected into new table");
+    return new_table;
+    }
 
 // //LINK - select (RPN)
 
-// Table Table::select(const vectorstr&  fields, const Queue<Token*>& postfix) {
-//     DEBUG_PRINT("-------Table::select fired!-------");
+Table Table::select(const vector<string>&  fields, const Queue<Token*>& postfix) {
+    cout << "-------Table::select fired!-------" << endl;
 
-//     vector<long> matching_recnos = cond(postfix);
+    vector<long> matching_recnos = cond(postfix);
 
-//     DEBUG_PRINT("Matching record numbers:");
-//     for (long rec : matching_recnos) {
-//         DEBUG_PRINT("  " << rec);
-//         }
+    DEBUG_PRINT("Matching record numbers:");
+    for (long rec : matching_recnos) {
+        DEBUG_PRINT("  " << rec);
+        }
 
-//     Table selected_table = vector_to_table(fields, matching_recnos);
+    Table selected_table = vector_to_table(fields, matching_recnos);
 
-//     DEBUG_PRINT("-------Table::select done!-------");
-//     return selected_table;
-//     }
+    DEBUG_PRINT("-------Table::select done!-------");
+    return selected_table;
+    }
 
 
 
 
 
 // Table Table::select(const vectorstr& fields, const vectorstr& condition) {
-//     // DEBUG_PRINT("-------Table::select fired!-------");
+//     DEBUG_PRINT("-------Table::select fired!-------");
 
-//     // string query;
-//     // for (const auto& token : condition) {
-//     //     query += token + " ";
-//     //     }
-//     // DEBUG_PRINT("Query: " << query);
+//     string query;
+//     for (const auto& token : condition) {
+//         query += token + " ";
+//         }
+//     DEBUG_PRINT("Query: " << query);
 
-//     // Tokenizer tokenizer(query);
-//     // Queue<Token*> tokens = tokenizer.tokenize();
-//     // DEBUG_PRINT("Tokenized condition:");
-//     // Queue<Token*> temp_tokens = tokens;
-//     // Token* token = temp_tokens.pop();
-//     // DEBUG_PRINT("  " << token->value());
+//     Tokenizer tokenizer(query);
+//     Queue<Token*> tokens = tokenizer.tokenize();
+//     DEBUG_PRINT("Tokenized condition:");
+//     Queue<Token*> temp_tokens = tokens;
+//     Token* token = temp_tokens.pop();
+//     DEBUG_PRINT("  " << token->value());
 
 
 
@@ -400,126 +420,128 @@ void Table::reindex() {
     DEBUG_PRINT("-------reindex done!-------");
     }
 
-// //LINK - cond
-// vectorlong Table::cond(const Queue<Token*>& postfix) {
-//     DEBUG_PRINT("-------Table::cond fired!-------");
+//LINK - cond
+vectorlong Table::cond(const Queue<Token*>& postfix) {
+    cout << "-------Table::cond fired!-------" << endl;
 
-//     ResultSet result_set;
-//     Stack<vectorlong> logical_stack;
-//     Stack<string> string_stack;
+    ResultSet result_set;
+    Stack<vectorlong> logical_stack;
+    Stack<string> string_stack;
 
-//     Queue<Token*> temp_postfix = postfix;
+    Queue<Token*> temp_postfix = postfix;
 
-//     while (!temp_postfix.empty()) {
-//         Token* token = temp_postfix.pop();
+    while (!temp_postfix.empty()) {
+        Token* token = temp_postfix.pop();
 
-//         if (token->type() == TOKEN_STRING || token->type() == TOKEN_NUMBER) {
-//             string_stack.push(token->value());
-//             }
+        if (token->type() == TOKEN_STRING || token->type() == TOKEN_NUMBER || token->type() == TOKEN_ALFA) {
+            string_stack.push(token->value());
+            }
 
-//         else if (token->type() == TOKEN_RELATIONAL_OPERATOR) {
-//             if (string_stack.size() < 2) {
-//                 throw runtime_error("Invalid condition: Missing field or value");
-//                 }
+        else if (token->type() == TOKEN_RELATIONAL_OPERATOR) {
+            if (string_stack.size() < 2) {
+                throw runtime_error("Invalid condition: Missing field or value");
+                }
 
-//             string field_value = string_stack.pop();
-//             string field_name = string_stack.pop();
+            string field_value = string_stack.pop();
+            string field_name = string_stack.pop();
 
-//             int field_index = field_col_no(field_name);
-//             if (field_index == -1) {
-//                 throw runtime_error("Field not found: " + field_name);
-//                 }
+            int field_index = field_col_no(field_name);
+            if (field_index == -1) {
+                throw runtime_error("Field not found: " + field_name);
+                }
 
-//             const auto& field_index_map = _indices[field_index];
-//             vector<long> matching_recnos;
+            const auto& field_index_map = _indices[field_index];
+            vector<long> matching_recnos;
 
-//             if (token->value() == "=") {
-//                 auto range = field_index_map.equal_range(field_value);
-//                 for (auto it = range.first; it != range.second; ++it) {
-//                     matching_recnos.push_back(it->second);
-//                     }
-//                 }
-//             else if (token->value() == "!=") {
-//                 for (auto it = field_index_map.begin(); it != field_index_map.end(); ++it) {
-//                     if (it->first != field_value) {
-//                         matching_recnos.push_back(it->second);
-//                         }
-//                     }
-//                 }
-//             else if (token->value() == "<") {
-//                 auto end = field_index_map.lower_bound(field_value);
-//                 for (auto it = field_index_map.begin(); it != end; ++it) {
-//                     matching_recnos.push_back(it->second);
-//                     }
-//                 }
-//             else if (token->value() == ">") {
-//                 auto start = field_index_map.upper_bound(field_value);
-//                 for (auto it = start; it != field_index_map.end(); ++it) {
-//                     matching_recnos.push_back(it->second);
-//                     }
-//                 }
-//             else if (token->value() == "<=") {
-//                 auto end = field_index_map.upper_bound(field_value);
-//                 for (auto it = field_index_map.begin(); it != end; ++it) {
-//                     matching_recnos.push_back(it->second);
-//                     }
-//                 }
-//             else if (token->value() == ">=") {
-//                 auto start = field_index_map.lower_bound(field_value);
-//                 for (auto it = start; it != field_index_map.end(); ++it) {
-//                     matching_recnos.push_back(it->second);
-//                     }
-//                 }
-//             else {
-//                 throw runtime_error("Unknown relational operator: " + token->value());
-//                 }
+            if (token->value() == "=") {
+                auto range = field_index_map.equal_range(field_value);
+                for (auto it = range.first; it != range.second; ++it) {
+                    matching_recnos.push_back(it->second);
+                    }
+                }
+            else if (token->value() == "!=") {
+                for (auto it = field_index_map.begin(); it != field_index_map.end(); ++it) {
+                    if (it->first != field_value) {
+                        matching_recnos.push_back(it->second);
+                        }
+                    }
+                }
+            else if (token->value() == "<") {
+                auto end = field_index_map.lower_bound(field_value);
+                for (auto it = field_index_map.begin(); it != end; ++it) {
+                    matching_recnos.push_back(it->second);
+                    }
+                }
+            else if (token->value() == ">") {
+                auto start = field_index_map.upper_bound(field_value);
+                for (auto it = start; it != field_index_map.end(); ++it) {
+                    matching_recnos.push_back(it->second);
+                    }
+                }
+            else if (token->value() == "<=") {
+                auto end = field_index_map.upper_bound(field_value);
+                for (auto it = field_index_map.begin(); it != end; ++it) {
+                    matching_recnos.push_back(it->second);
+                    }
+                }
+            else if (token->value() == ">=") {
+                auto start = field_index_map.lower_bound(field_value);
+                for (auto it = start; it != field_index_map.end(); ++it) {
+                    matching_recnos.push_back(it->second);
+                    }
+                }
+            else {
+                throw runtime_error("Unknown relational operator: " + token->value());
+                }
 
-//             logical_stack.push(matching_recnos);
-//             }
-//         else if (token->type() == TOKEN_LOGICAL_OPERATOR) {
-//             if (logical_stack.size() < 2) {
-//                 throw runtime_error("Invalid RPN expression: Insufficient operands for logical operation");
-//                 }
+            logical_stack.push(matching_recnos);
+            }
+        else if (token->type() == TOKEN_LOGICAL_OPERATOR) {
+            if (logical_stack.size() < 2) {
+                throw runtime_error("Invalid RPN expression: Insufficient operands for logical operation");
+                }
 
-//             vectorlong right_set = logical_stack.pop();
-//             vectorlong left_set = logical_stack.pop();
-//             vectorlong result;
+            vectorlong right_set = logical_stack.pop();
+            vectorlong left_set = logical_stack.pop();
+            vectorlong result;
 
-//             if (token->value() == "AND" || token->value() == "&&" || token->value() == "and") {
-//                 ResultSet result_set(left_set);
-//                 result_set.and_with(right_set);
-//                 result = result_set.get_recnos();
-//                 }
-//             else if (token->value() == "OR" || token->value() == "||" || token->value() == "or") {
-//                 ResultSet result_set(left_set);
-//                 result_set.or_with(right_set);
-//                 result = result_set.get_recnos();
-//                 }
-//             else {
-//                 throw runtime_error("Unknown logical operator: " + token->value());
-//                 }
+            if (token->value() == "AND" || token->value() == "&&" || token->value() == "and") {
+                ResultSet result_set(left_set);
+                result_set.and_with(right_set);
+                result = result_set.get_recnos();
+                }
+            else if (token->value() == "OR" || token->value() == "||" || token->value() == "or") {
+                ResultSet result_set(left_set);
+                result_set.or_with(right_set);
+                result = result_set.get_recnos();
+                }
+            else {
+                throw runtime_error("Unknown logical operator: " + token->value());
+                }
 
-//             logical_stack.push(result);
-//             }
-//         else {
-//             throw runtime_error("Unsupported token type in cond evaluation");
-//             }
-//         }
+            logical_stack.push(result);
+            }
+        else {
+            throw runtime_error("Unsupported token type in cond evaluation");
+            }
+        }
 
-//     if (logical_stack.size() != 1) {
-//         throw runtime_error("Invalid RPN expression: Remaining logical operands");
-//         }
+    if (logical_stack.size() != 1) {
+        throw runtime_error("Invalid RPN expression: Remaining logical operands");
+        }
 
-//     vectorlong final_recnos = logical_stack.pop();
+    vectorlong final_recnos = logical_stack.pop();
 
-//     DEBUG_PRINT("Final record numbers after cond evaluation:");
-//     for (long recno : final_recnos) {
-//         DEBUG_PRINT(recno << " ");
-//         }
-//     _select_recnos = final_recnos;
+    DEBUG_PRINT("Final record numbers after cond evaluation:");
+    for (long recno : final_recnos) {
+        DEBUG_PRINT(recno << " ");
+        }
+    _select_recnos = final_recnos;
 
-//     return final_recnos;
-//     }
+    cout << "-------Table::cond done!-------" << endl;
+
+    return final_recnos;
+    }
 
 // void Table::build_keyword_list(map_sl & list) {
 

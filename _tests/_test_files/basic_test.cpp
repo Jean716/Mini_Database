@@ -14,6 +14,8 @@
 
 using namespace std;
 
+
+
 const vector<string> command_list = {
 
      /*00*/     "make table employee fields  last,       first,         dep,      salary, year",
@@ -57,8 +59,7 @@ bool sql_basic(bool debug = false) {
           sql.command(command_list[i]);
           }
 
-     cout << endl
-          << endl;
+     cout << endl << endl;
 
 
      // for (int i = MAKE_TABLE_COMMANDS; i < command_list.size(); i++) {
@@ -276,7 +277,6 @@ create table >insert into student values Flo,            Yao,   Art,    20
 
 >select * from employee
 There is no condition
-
 Table name: _select_table_34, records: 4
                    record                     last                    first                      dep                   salary                     year
 

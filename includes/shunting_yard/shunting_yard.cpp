@@ -1,13 +1,18 @@
 #include "shunting_yard.h"
 #include "../../includes/tokenizer/constants.h"
-ShuntingYard::ShuntingYard(const Queue<Token*>& input) : _infix(input) {
+#include "../../includes/token/child_tokens.h"
+#include "../../includes/token/token.h"
+
+
+ShuntingYard::ShuntingYard(Queue<Token*>& input) : _infix(input) {
     cout << "-------ShuntingYard constructor FIred!-------" << endl;
     cout << "_infix: " << _infix << endl;
+    cout << "Input queue size: " << input.size() << endl;
     cout << "_infix tokens: ";
     Queue<Token*> temp = _infix;
     while (!temp.empty()) {
-        Token* token = temp.pop();
-        cout << token->value() << " ";
+        cout << temp.front()->value() << " ";
+        temp.pop();
         }
     cout << endl;
     }
@@ -23,7 +28,7 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
 
         // cout << "Current Token: " << token->value() << endl;
 
-        if (token->type() == TOKEN_NUMBER || token->type() == TOKEN_STRING) {
+        if (token->type() == TOKEN_NUMBER || token->type() == TOKEN_STRING || token->type() == TOKEN_ALFA) {
             output.push(token);
             }
         else if (is_operator(token)) {

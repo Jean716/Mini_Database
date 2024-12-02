@@ -26,7 +26,7 @@ bool parser_basic(bool debug = false) {
    //------------------------------------------------------------------------------------------
  // TEST：
 
-  str = "make table employee fields  last,       first,         dep,      salary, year",
+  //str = "make table employee fields  last,       first,         dep,      salary, year",
     //str = "insert into employee values Blow,       Joe,           CS,       100000, 2018",
       //str = "insert into employee values Blow,       JoAnn,         Physics,  200000, 2016",
       //str = "insert into employee values Johnson,    Jack,          HR,       150000, 2014",
@@ -39,22 +39,22 @@ bool parser_basic(bool debug = false) {
         // str = "insert into student values \"Billy\",	     Jackson, 	Math,	27",
         // str = "insert into student values \"Mary Ann\",   Davis,	Math,	30",
 
-      //str = "select * from employee",
-        // str = "select last, first, age from employee",
-        // str = "select last from employee",
-      //str = "select * from employee where last = Johnson",
-     // str = "select * from employee where last=Blow and major=\"JoAnn\"",
+  str = "select * from employee",
+    // str = "select last, first, age from employee",
+    // str = "select last from employee",
+  //str = "select * from employee where last = Johnson",
+ // str = "select * from employee where last=Blow and major=\"JoAnn\"",
 
-      //str = "select * from student",
-      //str = "select * from student where (major=CS or major=Art)",
-      //str = "select * from student where lname>J",
-    //str = "select * from student where lname>J and (major=CS or major=Art)",
-
-
+  //str = "select * from student",
+  //str = "select * from student where (major=CS or major=Art)",
+  //str = "select * from student where lname>J",
+//str = "select * from student where lname>J and (major=CS or major=Art)",
 
 
 
-      //------------------------------------------------------------------------------------------
+
+
+  //------------------------------------------------------------------------------------------
     strcpy(s, str.c_str()); // copy string to char array
   Parser parser(s); // create parser object
   mmap_ss ptree;

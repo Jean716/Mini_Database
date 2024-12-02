@@ -42,7 +42,7 @@ class Parser
         bool fail() const { return _fail; }
 
         void init_adjacency_table();
-        void tokenize(const string& input);
+        void tokenize(const string& input, Queue<Token*>& infix);
         bool get_parse_tree();
         /*
         sets ptree
@@ -52,6 +52,7 @@ class Parser
         void build_keyword_list(map_sl &list);
         map_sl get_column(vector<Token*> tokens);
         // maps tokens to keywords constants like SELECT, FROM, WHERE, etc
+        Queue<Token*> convert_to_postfix(Queue<Token*>& infix_queue);
 
     };
 

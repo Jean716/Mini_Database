@@ -50,9 +50,9 @@ class Table
         bool is_empty();
         int  insert_into(vector<string> & fields); // insert a record into the table and return the record number
 
-        // //LINK - select functions
-        // Table select_all(vectorstr fields);
-        // Table select(const vectorstr& fields, const Queue<Token *>& postfix); // Combined with the RPN module, it is used to parse conditional expressions
+        //LINK - select functions
+        Table select_all(vector<string> fields);
+        Table select(const vector<string>& fields, const Queue<Token *>& postfix); // Combined with the RPN module, it is used to parse conditional expressions
         // Table select(const vectorstr& fields, const vectorstr& condition); // Pass a conditional expression in infix form
         // Table select(const vectorstr& fields, const string& field, const string op, const string& value);
         // // Table select(const vectorstr& fields, const string& field,const string op, const string& value,const mmap_ss& p_tree = mmap_ss());
@@ -60,10 +60,10 @@ class Table
 
         void reindex(); // call this from ctor!
 
-        // vectorlong cond(const Queue<Token*> &post);
-        // vectorlong select_recnos() const {
-        //     return _select_recnos;
-        //     }
+        vector<long> cond(const Queue<Token*> &post);
+        vector<long> select_recnos() const {
+            return _select_recnos;
+            }
 
         // void build_keyword_list(map_sl &list);
         //int get_token_type(const string& s); // NOT USED

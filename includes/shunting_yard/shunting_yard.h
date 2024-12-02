@@ -6,11 +6,12 @@
 #include "../../includes/queue/MyQueue.h"
 #include "../../includes/stack/MyStack.h"
 #include "../../includes/token/token.h"
+#include "../../includes/token/child_tokens.h"
 
 class ShuntingYard
     {
     public:
-        ShuntingYard(const Queue<Token*>& input);
+        ShuntingYard(Queue<Token*>& input);
         Queue<Token*> to_postfix() { return postfix(_infix); }
         Queue<Token*> postfix(Queue<Token*>& input);
 

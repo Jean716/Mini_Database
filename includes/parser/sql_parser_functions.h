@@ -44,5 +44,4 @@ void process_make_state(int state, mmap_ss& ptree, const string& token_str);
 void process_insert_state(int state, mmap_ss& ptree, const string& token_str);
 void process_select_state(int state, mmap_ss& ptree, const string& token_str);
 
-
 #endif

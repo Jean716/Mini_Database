@@ -160,10 +160,14 @@ void process_select_state(int state, mmap_ss& ptree, const string& token_str) {
                 ptree["condition"].push_back(token_str);
                 break;
             case 5:
-
-                ptree["where"].push_back("yes");
-
+                if (token_str == "where") {
+                    ptree["where"].push_back("yes");
+                    }
+                else {
+                    ptree["where"].push_back("no");
+                    }
             default:
                 break;
         }
     }
+
