@@ -154,27 +154,27 @@ int Table::insert_into(vector<string>& fields) {
     long record_number = _last_record + 1;
     record.write(file);
 
-    cout << "Record written successfully with record number: " << record_number;
+    //cout << "Record written successfully with record number: " << record_number << endl;
 
     // update _last_record and _select_recnos
     _last_record = record_number;
     _select_recnos.push_back(record_number);
 
     // update the indices
-    cout << "\nUpdating _indices with field values:" << endl;
+    //cout << "\nUpdating _indices with field values:" << endl;
     for (size_t i = 0; i < fields.size(); ++i) {
         string field_value = fields[i];
         string field_name = _field_names[i];
         //---------------------------------------------------------
-        cout << "Field map contents:" << endl;
-        for (const auto& pair : _field_map) {
-            cout << pair.first << " -> " << pair.second << endl;
-            }
+        // cout << "Field map contents:" << endl;
+        // for (const auto& pair : _field_map) {
+        //     cout << pair.first << " -> " << pair.second << endl;
+        //     }
         //---------------------------------------------------------
 
-        cout << "Field name: " << field_name << endl;
+       // cout << "Field name: " << field_name << endl;
         int field_index = _field_map.at(field_name);
-        cout << "Field index for " << field_name << ": " << field_index << endl;
+        // cout << "Field index for " << field_name << ": " << field_index << endl;
 
         DEBUG_PRINT("Inserting field value: " << field_value << " for field: " << field_name << " at index: " << field_index);
 
@@ -293,11 +293,11 @@ int Table::field_col_no(string field_name) {
         return -2;   // -2 indicates all fields
         }
     if (_field_map.find(field_name) != _field_map.end()) {
-        cout << "Field found: " << field_name << " at index " << _field_map.at(field_name) << endl;
-        cout << "Field map contents:" << endl;
-        for (const auto& pair : _field_map) {
-            cout << pair.first << " -> " << pair.second << endl;
-            }
+        // cout << "Field found: " << field_name << " at index " << _field_map.at(field_name) << endl;
+        // cout << "Field map contents:" << endl;
+        // for (const auto& pair : _field_map) {
+        //     cout << pair.first << " -> " << pair.second << endl;
+        //     }
         return _field_map.at(field_name);
         }
 

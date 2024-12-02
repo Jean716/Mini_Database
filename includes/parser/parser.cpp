@@ -59,24 +59,24 @@ void Parser::tokenize(const string& input, Queue<Token*>& infix) {
     strncpy(c_input, input.c_str(), MAX_BUFFER - 1);
     c_input[MAX_BUFFER - 1] = '\0';
 
-    cout << "Input string: " << c_input << endl;
+    // cout << "Input string: " << c_input << endl;
 
     STokenizer tokenizer(c_input);
     Token* token = nullptr;
     _tokens.clear();
     //---------------------------------------
-    cout << "Tokens:" << endl;
+   //cout << "Tokens:" << endl;
     while (tokenizer.more()) {
         tokenizer >> token;
         if (token && token->type() != TOKEN_SPACE) {
             _tokens.push_back(token);
             infix.push(token);
-            cout << *token << endl;
+            //cout << *token << endl;
             }
         }
     //---------------------------------------
-    cout << "!!!!Tokenize()::Infix:" << endl;
-    cout << infix << endl;
+    // cout << "!!!!Tokenize()::Infix:" << endl;
+    // cout << infix << endl;
 
     //---------------------------------------
     cout << "Tokenization done!" << endl;

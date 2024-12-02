@@ -22,7 +22,7 @@ ShuntingYard::ShuntingYard(Queue<Token*>& input) : _infix(input) {
     }
 Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
     cout << "-------ShuntingYard::to_postfix Fired!-------" << endl;
-    cout << "Input Queue: " << input << endl;
+    // cout << "Input Queue: " << input << endl;
     Queue<Token*> output;
     Stack<Token*> operators;
 
@@ -39,12 +39,12 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
             while (!operators.empty() &&
                 !is_left_paren(operators.top()) &&
                 precedence(operators.top()) >= precedence(token)) {
-                cout << "Popping operator: " << operators.top()->value() << " from stack." << endl;
+                // cout << "Popping operator: " << operators.top()->value() << " from stack." << endl;
 
                 output.push(operators.top());
                 operators.pop();
                 }
-            cout << "Pushing operator: " << token->value() << " to stack." << endl;
+            //cout << "Pushing operator: " << token->value() << " to stack." << endl;
             operators.push(token);
             }
         else if (is_left_paren(token)) {
@@ -69,18 +69,18 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
             throw runtime_error("Invalid token in expression");
             }
 
-        cout << "Operator Stack: ";
+        // cout << "Operator Stack: ";
         Stack<Token*> temp_stack = operators;
         while (!temp_stack.empty()) {
-            cout << temp_stack.top()->value() << " ";
+            // cout << temp_stack.top()->value() << " ";
             temp_stack.pop();
             }
         cout << endl;
 
-        cout << "Output Queue: ";
+        // cout << "Output Queue: ";
         Queue<Token*> temp_output = output;
         while (!temp_output.empty()) {
-            cout << temp_output.front()->value() << " ";
+            // cout << temp_output.front()->value() << " ";
             temp_output.pop();
             }
         cout << endl;
@@ -98,7 +98,7 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
     cout << "Postfix expression generated: ";
     Queue<Token*> temp_output = output;
     while (!temp_output.empty()) {
-        cout << temp_output.front()->value() << " ";
+        // cout << temp_output.front()->value() << " ";
         temp_output.pop();
         }
     cout << endl;
