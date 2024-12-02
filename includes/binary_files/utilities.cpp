@@ -17,27 +17,32 @@ bool file_exists(const char filename[]) {
     return true;
     }
 
-void open_fileRW(fstream& f, const char filename[]) { // open file for reading and writing
+void open_fileRW(fstream& f, const char filename[]) {
+    cout << "-----Open_fileRW Fired!-----: " << filename << endl;
     try {
         cout << "Checking file: " << filename << endl;
-        if (!file_exists(filename)) { // check if file exists
-            f.open(filename, fstream::out | fstream::binary); // create file
+        if (!file_exists(filename)) {
+            cout << "File does not exist. Attempting to create: " << filename << endl;
+            f.open(filename, fstream::out | fstream::binary);
             if (f.fail()) {
-                throw "file RW failed";
+                throw runtime_error("Failed to create file: " + string(filename));
                 }
+            f.close();
             }
         f.open(filename, fstream::in | fstream::out | fstream::binary);
         if (f.fail()) {
-            throw "file failed to open.";
+            throw runtime_error("Failed to open file for reading and writing: " + string(filename));
             }
+        cout << "File successfully opened: " << filename << endl;
         }
-    catch (const char* e) {
-        cerr << "Exception: " << e << endl;
+    catch (const exception& e) {
+        cerr << "Exception: " << e.what() << endl;
         throw;
         }
     }
 
 void open_fileW(fstream & f, const char filename[]) {
+    cout << "Opening file for writing: " << filename << endl;
     f.open(filename, ios::out | ios::binary | ios::trunc);
     if (!f) {
         throw runtime_error("Failed to open file for writing: " + string(filename));

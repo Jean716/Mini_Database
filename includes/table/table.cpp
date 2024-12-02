@@ -131,14 +131,21 @@ int Table::insert_into(vector<string>& fields) {
     cout << "-------Table::insert_into fired!-------" << endl;
     cout << "Fields to insert : " << fields << endl;
     cout << "Field names " << _field_names << endl;
+    cout << "Field_names size: " << _field_names.size() << endl;
+    cout << "map size: " << _field_map.size() << endl;
+
+    cout << "Address of _field_map: " << &_field_map << endl;
 
     // 1. check if the number of fields matches the table definition
-    // if (fields.size() != _field_names.size()) {
-    //     throw runtime_error("The number of fields does not match the table definition.");
-    //     }
+    if (fields.size() != _field_names.size()) {
+        throw runtime_error("The number of fields does not match the table definition.");
+        }
+    //---------------------------------------------------------
 
 
-    // 2. create FileRecord object and open the file
+    //---------------------------------------------------------
+
+        // 2. create FileRecord object and open the file
     FileRecord record(fields);
     fstream file;
     open_fileRW(file, _file_name.c_str());
@@ -147,21 +154,27 @@ int Table::insert_into(vector<string>& fields) {
     long record_number = _last_record + 1;
     record.write(file);
 
-    DEBUG_PRINT("Record written successfully with record number: " << record_number);
+    cout << "Record written successfully with record number: " << record_number;
 
     // update _last_record and _select_recnos
     _last_record = record_number;
     _select_recnos.push_back(record_number);
 
     // update the indices
-    DEBUG_PRINT("Updating _indices with field values:");
+    cout << "\nUpdating _indices with field values:" << endl;
     for (size_t i = 0; i < fields.size(); ++i) {
         string field_value = fields[i];
         string field_name = _field_names[i];
+        //---------------------------------------------------------
+        cout << "Field map contents:" << endl;
+        for (const auto& pair : _field_map) {
+            cout << pair.first << " -> " << pair.second << endl;
+            }
+        //---------------------------------------------------------
 
-        //cout<< "Field name: " << field_name << endl;
+        cout << "Field name: " << field_name << endl;
         int field_index = _field_map.at(field_name);
-        //cout<< "Field index for " << field_name << ": " << field_index << endl;
+        cout << "Field index for " << field_name << ": " << field_index << endl;
 
         DEBUG_PRINT("Inserting field value: " << field_value << " for field: " << field_name << " at index: " << field_index);
 
@@ -178,45 +191,50 @@ int Table::insert_into(vector<string>& fields) {
     }
 
 //LINK - vector_to_table
-Table Table::vector_to_table(const vector<string> & fields, const vector<long> & vector_of_recnos) {
+Table Table::vector_to_table(const vector<string>& fields, const vector<long>& vector_of_recnos) {
     cout << "-------Table::vector_to_table fired!-------" << endl;
 
-    Table new_table = Table();
-    new_table._field_names = fields;
+    // 1. Handle '*' case
+    vector<string> actual_fields;
+    if (fields.size() == 1 && fields[0] == "*") {
+        cout << "'*' detected. Expanding to all fields." << endl;
+        actual_fields = _field_names;
+        }
+    else {
+        actual_fields = fields;
+        }
 
-    // initialize the field map and indices
-    for (size_t i = 0; i < fields.size(); ++i) {
-        new_table._field_map[fields[i]] = i;
+    // 2. Initialize new table
+    Table new_table;
+    new_table._field_names = actual_fields;
+
+    // 3. Build field map for new_table
+    for (size_t i = 0; i < actual_fields.size(); ++i) {
+        new_table._field_map[actual_fields[i]] = i;
         new_table._indices.push_back(multimap<string, long>());
         }
 
+    // 4. Open original file for reading
     fstream file;
     open_fileRW(file, _file_name.c_str());
     cout << "File opened for reading: " << _file_name << endl;
 
+    // 5. Open new file for writing
     string new_file_name = _name + "_updated.tbl";
     fstream new_file;
+    open_fileW(new_file, new_file_name.c_str());
 
-    open_fileW(new_file, new_file_name.c_str()); // open the new file for writing
+    // 6. Process records
     for (const auto& recno : vector_of_recnos) {
         FileRecord record;
-        record.read(file, recno); // read the record from the file
+        record.read(file, recno);
 
         vector<string> record_fields;
-
-        for (const auto& field : fields) {
+        for (const auto& field : actual_fields) {
             int field_index = field_col_no(field);
-
             if (field_index == -2) {
-                if (_field_names.empty()) {
-                    throw runtime_error("Field names are empty. Cannot process '*'.");
-                    }
-
-                for (size_t i = 0; i < _field_names.size(); ++i) {
-                    record_fields.push_back(record._record[i]);
-                    }
-
-                cout << "record_fields.size(): " << record_fields.size() << endl;
+                // Handle '*': Add all fields
+                record_fields.insert(record_fields.end(), record._record.begin(), record._record.end());
                 break;
                 }
             else if (field_index == -1) {
@@ -226,31 +244,26 @@ Table Table::vector_to_table(const vector<string> & fields, const vector<long> &
                 record_fields.push_back(record._record[field_index]);
                 }
             }
-        // write the record to the new file
+
+        // Write to new file
         FileRecord new_record(record_fields);
         new_record.write(new_file);
-        // update the indices
+
+        // Update indices
         new_table.insert_into(record_fields);
         }
 
     file.close();
     new_file.close();
 
+    // 7. Update table metadata
     new_table._last_record = vector_of_recnos.size() - 1;
-
-    DEBUG_PRINT("New table created with updated fields and records:");
-    for (const auto& field : new_table._field_names) {
-        DEBUG_PRINT(field);
-        }
-    for (const auto& recno : new_table._select_recnos) {
-        DEBUG_PRINT(recno);
-        }
-
     new_table._file_name = new_file_name;
 
     cout << "-------------------Table::vector_to_table done!----------------------------" << endl;
     return new_table;
     }
+
 
 //set fields
 void Table::set_fields(vector<string>& fld_names) {
@@ -274,7 +287,7 @@ bool Table::is_empty() { return _empty; }
 
 //LINK - field_col_no
 int Table::field_col_no(string field_name) {
-    //cout<< "-------Table::field_col_no fired!-------" << endl;
+    cout << "-------Table::field_col_no fired!-------" << endl;
     if (field_name == "*") {
         cout << "'*' detected; returning -2 (indicating all fields)." << endl;
         return -2;   // -2 indicates all fields
@@ -332,12 +345,16 @@ Table Table::select(const vector<string>&  fields, const Queue<Token*>& postfix)
 
     vector<long> matching_recnos = cond(postfix);
 
-    DEBUG_PRINT("Matching record numbers:");
+    cout << "Matching record numbers:" << endl;
     for (long rec : matching_recnos) {
-        DEBUG_PRINT("  " << rec);
+        cout << "  " << rec << " ";
         }
+    cout << endl;
 
     Table selected_table = vector_to_table(fields, matching_recnos);
+
+    cout << "Selected table:" << endl;
+    cout << selected_table;
 
     DEBUG_PRINT("-------Table::select done!-------");
     return selected_table;

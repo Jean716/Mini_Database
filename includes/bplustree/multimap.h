@@ -105,14 +105,14 @@ class MMap
 
         vector<V>& at(const K& key) {
             if (!contains(key)) {
-                throw std::out_of_range("Key not found in MMap.");
+                throw out_of_range("Key not found in MMap.");
                 }
             return mmap.get(MPair<K, V>(key)).value_list;
             }
 
         const vector<V>& at(const K& key) const {
             if (!contains(key)) {
-                throw std::out_of_range("Key not found in MMap.");
+                throw out_of_range("Key not found in MMap.");
                 }
             return mmap.get(MPair<K, V>(key)).value_list;
             }

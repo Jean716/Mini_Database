@@ -6,12 +6,8 @@
 #include <string>
 #include <vector>
 
-// vector<string> parse_fields(const string& query);
-// string extract_table_name(const string& query);
-// Map<string, string> parse_conditions(const string& where_clause);
-// string extract_command(const string& query);
 
- // adjacency table column numbers
+// adjacency table column numbers
 enum Column
     {
     START = 0,

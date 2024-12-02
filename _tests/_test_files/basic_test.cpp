@@ -62,14 +62,14 @@ bool sql_basic(bool debug = false) {
      cout << endl << endl;
 
 
-     // for (int i = MAKE_TABLE_COMMANDS; i < command_list.size(); i++) {
-     //      cout << "\n>" << command_list[i] << endl;
-     //      if (debug)
-     //           cout << sql.command(command_list[i]) << endl;
-     //      else
-     //           t = sql.command(command_list[i]);
-     //      cout << "basic_test: records selected: " << sql.select_recnos() << endl;
-     //      }
+     for (int i = MAKE_TABLE_COMMANDS; i < command_list.size(); i++) {
+          cout << "\n>" << command_list[i] << endl;
+          if (debug)
+               cout << sql.command(command_list[i]) << endl;
+          else
+               t = sql.command(command_list[i]);
+          cout << "basic_test: records selected: " << sql.select_recnos() << endl;
+          }
 
      cout << "----- END TEST --------" << endl;
      return true;

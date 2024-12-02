@@ -48,6 +48,7 @@ FileRecord::FileRecord(const vector<string>& v) {
 
 
 long FileRecord::write(fstream& outs) {
+    cout << "FileRecord::write fired!" << endl;
     outs.seekg(0, outs.end);
     long pos = outs.tellp();
     for (int i = 0; i < MAX_ROWS; ++i) {
