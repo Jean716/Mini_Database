@@ -37,9 +37,9 @@ Table SQL::command(const string& cmd) {
             }
         cout << endl;
 
-        if (_tables.find(table_name) == _tables.end()) {
-            throw runtime_error("Table does not exist: " + table_name);
-            }
+        // if (_tables.find(table_name) == _tables.end()) {
+        //     throw runtime_error("Table does not exist: " + table_name);
+        //     }
         _tables[table_name].insert_into(values);
         }
 
@@ -55,9 +55,9 @@ Table SQL::command(const string& cmd) {
             }
         cout << endl;
 
-        if (_tables.find(table_name) == _tables.end()) {
-            throw runtime_error("Table does not exist: " + table_name);
-            }
+        // if (_tables.find(table_name) == _tables.end()) {
+        //     throw runtime_error("Table does not exist: " + table_name);
+        //     }
 
 
         // Check if there's a 'where' condition
