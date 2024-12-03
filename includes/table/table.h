@@ -96,7 +96,6 @@ class Table
         vector<string> get_field_names() const { return _field_names; }
         vector<long> get_select_recnos() const { return _select_recnos; }
         string get_file_name() const { return _file_name; }
-
         void filter_unique_records(fstream& table_file, long total_records, vector<FileRecord>& valid_records);
 
 

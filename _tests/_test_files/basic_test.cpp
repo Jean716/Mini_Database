@@ -191,7 +191,6 @@ create table >insert into student values Flo,            Yao,   Art,    20
 >insert into student values "Mary Ann",   Davis,        Math,   30
 
 
-
 >select * from employee
 There is no condition
 basic_test: records selected: 0 1 2 3

@@ -55,10 +55,6 @@ Table SQL::command(const string& cmd) {
             }
         cout << endl;
 
-        // if (_tables.find(table_name) == _tables.end()) {
-        //     throw runtime_error("Table does not exist: " + table_name);
-        //     }
-
 
         // Check if there's a 'where' condition
         if (ptree.find("where") != ptree.end()) {
@@ -87,14 +83,17 @@ Table SQL::command(const string& cmd) {
             cout << ">>> No WHERE condition found. Selecting all records." << endl;
             result = _tables[table_name].select_all(fields);
             }
+        // Update SQL::_select_recnos with the selected record numbers from the result table
+        _select_recnos = result.get_select_recnos();
+
 
         // Store the result table
         _table = result;
 
         // Display the selected record numbers
-        vector<long> selected_recnos = _table.get_select_recnos();
+        //vector<long> selected_recnos = _select_recnos;
         cout << ">>> Selected record numbers: ";
-        for (long recno : selected_recnos) {
+        for (long recno : _select_recnos) {
             cout << recno << " ";
             }
         cout << endl;

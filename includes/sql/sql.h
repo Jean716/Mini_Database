@@ -12,7 +12,7 @@ class SQL
     {
     public:
         Table command(const string& cmd);
-        const vector<long> select_recnos() const { return _table.get_select_recnos(); }
+        const vector<long> select_recnos() const { return _table.select_recnos(); }
 
     private:
         map<string, Table> _tables; //table name-> table

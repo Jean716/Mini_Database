@@ -362,6 +362,7 @@ Table Table::select(const vector<string>&  fields, const Queue<Token*>& postfix)
 
     cout << "Selected table:" << endl;
     cout << selected_table;
+    selected_table._select_recnos = matching_recnos;
 
     DEBUG_PRINT("-------Table::select done!-------");
     return selected_table;
@@ -445,7 +446,7 @@ void Table::reindex() {
     }
 
 //LINK - cond
-vectorlong Table::cond(const Queue<Token*>& postfix) {
+vector<long> Table::cond(const Queue<Token*>& postfix) {
     cout << "-------Table::cond fired!-------" << endl;
 
     ResultSet result_set;
@@ -560,13 +561,13 @@ vectorlong Table::cond(const Queue<Token*>& postfix) {
 
     vectorlong final_recnos = logical_stack.pop();
 
-    DEBUG_PRINT("Final record numbers after cond evaluation:");
+    cout << "Final record numbers after cond evaluation:";
     for (long recno : final_recnos) {
-        DEBUG_PRINT(recno << " ");
+        cout << recno << " ";
         }
     _select_recnos = final_recnos;
 
-    cout << "-------Table::cond done!-------" << endl;
+    cout << "\n-------Table::cond done!-------" << endl;
 
     return final_recnos;
     }
