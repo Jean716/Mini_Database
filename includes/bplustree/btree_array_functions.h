@@ -121,27 +121,20 @@ template <class T>
 int first_ge(const T data[], int n, const T & entry) {  // return the index of the first element in data that is not less than entry
     // cout << "\nCalling first_ge with entry: " << entry << endl;
     int i = 0;
-
-    // cout << "curent data array is : ";
-    // for (int j = 0; j < n; ++j) {
-    //     cout << data[j] << " ";
-    //     }
-    // cout << endl;
-
     while (i < n && data[i] < entry) {
         i++;
         }
-
-    // if (i < n) {
-    //     cout << "OK,first_ge index found: " << i << endl;
-    //     }
-    // else {
-    //     cout << "No element found greater than or equal to entry: " << entry << ". Returning index: " << n << endl;  // 未找到符合条件的元素
-    //     }
-
     return i;
     }
 
+template <class T>
+int first_gt(const T data[], int n, const T& entry) {
+    int i = 0;
+    while (i < n && data[i] <= entry) {
+        i++;
+        }
+    return i;
+    }
 
 template <class T>
 void attach_item(T data[], int& n, const T & entry) { // append entry to the right of data

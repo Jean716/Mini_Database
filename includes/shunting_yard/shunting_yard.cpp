@@ -30,7 +30,7 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
         Token* token = input.front();
         input.pop();
 
-        // cout << "Current Token: " << token->value() << endl;
+        cout << "Current Token: " << token->value() << endl;
 
         if (token->type() == TOKEN_NUMBER || token->type() == TOKEN_STRING || token->type() == TOKEN_ALFA) {
             output.push(token);
@@ -39,12 +39,12 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
             while (!operators.empty() &&
                 !is_left_paren(operators.top()) &&
                 precedence(operators.top()) >= precedence(token)) {
-                // cout << "Popping operator: " << operators.top()->value() << " from stack." << endl;
+                cout << "Popping operator: " << operators.top()->value() << " from stack." << endl;
 
                 output.push(operators.top());
                 operators.pop();
                 }
-            //cout << "Pushing operator: " << token->value() << " to stack." << endl;
+            cout << "Pushing operator: " << token->value() << " to stack." << endl;
             operators.push(token);
             }
         else if (is_left_paren(token)) {
@@ -69,18 +69,18 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
             throw runtime_error("Invalid token in expression");
             }
 
-        // cout << "Operator Stack: ";
+        cout << "Operator Stack: ";
         Stack<Token*> temp_stack = operators;
         while (!temp_stack.empty()) {
-            // cout << temp_stack.top()->value() << " ";
+            cout << temp_stack.top()->value() << " ";
             temp_stack.pop();
             }
         cout << endl;
 
-        // cout << "Output Queue: ";
+        cout << "Output Queue: ";
         Queue<Token*> temp_output = output;
         while (!temp_output.empty()) {
-            // cout << temp_output.front()->value() << " ";
+            cout << temp_output.front()->value() << " ";
             temp_output.pop();
             }
         cout << endl;
@@ -98,7 +98,7 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
     cout << "Postfix expression generated: ";
     Queue<Token*> temp_output = output;
     while (!temp_output.empty()) {
-        // cout << temp_output.front()->value() << " ";
+        cout << temp_output.front()->value() << " ";
         temp_output.pop();
         }
     cout << endl;
@@ -122,11 +122,11 @@ int ShuntingYard::precedence(Token* token) {
         if (op == "and") return 2; // Lowest priority
         if (op == "or") return 1; // Lower than &&
         }
-    else if (token->type() == TOKEN_LEFT_PAREN || token->type() == TOKEN_RIGHT_PAREN) {
-        return 10; // Parentheses have the highest priority
-        }
+
     return -1; // Unknown token type
     }
+
+
 
 bool ShuntingYard::is_left_paren(Token * token) {
     return token->type() == TOKEN_LEFT_PAREN && token->value() == "(";

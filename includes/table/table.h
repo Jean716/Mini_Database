@@ -100,7 +100,6 @@ class Table
         bool record_exists(const vector<string>& fields);
 
 
-
     };
 
 

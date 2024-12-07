@@ -12,23 +12,22 @@
 
 using namespace std;
 
-using vectorlong = vector<long>;
 
 class ResultSet
     {
     public:
-        ResultSet() : _recnos(vectorlong()) {}
-        ResultSet(const vectorlong& recnos) : _recnos(recnos) {}
+        ResultSet() : _recnos(vector<long>()) {}
+        ResultSet(const vector<long>& recnos) : _recnos(recnos) {}
 
         //get the recnos
-        vectorlong get_recnos() const { return _recnos; }
+        vector<long> get_recnos() const { return _recnos; }
 
         //add a recno to the result set
         void add(long recno) { _recnos.push_back(recno); }
 
-        void and_with(const vectorlong& other_recnos);
+        void and_with(const vector<long>& other_recnos);
 
-        void or_with(const vectorlong& other_recnos);
+        void or_with(const vector<long>& other_recnos);
 
         bool empty() const { return _recnos.empty(); }
 
@@ -40,7 +39,7 @@ class ResultSet
             return outs;
             }
     private:
-        vectorlong _recnos;
+        vector<long> _recnos;
     };
 
 

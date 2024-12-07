@@ -10,6 +10,7 @@ vector<long> RPN::evaluate() {
         Token* token = temp_postfix.pop();
 
         switch (token->type()) {
+                case TOKEN_ALFA:
                 case TOKEN_STRING: {
                 string_stack.push(token->value());
                 break;
@@ -28,7 +29,7 @@ vector<long> RPN::evaluate() {
 
                 bool result = evaluate_relational(token->value(), field_name, field_value);
 
-                vectorlong matching_recnos = result ? vectorlong{ 1 } : vectorlong{}; // 假设 1 表示匹配
+                vectorlong matching_recnos = result ? vectorlong{ 1 } : vectorlong{};
                 logical_stack.push(ResultSet(matching_recnos));
                 break;
                 }
@@ -84,12 +85,32 @@ long RPN::evaluate_arithmetic(const string& op, long left, long right) {
 
 bool RPN::evaluate_relational(const string& op, const string& left, const string& right) {
     cout << "-------RPN evaluate_relational started!-------" << endl;
-    if (op == "=") return left == right;
-    if (op == "!=") return left != right;
-    if (op == "<") return stol(left) < stol(right);
-    if (op == ">") return stol(left) > stol(right);
-    if (op == "<=") return stol(left) <= stol(right);
-    if (op == ">=") return stol(left) >= stol(right);
+
+    bool is_numeric = !left.empty() && !right.empty() &&
+        std::all_of(left.begin(), left.end(), ::isdigit) &&
+        std::all_of(right.begin(), right.end(), ::isdigit);
+
+    if (is_numeric) {
+        long left_num = stol(left);
+        long right_num = stol(right);
+
+        if (op == "=") return left_num == right_num;
+        if (op == "!=") return left_num != right_num;
+        if (op == "<") return left_num < right_num;
+        if (op == ">") return left_num > right_num;
+        if (op == "<=") return left_num <= right_num;
+        if (op == ">=") return left_num >= right_num;
+        }
+    else {
+        if (op == "=") return left == right;
+        if (op == "!=") return left != right;
+        if (op == "<") return left < right;
+        if (op == ">") return left > right;
+        if (op == "<=") return left <= right;
+        if (op == ">=") return left >= right;
+        }
+
+
     throw runtime_error("Unknown relational operator: " + op);
     }
 

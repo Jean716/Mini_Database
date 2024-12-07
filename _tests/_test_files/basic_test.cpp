@@ -29,9 +29,7 @@ const vector<string> command_list = {
      /*07*/     "insert into student values Bo, 		     Yang, 	CS, 		28",
      /*08*/     "insert into student values \"Sammuel L.\", Jackson, 	CS, 		40",
      /*09*/     "insert into student values \"Billy\",	     Jackson, 	Math,	27",
-
-     /*10*/     "insert into student values \"Billy\",	     Jackson, 	Math,	27",
-     //"insert into student values \"Mary Ann\",   Davis,	Math,	30",
+     /*10*/     "insert into student values \"Mary Ann\",   Davis,	Math,	30",
 
      /*11*/     "select * from employee",
      /*12*/     "select last, first, age from employee",
@@ -42,12 +40,9 @@ const vector<string> command_list = {
      /*16*/     "select * from student",
      /*17*/     "select * from student where (major=CS or major=Art)",
      /*18*/     "select * from student where lname>J",
-     /*19*/      "select * from student where lname > J and (major=CS or major=Art)",
-     // "select * from employee where ((last= Johnson and dep= HR) or (last= Blow and dep= CS)) and ((salary>120000 and year<=2018) or (dep=Physics and year>=2016))"
-  //      select * from employee where(dep = CS or dep = Physics) and (salary >= 100000 and salary <= 200000) and year > 2010
-  //      select last, first, dep, year from employee where last > "J" and dep = "HR" and year < 2018
-  //      select * from employee where(last = "Johnson" or last = "Blow") and (dep = "CS" or dep = "Chemistry") and (salary > 100000 and year < 2018)
-  // select * from employee where dep = "Biology" and salary < 50000
+     /*19*/     "select * from employee where (last = Johnson or dep = Physics) or (salary < 200000 or year > 2014)"
+     //  "select * from student where lname > J and (major=CS or major=Art)",
+
      };
 // "select * from student where lname>J and (major=CS or major=Art)"
 

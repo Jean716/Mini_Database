@@ -68,18 +68,12 @@ Table::Table(const string& name) {
     long record_size = FileRecord::MAX_ROWS * FileRecord::MAX_COLS;
     // long total_records =filesystem::file_size(_file_name) / record_size;
     long total_records = get_file_size(_file_name) / record_size;
-    vector<FileRecord> valid_records;
 
     // 5. filter out the empty records
    // filter_unique_records(table_file, total_records, valid_records);
     table_file.close();
 
-    cout << "Table loaded with " << _field_names.size() << " fields and "
-        << valid_records.size() << " valid records." << endl;
-
     // update the table state
-    _empty = valid_records.empty();
-    _last_record = valid_records.size() - 1;
     _select_recnos.clear();
     for (long i = 0; i <= _last_record; ++i) {
         _select_recnos.push_back(i);
@@ -88,8 +82,7 @@ Table::Table(const string& name) {
     // 6. reindex the table
     reindex();
 
-    DEBUG_PRINT("Table loaded with " << _field_names.size() << " fields and "
-        << valid_records.size() << " valid records.");
+
     DEBUG_PRINT("-------------------Table ctor 2 Done!----------------------------");
     }
 
@@ -463,8 +456,6 @@ Table Table::select(const vector<string>&  fields, const Queue<Token*>& postfix)
 
 
 
-
-
 // Table Table::select(const vectorstr& fields, const vectorstr& condition) {
 //     DEBUG_PRINT("-------Table::select fired!-------");
 
@@ -480,8 +471,6 @@ Table Table::select(const vector<string>&  fields, const Queue<Token*>& postfix)
 //     Queue<Token*> temp_tokens = tokens;
 //     Token* token = temp_tokens.pop();
 //     DEBUG_PRINT("  " << token->value());
-
-
 
 //     ShuntingYard shunting_yard(tokens);
 //     Queue<Token*> postfix = shunting_yard.to_postfix();
@@ -505,12 +494,6 @@ Table Table::select(const vector<string>&  fields, const Queue<Token*>& postfix)
 //     }
 
 
-
-// // Table Table::select(const vectorstr & fields, const string & field,
-// //     const string op, const string & value,
-// //     const mmap_ss & p_tree) {
-// //     return Table();
-// //     }
 
 
 //LINK - reindex
@@ -537,6 +520,8 @@ void Table::reindex() {
 
     DEBUG_PRINT("-------reindex done!-------");
     }
+
+
 
 //LINK - cond
 vector<long> Table::cond(const Queue<Token*>& postfix) {
@@ -595,13 +580,16 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
                     }
                 }
             else if (token->value() == ">") {
+                cout << "Processing '>': field_value = " << field_value << endl;
+
                 auto start = field_index_map.upper_bound(field_value);
                 for (auto it = start; it != field_index_map.end(); ++it) {
+                    cout << "Matching record: Key = " << it->first << ", Record = " << it->second << endl;
                     matching_recnos.push_back(it->second);
                     }
                 }
             else if (token->value() == "<=") {
-                auto end = field_index_map.upper_bound(field_value);
+                auto end = field_index_map.lower_bound(field_value);
                 for (auto it = field_index_map.begin(); it != end; ++it) {
                     matching_recnos.push_back(it->second);
                     }
@@ -636,6 +624,10 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
                 ResultSet result_set(left_set);
                 result_set.or_with(right_set);
                 result = result_set.get_recnos();
+                cout << "Result set after OR operation: ";
+                for (long recno : result) {
+                    cout << recno << " ";
+                    }
                 }
             else {
                 throw runtime_error("Unknown logical operator: " + token->value());

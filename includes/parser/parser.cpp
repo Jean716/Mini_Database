@@ -71,7 +71,7 @@ void Parser::tokenize(const string& input, Queue<Token*>& infix) {
         if (token && token->type() != TOKEN_SPACE) {
             _tokens.push_back(token);
             infix.push(token);
-            //cout << *token << endl;
+            cout << *token << endl;
             }
         }
     //---------------------------------------
@@ -280,7 +280,7 @@ void Parser::build_keyword_list(map_sl & list) {
     }
 Queue<Token*> Parser::convert_to_postfix(Queue<Token*>& infix_queue) {
     cout << "Converting Infix to Postfix..." << endl;
-    // cout << "Infix Queue  " << infix_queue << endl;
+    cout << "Infix Queue  " << infix_queue << endl;
 
     ShuntingYard shunting_yard(infix_queue);
 

@@ -1,7 +1,7 @@
 #include "resultset.h"
 
 
-void ResultSet::and_with(const vectorlong& other_recnos) {
+void ResultSet::and_with(const vector<long>& other_recnos) {
     cout << "-------ResultSet::and_with fired!-------" << endl;
 
     vectorlong sorted_recnos = _recnos;
@@ -23,7 +23,7 @@ void ResultSet::and_with(const vectorlong& other_recnos) {
     }
 
 
-void ResultSet::or_with(const vectorlong & other_recnos) {
+void ResultSet::or_with(const vector<long> & other_recnos) {
     cout << "-------ResultSet::or_with fired!-------" << endl;
 
     vectorlong sorted_recnos = _recnos;

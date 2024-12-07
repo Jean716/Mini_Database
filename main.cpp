@@ -7,12 +7,11 @@ using namespace std;
 
 int main(int argv, char** argc) {
     cout << "\n\n" << endl;
-    //Table t("student");
-    //t.clear_data();
-    Table t2("employee");
+
+    Table t2("student");
 
     fstream file;
-    file.open("employee.tbl", ios::in | ios::binary);
+    file.open("student.tbl", ios::in | ios::binary);
     //file.open("employee.tbl", ios::in | ios::binary);
 
     if (!file.is_open()) {

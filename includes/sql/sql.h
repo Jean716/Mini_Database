@@ -12,14 +12,7 @@ class SQL
     {
     public:
         Table command(const string& cmd);
-        const vector<long> select_recnos() const {
-            cout << "basic_test: records selected: ";
-            for (auto i : _select_recnos) {
-                cout << "[ " << i << " ] ";
-                }
-            cout << endl;
-            return _select_recnos;
-            }
+        const vector<long> select_recnos() const { return _select_recnos; }
 
     private:
         map<string, Table> _tables; //table name-> table

@@ -1209,12 +1209,12 @@ typename BPlusTree<T>::Iterator BPlusTree<T>::lower_bound(const T & entry) {
 
 template <typename T>
 typename BPlusTree<T>::Iterator BPlusTree<T>::upper_bound(const T & entry) {
-    int i = first_ge(data, data_count, entry);
+    int i = first_gt(data, data_count, entry);
     bool found = (i < data_count && data[i] == entry);
 
     if (is_leaf()) {
         if (found && i + 1 < data_count) {
-            return Iterator(this, i + 1);
+            return Iterator(this, i);
             }
         else if (!found && i < data_count) {
             return Iterator(this, i);
