@@ -66,12 +66,12 @@ Table::Table(const string& name) {
     table_file.seekg(0, ios::beg);
 
     long record_size = FileRecord::MAX_ROWS * FileRecord::MAX_COLS;
-    // long total_records = std::filesystem::file_size(_file_name) / record_size;
+    // long total_records =filesystem::file_size(_file_name) / record_size;
     long total_records = get_file_size(_file_name) / record_size;
     vector<FileRecord> valid_records;
 
     // 5. filter out the empty records
-    filter_unique_records(table_file, total_records, valid_records);
+   // filter_unique_records(table_file, total_records, valid_records);
     table_file.close();
 
     cout << "Table loaded with " << _field_names.size() << " fields and "
@@ -126,6 +126,93 @@ Table::Table(const string& name, const vector<string> &fields_names) {
     cout << "-----------------------------------------------" << endl;
     }
 
+void Table::clear_data() {
+    ofstream ofs(_file_name, ios::trunc | ios::binary);
+    ofs.close();
+
+    _last_record = -1;
+    _select_recnos.clear();
+    _empty = true;
+    _indices.clear();
+
+    reindex();
+    }
+
+void Table::delete_table() {
+    if (remove(_file_name.c_str()) != 0) {
+        cerr << "Error removing " << _file_name << endl;
+        }
+    else {
+        cout << "Table file " << _file_name << " removed." << endl;
+        }
+
+    string fields_file = _name + "_fields.txt";
+    if (remove(fields_file.c_str()) != 0) {
+        cerr << "Error removing " << fields_file << endl;
+        }
+    else {
+        cout << "Fields file " << fields_file << " removed." << endl;
+        }
+
+    _field_names.clear();
+    _field_map.clear();
+    _indices.clear();
+    _select_recnos.clear();
+    _empty = true;
+    _last_record = -1;
+    }
+
+
+bool Table::record_exists(const vector<string>& fields) {
+    if (fields.size() != _field_names.size()) {
+        return false;
+        }
+
+    vector<long> intersection;
+    {
+    int field_index = _field_map.at(_field_names[0]);
+    string val = fields[0];
+
+    auto range = _indices[field_index].equal_range(val);
+    for (auto it = range.first; it != range.second; ++it) {
+        intersection.push_back(it->second);
+        }
+
+    if (intersection.empty()) {
+        return false;
+        }
+    }
+
+    for (size_t i = 1; i < fields.size(); ++i) {
+        int field_index = _field_map.at(_field_names[i]);
+        string val = fields[i];
+
+        vector<long> current_recnos;
+        {
+        auto range = _indices[field_index].equal_range(val);
+        for (auto it = range.first; it != range.second; ++it) {
+            current_recnos.push_back(it->second);
+            }
+        }
+
+        vector<long> new_intersection;
+        sort(intersection.begin(), intersection.end());
+        sort(current_recnos.begin(), current_recnos.end());
+        set_intersection(
+            intersection.begin(), intersection.end(),
+            current_recnos.begin(), current_recnos.end(),
+            back_inserter(new_intersection)
+        );
+
+        intersection = new_intersection;
+
+        if (intersection.empty()) {
+            return false;
+            }
+        }
+
+    return !intersection.empty();
+    }
 //LINK - insert_into
 int Table::insert_into(vector<string>& fields) {
     cout << "-------Table::insert_into fired!-------" << endl;
@@ -141,7 +228,10 @@ int Table::insert_into(vector<string>& fields) {
         throw runtime_error("The number of fields does not match the table definition.");
         }
     //---------------------------------------------------------
-
+    if (record_exists(fields)) {
+        cout << "Duplicate record found, skipping insertion." << endl;
+        return _last_record;
+        }
 
     //---------------------------------------------------------
 
@@ -282,7 +372,7 @@ void Table::set_fields(vector<string>& fld_names) {
     }
 vectorstr Table::get_fields() const { return _field_names; }
 
-void Table::delete_table() {}
+
 bool Table::is_empty() { return _empty; }
 
 //LINK - field_col_no
@@ -641,26 +731,26 @@ ostream& operator<<(ostream & outs, const Table & t) {
 
 
 
-void Table::filter_unique_records(fstream& table_file, long total_records, vector<FileRecord>& valid_records) {
-    std::set<std::vector<std::string>> unique_records;
-    long current_record = 0;
+// void Table::filter_unique_records(fstream& table_file, long total_records, vector<FileRecord>& valid_records) {
+//     set<std::vector<std::string>> unique_records;
+//     long current_record = 0;
 
-    while (current_record < total_records) {
-        FileRecord record;
-        long bytes_read = record.read(table_file, current_record);
+//     while (current_record < total_records) {
+//         FileRecord record;
+//         long bytes_read = record.read(table_file, current_record);
 
-        if (bytes_read > 0) {
-            int field_count = record.num_of_fields();
-            if (field_count > 0) {
-                vector<string> record_fields = record.get_record();
+//         if (bytes_read > 0) {
+//             int field_count = record.num_of_fields();
+//             if (field_count > 0) {
+//                 vector<string> record_fields = record.get_record();
 
 
-                if (unique_records.find(record_fields) == unique_records.end()) {
-                    unique_records.insert(record_fields);
-                    valid_records.push_back(record);
-                    }
-                }
-            }
-        ++current_record;
-        }
-    }
+//                 if (unique_records.find(record_fields) == unique_records.end()) {
+//                     unique_records.insert(record_fields);
+//                     valid_records.push_back(record);
+//                     }
+//                 }
+//             }
+//         ++current_record;
+//         }
+//     }

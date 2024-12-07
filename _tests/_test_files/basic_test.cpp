@@ -40,9 +40,16 @@ const vector<string> command_list = {
      /*16*/     "select * from student",
      /*17*/     "select * from student where (major=CS or major=Art)",
      /*18*/     "select * from student where lname>J",
-     /*19*/     "select * from student where lname>J and (major=CS or major=Art)"
-
+     /*19*/      "select * from student where lname > J and (major=CS or major=Art)",
+     // "select * from employee where ((last= Johnson and dep= HR) or (last= Blow and dep= CS)) and ((salary>120000 and year<=2018) or (dep=Physics and year>=2016))"
+  //      select * from employee where(dep = CS or dep = Physics) and (salary >= 100000 and salary <= 200000) and year > 2010
+  //      select last, first, dep, year from employee where last > "J" and dep = "HR" and year < 2018
+  //      select * from employee where(last = "Johnson" or last = "Blow") and (dep = "CS" or dep = "Chemistry") and (salary > 100000 and year < 2018)
+  // select * from employee where dep = "Biology" and salary < 50000
      };
+// "select * from student where lname>J and (major=CS or major=Art)"
+
+
 
 const int MAKE_TABLE_COMMANDS = 11;
 const int SELECT_COMMANDS = 20;

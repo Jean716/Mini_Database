@@ -1,9 +1,5 @@
 #include "sql.h"
 #include <iostream>
-using namespace std;
-
-#include "sql.h"
-#include <iostream>
 #include "../../includes/bplustree/multimap.h"
 #include "../../includes/bplustree/bplustree.h"
 #include "../../includes/binary_files/file_record.h"
@@ -37,9 +33,7 @@ Table SQL::command(const string& cmd) {
             }
         cout << endl;
 
-        // if (_tables.find(table_name) == _tables.end()) {
-        //     throw runtime_error("Table does not exist: " + table_name);
-        //     }
+
         _tables[table_name].insert_into(values);
         }
 

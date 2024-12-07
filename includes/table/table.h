@@ -57,7 +57,7 @@ class Table
         // Table select(const vectorstr& fields, const string& field, const string op, const string& value);
         // // Table select(const vectorstr& fields, const string& field,const string op, const string& value,const mmap_ss& p_tree = mmap_ss());
 
-
+        void clear_data();
         void reindex(); // call this from ctor!
 
         vector<long> cond(const Queue<Token*> &post);
@@ -96,8 +96,8 @@ class Table
         vector<string> get_field_names() const { return _field_names; }
         vector<long> get_select_recnos() const { return _select_recnos; }
         string get_file_name() const { return _file_name; }
-        void filter_unique_records(fstream& table_file, long total_records, vector<FileRecord>& valid_records);
-
+        // void filter_unique_records(fstream& table_file, long total_records, vector<FileRecord>& valid_records);
+        bool record_exists(const vector<string>& fields);
 
 
 
