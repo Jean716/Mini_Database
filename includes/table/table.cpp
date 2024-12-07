@@ -102,6 +102,9 @@ Table::Table(const string& name, const vector<string> &fields_names) {
     _empty = true;
     _last_record = -1;
     _file_name = _name + ".tbl";
+    ofstream ofs(_file_name, ios::trunc | ios::binary);
+    ofs.close();
+
     DEBUG_PRINT("Table serial number: " << serial);
 
     // create a file for the table

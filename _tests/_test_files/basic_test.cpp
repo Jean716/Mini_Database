@@ -29,7 +29,9 @@ const vector<string> command_list = {
      /*07*/     "insert into student values Bo, 		     Yang, 	CS, 		28",
      /*08*/     "insert into student values \"Sammuel L.\", Jackson, 	CS, 		40",
      /*09*/     "insert into student values \"Billy\",	     Jackson, 	Math,	27",
-     /*10*/     "insert into student values \"Mary Ann\",   Davis,	Math,	30",
+
+     /*10*/     "insert into student values \"Billy\",	     Jackson, 	Math,	27",
+     //"insert into student values \"Mary Ann\",   Davis,	Math,	30",
 
      /*11*/     "select * from employee",
      /*12*/     "select last, first, age from employee",
