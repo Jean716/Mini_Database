@@ -51,12 +51,12 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
             operators.push(token);
             }
         else if (is_right_paren(token)) {
-            while (!operators.empty() && !is_left_paren(operators.top())) {
+            while (!operators.empty() && operators.top()->type() != LEFT_PAREN) {
                 output.push(operators.top());
                 operators.pop();
                 }
 
-            if (!operators.empty() && is_left_paren(operators.top())) {
+            if (!operators.empty() && operators.top()->type() == LEFT_PAREN) {
                 operators.pop();
                 }
             else {
