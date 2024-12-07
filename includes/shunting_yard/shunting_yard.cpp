@@ -87,10 +87,6 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
         }
 
     while (!operators.empty()) {
-        if (is_left_paren(operators.top())) {
-            cerr << "Error: Mismatched parentheses in expression" << endl;
-            throw runtime_error("Mismatched parentheses");
-            }
         output.push(operators.top());
         operators.pop();
         }

@@ -14,8 +14,6 @@
 
 using namespace std;
 
-
-
 const vector<string> command_list = {
 
      /*00*/     "make table employee fields  last,       first,         dep,      salary, year",
@@ -40,13 +38,9 @@ const vector<string> command_list = {
      /*16*/     "select * from student",
      /*17*/     "select * from student where (major=CS or major=Art)",
      /*18*/     "select * from student where lname>J",
-     /*19*/     "select * from employee where (last = Johnson or dep = Physics) or (salary < 200000 or year > 2014)"
-     //  "select * from student where lname > J and (major=CS or major=Art)",
+     /*19*/     "select * from student where lname>J and (major=CS or major=Art)"
 
      };
-// "select * from student where lname>J and (major=CS or major=Art)"
-
-
 
 const int MAKE_TABLE_COMMANDS = 11;
 const int SELECT_COMMANDS = 20;
@@ -54,18 +48,17 @@ const int SELECT_COMMANDS = 20;
 bool sql_basic(bool debug = false) {
      SQL sql;
      Table t;
-     cout << "create table >" << command_list[0] << endl;
+     cout << ">" << command_list[0] << endl;
      sql.command(command_list[0]);
-     cout << "create table basic_test: table created." << endl << endl;
+     cout << "basic_test: table created." << endl << endl;
 
      for (int i = 0; i < MAKE_TABLE_COMMANDS; i++) {
           cout << ">" << command_list[i] << endl;
           sql.command(command_list[i]);
           }
 
-     cout << endl << endl;
-
-
+     cout << endl
+          << endl;
      for (int i = MAKE_TABLE_COMMANDS; i < command_list.size(); i++) {
           cout << "\n>" << command_list[i] << endl;
           if (debug)
@@ -195,6 +188,7 @@ create table >insert into student values Flo,            Yao,   Art,    20
 >insert into student values "Mary Ann",   Davis,        Math,   30
 
 
+
 >select * from employee
 There is no condition
 basic_test: records selected: 0 1 2 3
@@ -280,6 +274,7 @@ create table >insert into student values Flo,            Yao,   Art,    20
 
 >select * from employee
 There is no condition
+
 Table name: _select_table_34, records: 4
                    record                     last                    first                      dep                   salary                     year
 
