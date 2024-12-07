@@ -30,12 +30,15 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
         Token* token = input.front();
         input.pop();
 
-        cout << "Current Token: " << token->value() << endl;
+        cout << "Current Token:--------------> " << token->value() << endl;
 
         if (token->type() == TOKEN_NUMBER || token->type() == TOKEN_STRING || token->type() == TOKEN_ALFA) {
+            cout << "is string or number" << endl;
             output.push(token);
+            cout << "Pushing token: " << token->value() << " to output queue." << endl;
             }
         else if (is_operator(token) || is_relational_operator(token) || is_logical_operator(token)) {
+            cout << "is operator" << endl;
             while (!operators.empty() &&
                 !is_left_paren(operators.top()) &&
                 precedence(operators.top()) >= precedence(token)) {
@@ -51,13 +54,16 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
             operators.push(token);
             }
         else if (is_right_paren(token)) {
-            while (!operators.empty() && operators.top()->type() != LEFT_PAREN) {
+            while (!operators.empty() && !is_left_paren(operators.top())) {
                 output.push(operators.top());
                 operators.pop();
                 }
 
-            if (!operators.empty() && operators.top()->type() == LEFT_PAREN) {
+            if (!operators.empty() && is_left_paren(operators.top())) {
+                cout << "右括号情况" << endl;
+
                 operators.pop();
+                cout << "Popped left paren from stack." << endl;
                 }
             else {
                 cerr << "Error: Mismatched parentheses in expression" << endl;
@@ -69,41 +75,21 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
             throw runtime_error("Invalid token in expression");
             }
 
-        cout << "Operator Stack: ";
-        Stack<Token*> temp_stack = operators;
-        while (!temp_stack.empty()) {
-            cout << temp_stack.top()->value() << " ";
-            temp_stack.pop();
-            }
-        cout << endl;
 
-        cout << "Output Queue: ";
-        Queue<Token*> temp_output = output;
-        while (!temp_output.empty()) {
-            cout << temp_output.front()->value() << " ";
-            temp_output.pop();
-            }
-        cout << endl;
         }
 
-    while (!operators.empty()) {
+    while (!operators.empty() && !is_left_paren(operators.top())) {
+
         output.push(operators.top());
         operators.pop();
         }
 
-    cout << "Postfix expression generated: ";
-    Queue<Token*> temp_output = output;
-    while (!temp_output.empty()) {
-        cout << temp_output.front()->value() << " ";
-        temp_output.pop();
-        }
-    cout << endl;
-
     return output;
+
     }
 
 
-int ShuntingYard::precedence(Token* token) {
+int ShuntingYard::precedence(Token * token) {
     if (token->type() == TOKEN_OPERATOR) {
         string op = token->value();
         if (op == "*" || op == "/") return 6;  // Highest priority

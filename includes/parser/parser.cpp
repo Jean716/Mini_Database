@@ -289,7 +289,8 @@ Queue<Token*> Parser::convert_to_postfix(Queue<Token*>& infix_queue) {
     cout << "Postfix Expression: ";
     Queue<Token*> temp_queue = postfix;
     while (!temp_queue.empty()) {
-        Token* t = temp_queue.pop();
+        Token* t = temp_queue.front();
+        temp_queue.pop();
         cout << t->value() << " ";
         }
     cout << endl;
