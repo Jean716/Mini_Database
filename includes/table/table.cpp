@@ -211,27 +211,25 @@ bool Table::record_exists(const vector<string>& fields) {
     }
 //LINK - insert_into
 int Table::insert_into(vector<string>& fields) {
-    cout << "-------Table::insert_into fired!-------" << endl;
+    cout << "\n-------Table::insert_into fired!-------" << endl;
     cout << "Fields to insert : " << fields << endl;
-    cout << "Field names " << _field_names << endl;
-    cout << "Field_names size: " << _field_names.size() << endl;
-    cout << "map size: " << _field_map.size() << endl;
+    cout << "_field_names " << _field_names << endl;
+    cout << "_field_names size: " << _field_names.size() << endl;
+    cout << "_field_map.size() " << _field_map.size() << endl;
 
-    cout << "Address of _field_map: " << &_field_map << endl;
 
     // 1. check if the number of fields matches the table definition
-    if (fields.size() != _field_names.size()) {
+    if (_field_map.size() != _field_names.size()) {
         throw runtime_error("The number of fields does not match the table definition.");
         }
     //---------------------------------------------------------
-    if (record_exists(fields)) {
-        cout << "Duplicate record found, skipping insertion." << endl;
-        return _last_record;
-        }
+    // if (record_exists(fields)) {
+    //     cout << "Duplicate record found, skipping insertion." << endl;
+    //     return _last_record;
+    //     }
 
     //---------------------------------------------------------
-
-        // 2. create FileRecord object and open the file
+    // 2. create FileRecord object and open the file
     FileRecord record(fields);
     fstream file;
     open_fileRW(file, _file_name.c_str());
@@ -240,14 +238,15 @@ int Table::insert_into(vector<string>& fields) {
     long record_number = _last_record + 1;
     record.write(file);
 
-    //cout << "Record written successfully with record number: " << record_number << endl;
+    cout << "Record written successfully with record number: " << record_number << endl;
 
     // update _last_record and _select_recnos
     _last_record = record_number;
     _select_recnos.push_back(record_number);
 
     // update the indices
-    //cout << "\nUpdating _indices with field values:" << endl;
+    cout << "\nUpdating _indices with field values:" << endl;
+    //------------------------for loop  -----------------------------------------
     for (size_t i = 0; i < fields.size(); ++i) {
         string field_value = fields[i];
         string field_name = _field_names[i];
@@ -257,19 +256,21 @@ int Table::insert_into(vector<string>& fields) {
         //     cout << pair.first << " -> " << pair.second << endl;
         //     }
         //---------------------------------------------------------
+        cout << "--------------------------------------Debug here !!!" << endl;
 
-       // cout << "Field name: " << field_name << endl;
-        int field_index = _field_map.at(field_name);
-        // cout << "Field index for " << field_name << ": " << field_index << endl;
+        cout << "Field name: " << _field_names[i] << endl;
+        int field_index = _field_map.at(_field_names[i]);
+        cout << "Field index for " << field_name << ": " << field_index << endl;
 
-        DEBUG_PRINT("Inserting field value: " << field_value << " for field: " << field_name << " at index: " << field_index);
+        cout << "Inserting field value: " << field_value << " for field: " << field_name << " at index: " << field_index;
 
         // insert into the corresponding index
         _indices[field_index].insert(make_pair(fields[i], record_number));
 
-        DEBUG_PRINT("Inserted into _indices[" << field_index << "]: (" << field_value << ", " << record_number << ")");
+        cout << "Inserted into _indices[" << field_index << "]: (" << field_value << ", " << record_number << ")";
         }
 
+    //------------------------for loop  done-------------------------
 
 
     file.close();

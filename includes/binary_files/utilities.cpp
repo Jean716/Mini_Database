@@ -18,9 +18,9 @@ bool file_exists(const char filename[]) {
     }
 
 void open_fileRW(fstream& f, const char filename[]) {
-    //cout << "-----Open_fileRW Fired!-----: " << filename << endl;
+    cout << "-----Open_fileRW Fired!-----: " << filename << endl;
     try {
-        //cout << "Checking file: " << filename << endl;
+        cout << "Checking file: " << filename << endl;
         if (!file_exists(filename)) {
             cout << "File does not exist. Attempting to create: " << filename << endl;
             f.open(filename, fstream::out | fstream::binary);
@@ -33,7 +33,7 @@ void open_fileRW(fstream& f, const char filename[]) {
         if (f.fail()) {
             throw runtime_error("Failed to open file for reading and writing: " + string(filename));
             }
-        //cout << "File successfully opened: " << filename << endl;
+        cout << "File successfully opened: " << filename << endl;
         }
     catch (const exception& e) {
         cerr << "Exception: " << e.what() << endl;
@@ -85,5 +85,4 @@ void open_fileW(fstream & f, const char filename[]) {
 
 //     return info;
 //     }
-
 

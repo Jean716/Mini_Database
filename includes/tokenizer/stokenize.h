@@ -31,11 +31,17 @@ class STokenizer
 
 //---------------------------------
         char _buffer[MAX_BUFFER];   //buffer to store the input string
-        int _pos;                       //current position in the string
+        int _pos = 0;                       //current position in the string
         static int _table[MAX_ROWS][MAX_COLUMNS]; //table to store the tokens
         bool _done;
 
-
+        void setup_number_state(int _table[][MAX_COLUMNS]);
+        void  setup_alpha_state(int _table[][MAX_COLUMNS]);
+        void  setup_space_state(int _table[][MAX_COLUMNS]);
+        void  setup_relational_state(int _table[][MAX_COLUMNS]);
+        void  setup_string_state(int _table[][MAX_COLUMNS]);
+        void  setup_name_state(int _table[][MAX_COLUMNS]);
+        void setup_special_character_state(int _table[][MAX_COLUMNS]);
     };
 
 

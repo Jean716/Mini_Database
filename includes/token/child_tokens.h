@@ -242,7 +242,6 @@ class LogicalOperatorToken : public Token
             }
     };
 
-// 标识符 Token
 class ALFAToken : public Token
     {
     public:
@@ -255,7 +254,6 @@ class ALFAToken : public Token
             }
     };
 
-// 标点符号 Token
 class PuncToken : public Token
     {
     public:

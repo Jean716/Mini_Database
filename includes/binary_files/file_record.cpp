@@ -36,6 +36,8 @@ FileRecord::FileRecord() {
     }
 
 FileRecord::FileRecord(const vector<string>& v) {
+    cout << "FileRecord::FileRecord fired!" << endl;
+
     _record.resize(MAX_ROWS, nullptr);
     for (int i = 0; i < MAX_ROWS; ++i) {
         _record[i] = new char[MAX_COLS]();

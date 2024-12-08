@@ -1,6 +1,8 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 #include "../../includes/parser/typedefs.h"
+#include <unordered_set>
+#include <string>
 
 const int MAX_COLUMNS = 512;
 const int MAX_ROWS = 200;
@@ -30,6 +32,8 @@ const int OPERATOR_STATE = 90;     // operator
 const int RELATIONAL_OPEN_STATE = 100;   // relational operator
 const int RELATIONAL_STATE = 110;   // relational operator
 const int LOGICAL_STATE = 120;      // logical operator
+const int NAME_STATE = 130;         // name
+const int Dot_STATE = 140;          // dot
 
 
 
@@ -58,18 +62,9 @@ enum OPERATORS
     INVALID_OPERATOR
     };
 
-// enum KEYWORDS
-//     {
-//     SELECT, FROM, WHERE,
-//     INSERT, INTO, MAKE, TABLE,
-//     DELETE, UPDATE, SET, VALUES, JOIN, ON,
-//     GROUP, BY, ORDER, LIMIT, HAVING,
-//     SYMBOL,
-//     COMMA,
-//     UNKNOWN_KEY
-
-
-//     };
+static const unordered_set<string> keywords = {
+       "insert", "into", "values", "select", "from", "where", "and", "or", "not"
+    };
 
 
 

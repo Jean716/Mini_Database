@@ -65,20 +65,71 @@ void Parser::tokenize(const string& input, Queue<Token*>& infix) {
     Token* token = nullptr;
     _tokens.clear();
     //---------------------------------------
-   //cout << "Tokens:" << endl;
+    cout << "Tokens in vector: " << endl;
     while (tokenizer.more()) {
         tokenizer >> token;
         if (token && token->type() != TOKEN_SPACE) {
             _tokens.push_back(token);
-            infix.push(token);
-            cout << *token << endl;
+            //infix.push(token);
+           // cout << *token << endl;
             }
         }
     //---------------------------------------
-    // cout << "!!!!Tokenize()::Infix:" << endl;
-    // cout << infix << endl;
+    vector <Token*> new_tokens;
+    string combined = "";
+    bool is_combining = false;
+
+    for (size_t i = 0; i < _tokens.size(); ++i) {
+        string current_value = _tokens[i]->value();
+
+        if (current_value == "values") {
+            // Push the "values" token and start combining
+            new_tokens.push_back(_tokens[i]);
+            is_combining = true;
+            combined = "";
+            }
+        else if (is_combining) {
+            // Combine ALFA tokens until a comma is found
+            if (_tokens[i]->value() == ",") {
+                if (!combined.empty()) {
+                    new_tokens.push_back(new ALFAToken(combined)); // push the combined token before the comma
+                    combined = "";
+                    is_combining = false; // Stop combining
+                    }
+                new_tokens.push_back(_tokens[i]); // Push the comma
+                is_combining = true;           // Start combining again
+                }
+            else {
+                if (!combined.empty()) {
+                    combined += " ";
+                    }
+                combined += current_value; // Append current value
+                }
+            }
+        else {
+            // Push non-combined tokens directly
+            new_tokens.push_back(_tokens[i]);
+            }
+        }
+
+    // Push the final combined token if it exists
+    if (is_combining && !combined.empty()) {
+        new_tokens.push_back(new ALFAToken(combined));
+        }
+
+    // Step 3: Push refined tokens into the infix queue
+    for (Token* refined_token : new_tokens) {
+        infix.push(refined_token);
+        }
 
     //---------------------------------------
+    cout << "Tokens: " << endl;
+    _tokens.clear();
+    _tokens = new_tokens;
+    for (Token* token : _tokens) {
+        cout << *token << endl;
+        }
+
     cout << "Tokenization done!" << endl;
     }
 
@@ -200,7 +251,6 @@ map_sl Parser::get_column(vector<Token*> tokens) {
                 case TOKEN_ALFA:
                     if (_keywords.contains(token_str)) {
                         // cout << "get_column: " << token_str << " is a keyword." << endl;
-
                         column = _keywords.get(token_str);
                         }
                     else {

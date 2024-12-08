@@ -1,8 +1,12 @@
 #include "../../includes/tokenizer/state_machine_functions.h"
 #include "../../includes/token/token.h"
+#include "../../includes/tokenizer/constants.h"
+
 #include <iostream>
 using namespace std;
 #include <wchar.h>
+
+
 //Fill all cells of the array with -1
 void init_table(int _table[][MAX_COLUMNS]) {
 
@@ -34,8 +38,6 @@ void mark_cells(int row, int _table[][MAX_COLUMNS], int from, int to, int state)
 
         }
     }
-
-
 
 //Mark this row and column
 // use this to mark a single cell
@@ -73,6 +75,5 @@ void mark_cells(int row, int _table[][MAX_COLUMNS], const char* str, int state) 
         _table[row][col] = state;
         }
     }
-
 
 

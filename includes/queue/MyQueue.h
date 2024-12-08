@@ -202,7 +202,7 @@ template<typename TT>
 ostream& operator << (ostream& outs, const Queue<TT>& printMe) {
     outs << "Queue: head->";
     for (typename Queue<TT>::Iterator it = printMe.begin(); it != printMe.end(); ++it) {
-        outs << "[" << **it << "]-> ";
+        outs << **it << "-> ";
         }
     outs << "|||";
     return outs;
