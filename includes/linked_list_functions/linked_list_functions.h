@@ -15,7 +15,6 @@ node<T>* _insert_after(node<T>*& head, node<T> *after_this, T insert_this);
 template <typename T>
 node<T>* _insert_before(node<T>*& head, node<T>* before_this, T insert_this);
 
-
 template <typename T>
 node<T>* _search_list(node<T>* head, T key);  //return ptr to key or NULL
 template <typename T>

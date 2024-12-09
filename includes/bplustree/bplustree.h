@@ -849,7 +849,6 @@ void BPlusTree<T>::transfer_right(int i) {
 
     std::cout << "Transfer right completed" << std::endl;
 
-    // 更新父节点键值，并检查是否有效
     update_parent_keys();
     if (!is_valid()) {
         std::cerr << "Tree is NOT valid after transfer_right operation!" << std::endl;
@@ -951,18 +950,7 @@ void BPlusTree<T>::copy_tree(const BPlusTree<T>&other, BPlusTree<T>*&last_node) 
     }
 
 
-//---------------------------------------------------------------
-//      S I Z E  /  E M P T Y
-//---------------------------------------------------------------
-// template <typename T>
-// int BPlusTree<T>::size() const {
-//     //this function counts the number of keys in the btree
-//     int total = data_count;
-//     for (int i = 0; i < child_count; ++i) {
-//         total += subset[i]->size();
-//         }
-//     return total;
-//     }
+
 
 template <typename T>
 int BPlusTree<T>::size() const {
@@ -1157,21 +1145,21 @@ void BPlusTree<T>::verify_leaf_chain() {
                //  << ", Next first data: " << current->next->data[0] << std::endl;
 
             if (current->data[current->data_count - 1] > current->next->data[0]) {
-                std::cout << "Warning: Leaf chain order violation at node " << current << std::endl;
+                cout << "Warning: Leaf chain order violation at node " << current << std::endl;
                 }
             }
         else {
-            std::cout << "Next pointer is nullptr" << std::endl;
+            cout << "Next pointer is nullptr" << std::endl;
             }
 
         current = current->next;
         }
 
-    std::cout << "\nAll leaf data in sequence: ";
+    cout << "\nAll leaf data in sequence: ";
     for (const T& data : all_data) {
-        std::cout << data << " ";
+        cout << data << " ";
         }
-    std::cout << std::endl;
+    cout << std::endl;
     }
 
 //ANCHOR - get_smallest_node

@@ -1,6 +1,6 @@
 #include "sql.h"
 #include <iostream>
-#include <cstdlib> 
+#include <fstream> 
 #include <string>
 #include "../../includes/bplustree/multimap.h"
 #include "../../includes/bplustree/bplustree.h"
@@ -10,6 +10,9 @@ using namespace std;
 
 Table SQL::command(const string& cmd) {
     cout << "Command Function Fired! " << cmd << endl;
+    ofstream log("debug.log", ios::app);
+    log << "Command Function Fired! " << cmd << endl;
+
     _parser.set_string(cmd);
     mmap_ss ptree = _parser.parse_tree();
     string command = ptree["command"][0];
@@ -45,7 +48,7 @@ Table SQL::command(const string& cmd) {
         vector<string> fields = ptree.get("fields");
         Table result;
 
-        cout << ">>> Selecting from table: " << table_name << " fields: ";
+        log << ">>> Selecting from table: " << table_name << " fields: ";
         for (const auto& field : fields) {
             cout << field << " ";
             }
@@ -64,7 +67,7 @@ Table SQL::command(const string& cmd) {
             for (size_t i = 0; i < infix.size(); ++i) {
                 cond += infix[i] + " ";
                 }
-            cout << ">>> Condition string: " << cond << endl;
+            log << ">>> Condition string: " << cond << endl;
 
             _parser.tokenize(cond, infix_condition);
             //cout << ">>> Infix condition: " << infix_condition << endl;
@@ -93,16 +96,17 @@ Table SQL::command(const string& cmd) {
 
 
     // Add Table Debugging 
-    for (auto it = _tables.begin(); it != _tables.end(); ++it) {
-        const string& table_name = it->first;
-        const Table& table = it->second;
-        cout << "Current state of table: " << table_name << endl;
-        cout << table << endl;
-        }
+    // for (auto it = _tables.begin(); it != _tables.end(); ++it) {
+    //     const string& table_name = it->first;
+    //     const Table& table = it->second;
+    //     cout << "Current state of table: " << table_name << endl;
+    //     cout << table << endl;
+    //     }
 
 
 
-    cout << ">>> Command executed successfully." << endl;
+    log << ">>> Command executed successfully." << endl;
+    log.close();
 
     return Table();  // Return an empty table by default
     }

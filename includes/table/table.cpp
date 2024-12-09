@@ -77,6 +77,10 @@ Table::Table(const string& name) {
     for (long i = 0; i <= _last_record; ++i) {
         _select_recnos.push_back(i);
         }
+    cout << "Table(name)::_select_recnos: ";
+    for (const auto& recno : _select_recnos) {
+        cout << to_string(recno);
+        }
 
     // 6. reindex the table
     reindex();
@@ -428,27 +432,29 @@ vectorlong Table::get_matching_recnos(const string& field_name, const string& fi
 //LINK - select_all
 Table Table::select_all(vector<string> fields) {
     DEBUG_PRINT("-------Table::select_all fired!-------");
-
+    cout << "Before assignment, _select_recnos: ";
+    for (const auto& recno : _select_recnos) {
+        cout << recno << " ";
+        }
+    cout << endl;
     Table new_table;
     new_table._field_names = fields;
     new_table._field_map = _field_map;
 
     new_table._select_recnos = _select_recnos;
 
-    // cout << "Records selected in select_all:";
-    // for (const auto& recno : _select_recnos) {
-    //     cout << recno << " ";
-    //     }
-    // cout << endl;
+    cout << "Records selected in select_all:";
+    for (const auto& recno : _select_recnos) {
+        cout << recno << " ";
+        }
+    cout << endl;
     for (const auto& index : _indices) {
         new_table._indices.push_back(index);
         }
-
     string recnos_debug = "Select All::Selected record numbers: ";
     for (const auto& recno : _select_recnos) {
         recnos_debug += to_string(recno) + " ";
         }
-    system(("echo '" + recnos_debug + "'").c_str());
 
 
 
@@ -473,12 +479,6 @@ Table Table::select(const vector<string>&  fields, const Queue<Token*>& postfix)
     cout << "Selected table:" << endl;
     cout << selected_table;
     selected_table._select_recnos = matching_recnos;
-
-    string recnos_debug = "Selected record numbers: ";
-    for (const auto& recno : _select_recnos) {
-        recnos_debug += to_string(recno) + " ";
-        }
-    system(("echo '" + recnos_debug + "'").c_str());
 
 
     DEBUG_PRINT("-------Table::select done!-------");

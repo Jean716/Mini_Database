@@ -13,6 +13,7 @@ class SQL
     public:
         Table command(const string& cmd);
         const vector<long> select_recnos() const {
+
             return _select_recnos;
             }
 

@@ -28,8 +28,6 @@ Parser::Parser() :_input(""), _fail(false) {
     set_string(_input);
     }
 
-
-
 Parser::Parser(const char* s) : _input(s), _fail(false) {
     cout << "Parser Constructor Fired!" << endl;
     cout << "Input string: " << (s ? s : "null") << endl;

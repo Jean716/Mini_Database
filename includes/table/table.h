@@ -88,17 +88,7 @@ class Table
 
             }
 
-        void print_debug_info() const {
-            debug_output("Table Name: ", _name);
 
-            for (long recno : _select_recnos) {
-                debug_output("Record No: ", to_string(recno));
-                }
-            }
-        void debug_output(const string& message, const string& value = "") const {
-            string command = "echo '" + message + value + "'";
-            system(command.c_str());
-            }
 
         vector<string> get_field_names() const { return _field_names; }
         vector<long> get_select_recnos() const { return _select_recnos; }
