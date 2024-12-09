@@ -109,12 +109,26 @@ bool STokenizer::get_token(int& start_state, string & token) {
                 }
 
             //  case1: name token (ALFA + DOT)
-            if (next_pos < strlen(_buffer) && isalpha(_buffer[next_pos]) && _buffer[next_pos + 1] == '.') {
+            cout << "Checking for ALFA + DOT. Current char: " << _buffer[_pos]
+                << ", Next char: " << _buffer[next_pos]
+                << ", Position: " << _pos << endl;
+
+            if (next_pos < strlen(_buffer) && isalpha(_buffer[next_pos]) && _buffer[next_pos + 2] == '.') {
+                cout << "ALFA + DOT detected. Combining token: '"
+                    << _buffer[next_pos] << "." << "'" << endl;
+
                 token += ' ';  // Add the space
                 token += _buffer[next_pos];  // Add the ALFA
                 token += _buffer[next_pos + 1];  // Add the DOT
                 _pos = next_pos + 2;  // Update _pos after ALFA + DOT
                 state = NAME_STATE;  // Transition to NAME_STATE
+                cout << "Combined token so far: " << token << ". Updated position: " << _pos << endl;
+
+                }
+            else {
+                cout << "ALFA + DOT not detected. Retaining ALFA_STATE. Current token: " << token << endl;
+
+                state = ALFA_STATE;
                 }
             }
         //----------------------------------------------------------

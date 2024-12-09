@@ -69,6 +69,8 @@ void Parser::tokenize(const string& input, Queue<Token*>& infix) {
     while (tokenizer.more()) {
         tokenizer >> token;
         if (token && token->type() != TOKEN_SPACE) {
+            cout << "Processing token: " << token->value() << " [Type: " << token->type() << "]" << endl;
+
             _tokens.push_back(token);
             //infix.push(token);
            // cout << *token << endl;
@@ -95,9 +97,12 @@ void Parser::tokenize(const string& input, Queue<Token*>& infix) {
             new_tokens.push_back(_tokens[i]); // Push the operator
             size_t j = i + 1;
             combined = "";
+            cout << "Combining tokens after RELATIONAL_OPERATOR at index " << i << endl;
 
             // Combine consecutive ALFA tokens
             while (j < _tokens.size() && _tokens[j]->type() == TOKEN_ALFA) {
+                cout << "Adding token: " << _tokens[j]->value() << " to combined string." << endl;
+
                 if (!combined.empty()) {
                     combined += " "; // Add space between words
                     }
@@ -107,23 +112,14 @@ void Parser::tokenize(const string& input, Queue<Token*>& infix) {
 
             // Push combined token if any
             if (!combined.empty()) {
+                cout << "Pushing combined token: " << combined << endl;
+
                 new_tokens.push_back(new ALFAToken(combined));
                 }
 
             i = j - 1; // Update the index
+            continue;
             }
-
-
-
-
-
-
-
-
-
-
-
-
 
         // Case 3: Combine ALFA tokens after "values" until a comma
         else if (is_combining) {

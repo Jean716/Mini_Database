@@ -7,7 +7,7 @@
 using namespace std;
 
 Table SQL::command(const string& cmd) {
-    cout << ">>> Received command: " << cmd << endl;
+    cout << "Command Function Fired! " << cmd << endl;
     _parser.set_string(cmd);
     mmap_ss ptree = _parser.parse_tree();
     string command = ptree["command"][0];
