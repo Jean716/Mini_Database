@@ -20,7 +20,6 @@ class Parser
         static map_sl _keywords; // map of keywords to (column, number)
         int _adjacency_table[MAX_ROWS][MAX_COLUMNS];
 
-
     public:
         Parser();
         Parser(const char* s);
