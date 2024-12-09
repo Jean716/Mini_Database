@@ -8,11 +8,11 @@ using namespace std;
 int main(int argv, char** argc) {
     cout << "\n\n" << endl;
 
-    Table t2("student");
+    Table t2("employee");
 
     fstream file;
-    file.open("student.tbl", ios::in | ios::binary);
-    //file.open("employee.tbl", ios::in | ios::binary);
+    file.open("_select_table_31.tbl", ios::in | ios::binary);
+    // file.open("employee.tbl", ios::in | ios::binary);
 
     if (!file.is_open()) {
         cerr << "Failed to open employee.tbl" << endl;

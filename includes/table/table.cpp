@@ -4,8 +4,6 @@
 #include <utility>
 #include <vector>
 #include <map>
-#include <sstream>
-#include <cstdlib>
 #include "../../includes/queue/MyQueue.h"
 #include "../../includes/token/token.h"
 #include "../../includes/bplustree/bplustree.h"
@@ -32,7 +30,6 @@ Table::Table() {
     _field_map = map<string, long>();
     _keyword = map<string, long>();
     _indices = vector<multimap<string, long>>();
-
 
     DEBUG_PRINT("Table serial number: " << serial);
     DEBUG_PRINT("Table file name: " << _file_name);
@@ -387,6 +384,7 @@ int Table::field_col_no(string field_name) {
         }
     cout << endl;
 
+    // 去除空格和隐藏字符
     field_name.erase(remove_if(field_name.begin(), field_name.end(), ::isspace), field_name.end());
 
     if (field_name == "*") {
@@ -394,6 +392,7 @@ int Table::field_col_no(string field_name) {
         return -2;   // -2 indicates all fields
         }
 
+    // 检查 field_map 的内容
     cout << "Field map contents:" << endl;
     for (const auto& pair : _field_map) {
         cout << pair.first << " -> " << pair.second << endl;
@@ -436,16 +435,16 @@ Table Table::select_all(vector<string> fields) {
 
     new_table._select_recnos = _select_recnos;
 
-    DEBUG_PRINT("Records selected in select_all:");
-    for (const auto& recno : _select_recnos) {
-        DEBUG_PRINT("  Record#: " << recno);
-        }
-
+    // cout << "Records selected in select_all:";
+    // for (const auto& recno : _select_recnos) {
+    //     cout << recno << " ";
+    //     }
+    // cout << endl;
     for (const auto& index : _indices) {
         new_table._indices.push_back(index);
         }
 
-    DEBUG_PRINT("All fields and records selected into new table");
+
     return new_table;
     }
 
@@ -471,46 +470,6 @@ Table Table::select(const vector<string>&  fields, const Queue<Token*>& postfix)
     DEBUG_PRINT("-------Table::select done!-------");
     return selected_table;
     }
-
-
-
-// Table Table::select(const vectorstr& fields, const vectorstr& condition) {
-//     DEBUG_PRINT("-------Table::select fired!-------");
-
-//     string query;
-//     for (const auto& token : condition) {
-//         query += token + " ";
-//         }
-//     DEBUG_PRINT("Query: " << query);
-
-//     Tokenizer tokenizer(query);
-//     Queue<Token*> tokens = tokenizer.tokenize();
-//     DEBUG_PRINT("Tokenized condition:");
-//     Queue<Token*> temp_tokens = tokens;
-//     Token* token = temp_tokens.pop();
-//     DEBUG_PRINT("  " << token->value());
-
-//     ShuntingYard shunting_yard(tokens);
-//     Queue<Token*> postfix = shunting_yard.to_postfix();
-//     DEBUG_PRINT("Postfix expression:");
-//     Queue<Token*> temp_postfix = postfix;
-//     while (!temp_postfix.empty()) {
-//         Token* token = temp_postfix.pop();
-//         DEBUG_PRINT("  " << token->value());
-//         }
-
-//     vectorlong filtered_recnos = cond(postfix);
-//     DEBUG_PRINT("Filtered record numbers:");
-//     for (const auto& recno : filtered_recnos) {
-//         DEBUG_PRINT("  " << recno);
-//         }
-
-//     Table new_table = vector_to_table(fields, filtered_recnos);
-
-//     // DEBUG_PRINT("-------Table::select done!-------");
-//     return new_table;
-//     }
-
 
 
 
@@ -675,22 +634,11 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
     return final_recnos;
     }
 
-// void Table::build_keyword_list(map_sl & list) {
 
-//     }
-// int Table::get_token_type(const string & s) { return 0; }
 
- //LINK - operator<<
+//LINK - operator<<
 ostream& operator<<(ostream & outs, const Table & t) {
     DEBUG_PRINT("-------Table operator<< fired!-------");
-    ostringstream table_output;
-    table_output << "Table name: " << t._name << "\nRecords:\n";
-    table_output << "File name: " << t._file_name << "\nRecords:\n";
-
-    // Use echo to output table data
-    string echo_cmd = "echo \"" + table_output.str() + "\"";
-    system(echo_cmd.c_str());
-
     cout << "Table name: " << t._name << ", records: " << t._last_record + 1 << endl;
     cout << "_last_record: " << t._last_record << endl;
 
@@ -716,62 +664,3 @@ ostream& operator<<(ostream & outs, const Table & t) {
     file.close();
     return outs;
     }
-
-// //LINK - select
-// Table Table::select(const vectorstr & fields, const string & field, const string op, const string & value) {
-//     DEBUG_PRINT("-------Table::select 4 fired!-------");
-//     // 1. build the query string
-//     string query = field + " " + op + " " + value;
-
-//     DEBUG_PRINT("Query: " << query);
-
-//     // 2. tokenize the query
-//     Tokenizer tokenizer(query);
-//     Queue<Token*> tokens = tokenizer.tokenize();
-//     //cout<< "Tokens: " << tokens << endl;
-
-//      // 3. convert the infix expression to postfix
-//     ShuntingYard shunting_yard(tokens);
-//     Queue<Token*> postfix = shunting_yard.to_postfix();
-
-//     vectorlong recnos = cond(postfix);
-
-//     //cout<< "RPN Evaluation Results: ";
-//     for (long rec : recnos) {
-//         cout << rec << " ";
-//         }
-//     cout << endl;
-
-
-
-//     DEBUG_PRINT("New table created with updated fields and indices.");
-//     return vector_to_table(fields, recnos);
-
-
-//     }
-
-
-
-// void Table::filter_unique_records(fstream& table_file, long total_records, vector<FileRecord>& valid_records) {
-//     set<std::vector<std::string>> unique_records;
-//     long current_record = 0;
-
-//     while (current_record < total_records) {
-//         FileRecord record;
-//         long bytes_read = record.read(table_file, current_record);
-
-//         if (bytes_read > 0) {
-//             int field_count = record.num_of_fields();
-//             if (field_count > 0) {
-//                 vector<string> record_fields = record.get_record();
-
-
-//                 if (unique_records.find(record_fields) == unique_records.end()) {
-//                     unique_records.insert(record_fields);
-//                     valid_records.push_back(record);
-//                     }
-//                 }
-//             }
-//         ++current_record;
-//         }
-//     }

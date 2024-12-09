@@ -13,11 +13,6 @@ class SQL
     public:
         Table command(const string& cmd);
         const vector<long> select_recnos() const {
-            cout << "Selected records: ";
-            for (long recno : _select_recnos) {
-                cout << recno << " ";
-                }
-            cout << endl;
             return _select_recnos;
             }
 

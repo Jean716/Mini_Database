@@ -52,9 +52,6 @@ class Table
         //LINK - select functions
         Table select_all(vector<string> fields);
         Table select(const vector<string>& fields, const Queue<Token *>& postfix); // Combined with the RPN module, it is used to parse conditional expressions
-        // Table select(const vectorstr& fields, const vectorstr& condition); // Pass a conditional expression in infix form
-        // Table select(const vectorstr& fields, const string& field, const string op, const string& value);
-        // // Table select(const vectorstr& fields, const string& field,const string op, const string& value,const mmap_ss& p_tree = mmap_ss());
 
         void clear_data();
         void reindex(); // call this from ctor!
@@ -90,12 +87,22 @@ class Table
             return outs;
 
             }
-        // void print_table(ostream& outs);
+
+        void print_debug_info() const {
+            debug_output("Table Name: ", _name);
+
+            for (long recno : _select_recnos) {
+                debug_output("Record No: ", to_string(recno));
+                }
+            }
+        void debug_output(const string& message, const string& value = "") const {
+            string command = "echo '" + message + value + "'";
+            system(command.c_str());
+            }
 
         vector<string> get_field_names() const { return _field_names; }
         vector<long> get_select_recnos() const { return _select_recnos; }
         string get_file_name() const { return _file_name; }
-        // void filter_unique_records(fstream& table_file, long total_records, vector<FileRecord>& valid_records);
         bool record_exists(const vector<string>& fields);
 
 

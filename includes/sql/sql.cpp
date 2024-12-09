@@ -1,5 +1,7 @@
 #include "sql.h"
 #include <iostream>
+#include <cstdlib> 
+#include <string>
 #include "../../includes/bplustree/multimap.h"
 #include "../../includes/bplustree/bplustree.h"
 #include "../../includes/binary_files/file_record.h"
@@ -77,21 +79,12 @@ Table SQL::command(const string& cmd) {
             cout << ">>> No WHERE condition found. Selecting all records." << endl;
             result = _tables[table_name].select_all(fields);
             }
-        // Update SQL::_select_recnos with the selected record numbers from the result table
+        //------------------------------Debug _select_recnos-------------------------------------------------
+         //Update SQL::_select_recnos with the selected record numbers from the result table
         _select_recnos = result.get_select_recnos();
-
 
         // Store the result table
         _table = result;
-
-        // Display the selected record numbers
-        //vector<long> selected_recnos = _select_recnos;
-        cout << ">>> Selected record numbers: ";
-        for (long recno : _select_recnos) {
-            cout << recno << " ";
-            }
-        cout << endl;
-
         return result;
         }
     else {
@@ -106,6 +99,13 @@ Table SQL::command(const string& cmd) {
         cout << "Current state of table: " << table_name << endl;
         cout << table << endl;
         }
+
+    string recnos_debug = "[DEBUG] Selected record numbers: ";
+    for (const auto& recno : _select_recnos) {
+        recnos_debug += to_string(recno) + " ";
+        }
+    system(("echo '" + recnos_debug + "'").c_str());
+
 
     cout << ">>> Command executed successfully." << endl;
 

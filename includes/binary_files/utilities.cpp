@@ -18,7 +18,7 @@ bool file_exists(const char filename[]) {
     }
 
 void open_fileRW(fstream& f, const char filename[]) {
-    cout << "-----Open_fileRW Fired!-----: " << filename << endl;
+    cout << "-----Open_fileRW Fired!-----:\n " << filename << endl;
     try {
         cout << "Checking file: " << filename << endl;
         if (!file_exists(filename)) {

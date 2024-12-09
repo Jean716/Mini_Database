@@ -28,6 +28,8 @@ Parser::Parser() :_input(""), _fail(false) {
     set_string(_input);
     }
 
+
+
 Parser::Parser(const char* s) : _input(s), _fail(false) {
     cout << "Parser Constructor Fired!" << endl;
     cout << "Input string: " << (s ? s : "null") << endl;
@@ -172,7 +174,7 @@ void Parser::init_adjacency_table() {
 
     if (_tokens.empty()) {
         _fail = true;
-        cout << "Error: Token list is empty." << endl;
+        cout << "Token list is empty." << endl;
         return;
         }
 
@@ -200,11 +202,11 @@ void Parser::init_adjacency_table() {
 
 bool Parser::get_parse_tree() {
     cout << "Get Parse Tree Function Fired!" << endl;
-    if (_tokens.empty()) {
-        _fail = true;
-        cout << "Error: Token list is empty." << endl;
-        return false;
-        }
+    // if (_tokens.empty()) {
+    //     _fail = true;
+    //     cout << "Error: Token list is empty." << endl;
+    //     return false;
+    //     }
     int state = 0;
     int last_success_state = -1;
     _ptree.clear();
@@ -381,4 +383,3 @@ Queue<Token*> Parser::convert_to_postfix(Queue<Token*>& infix_queue) {
 
     return postfix;
     }
-
