@@ -14,6 +14,43 @@
 
 using namespace std;
 
+// const vector<string> command_list = {
+
+//      /*00*/ "make table student fields id, firstname, lastname, department, salary",
+//      /*01*/ "insert into student values 1, Alice, Johnson, HR, 50000",
+//      /*02*/ "insert into student values 2, Bob, Brown, IT, 70000",
+//      /*03*/ "insert into student values 3, Charlie, Davis, Sales, 60000",
+//      /*04*/ "insert into student values 4, Diana L., Wilson Matt, Marketing, 45000",
+//      /*05*/ "insert into student values 5, Ethan Anna, Smith, HR, 52000",
+//      /*06*/ "insert into student values 6, Fiona, Green, IT, 71000",
+//      /*07*/ "insert into student values 7, George, White, Sales, 62000",
+//      /*08*/ "insert into student values 8, Hannah, Moore, Marketing, 46000",
+//      /*09*/ "insert into student values 9, Ian, Taylor, HR, 54000",
+//      /*10*/ "insert into student values 10, Jane, Brown, IT, 73000",
+
+//      /*11*/ "select * from student",
+//      /*12*/ "select firstname, lastname, salary from student",
+//      /*13*/ "select * from student where lastname = Brown",
+//      /*14*/ "select * from student where department = IT",
+//      /*15*/ "select * from student where salary > 60000",
+//      /*16*/ "select * from student where lastname = Wilson Matt",
+//      /*17*/ "select * from student where firstname = Eithan Anna",
+//      /*18*/ "select * from student where firstname = Hannah",
+//      /*19*/ "select * from student where firstname = Ian",
+//      /*20*/ "select * from student where firstname = Does Not Exist",
+//      /*21*/ "select * from student where lastname > Moore",
+//      /*22*/ "select * from student where department > HR",
+//      /*23*/ "select * from student where firstname > George",
+//      /*24*/ "select * from student where salary > 70000",
+//      /*25*/ "select * from student where salary > 50000",
+//      /*26*/ "select * from student where firstname > H",
+//      /*27*/ "select * from student where firstname = Alice and lastname = Johnson",
+//      /*28*/ "select * from student where department = IT and salary < 75000",
+//      };
+
+// const int MAKE_TABLE_COMMANDS = 11;
+// const int SELECT_COMMANDS = 19;
+
 const vector<string> command_list = {
 
      /*00*/     "make table employee fields  last,       first,         dep,      salary, year",

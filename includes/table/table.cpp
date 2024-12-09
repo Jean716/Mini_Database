@@ -106,7 +106,6 @@ Table::Table(const string& name, const vector<string> &fields_names) {
     // create a file for the table
     ofstream field_file(_name + "_fields.txt");
 
-
     for (size_t i = 0; i < _field_names.size(); ++i) {
         field_file << _field_names[i] << endl;
         _field_map[_field_names[i]] = i;
@@ -327,8 +326,9 @@ Table Table::vector_to_table(const vector<string>& fields, const vector<long>& v
                 record_fields.insert(record_fields.end(), record._record.begin(), record._record.end());
                 break;
                 }
-            else if (field_index == -1) {
-                throw runtime_error("Field not found: " + field);
+            else if (field_index == -1 || field_index == -3) {
+                cout << "Field not found: " + field << endl;
+                continue;
                 }
             else {
                 record_fields.push_back(record._record[field_index]);
@@ -350,10 +350,6 @@ Table Table::vector_to_table(const vector<string>& fields, const vector<long>& v
     new_table._last_record = vector_of_recnos.size() - 1;
     new_table._file_name = new_file_name;
 
-
-
-
-
     cout << "Selected table record numbers: ";
     for (const auto& recno : new_table._select_recnos) {
         cout << recno << " ";
@@ -363,12 +359,9 @@ Table Table::vector_to_table(const vector<string>& fields, const vector<long>& v
     cout << new_table;
     cout << endl;
 
-
-
     cout << "-------------------Table::vector_to_table done!----------------------------" << endl;
     return new_table;
     }
-
 
 //set fields
 void Table::set_fields(vector<string>& fld_names) {
@@ -439,31 +432,43 @@ vectorlong Table::get_matching_recnos(const string& field_name, const string& fi
 
 //LINK - select_all
 Table Table::select_all(vector<string> fields) {
-    DEBUG_PRINT("-------Table::select_all fired!-------");
-    cout << "Before assignment, _select_recnos: ";
-    for (const auto& recno : _select_recnos) {
+    cout << "-------Table::select_all fired!-------" << endl;
+    vector<long> recnos;
+    for (long i = 0; i <= _last_record; ++i) {
+        recnos.push_back(i);
+        }
+    //---------------------------------------------------------
+    cout << "recnos: ";
+    for (const auto& recno : recnos) {
         cout << recno << " ";
         }
     cout << endl;
-    Table new_table;
-    new_table._field_names = fields;
-    new_table._field_map = _field_map;
+    //---------------------------------------------------------
 
-    new_table._select_recnos = _select_recnos;
-
-    cout << "Records selected in select_all:";
-    for (const auto& recno : _select_recnos) {
-        cout << recno << " ";
-        }
-    cout << endl;
-    for (const auto& index : _indices) {
-        new_table._indices.push_back(index);
-        }
-
-
-
-    return new_table;
+    Table t = vector_to_table(fields, recnos);
+    return t;
     }
+
+// cout << "Before assignment, _select_recnos: ";
+// for (const auto& recno : _select_recnos) {
+//     cout << recno << " ";
+//     }
+// cout << endl;
+// Table new_table;
+// new_table._field_names = fields;
+// new_table._field_map = _field_map;
+
+// new_table._select_recnos = _select_recnos;
+
+// cout << "Records selected in select_all:";
+// for (const auto& recno : _select_recnos) {
+//     cout << recno << " ";
+//     }
+// cout << endl;
+// for (const auto& index : _indices) {
+//     new_table._indices.push_back(index);
+//     }
+
 
 // //LINK - select (RPN)
 
@@ -489,7 +494,6 @@ Table Table::select(const vector<string>&  fields, const Queue<Token*>& postfix)
     DEBUG_PRINT("-------Table::select done!-------");
     return selected_table;
     }
-
 
 
 //LINK - reindex
@@ -652,7 +656,6 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
 
     return final_recnos;
     }
-
 
 
 //LINK - operator<<

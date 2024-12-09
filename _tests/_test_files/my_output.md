@@ -1,59 +1,12 @@
-jwcomputer@Mac 99_99_final % cmake -S . -B build
-CMake Warning (dev) at /opt/homebrew/share/cmake/Modules/FetchContent.cmake:1373 (message):
-  The DOWNLOAD_EXTRACT_TIMESTAMP option was not given and policy CMP0135 is
-  not set.  The policy's OLD behavior will be used.  When using a URL
-  download, the timestamps of extracted files should preferably be that of
-  the time of extraction, otherwise code that depends on the extracted
-  contents might not be rebuilt if the URL changes.  The OLD behavior
-  preserves the timestamps from the archive instead, but this is usually not
-  what you want.  Update your project to the NEW behavior or specify the
-  DOWNLOAD_EXTRACT_TIMESTAMP option with a value of true to avoid this
-  robustness issue.
-Call Stack (most recent call first):
-  CMakeLists.txt:31 (FetchContent_Declare)
-This warning is for project developers.  Use -Wno-dev to suppress it.
-
-CMake Deprecation Warning at build/_deps/googletest-src/CMakeLists.txt:4 (cmake_minimum_required):
-  Compatibility with CMake < 3.10 will be removed from a future version of
-  CMake.
-
-  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
-  to tell CMake that the project requires at least <min> but has been updated
-  to work with policies introduced by <max> or earlier.
-
-
-CMake Deprecation Warning at build/_deps/googletest-src/googlemock/CMakeLists.txt:45 (cmake_minimum_required):
-  Compatibility with CMake < 3.10 will be removed from a future version of
-  CMake.
-
-  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
-  to tell CMake that the project requires at least <min> but has been updated
-  to work with policies introduced by <max> or earlier.
-
-
-CMake Deprecation Warning at build/_deps/googletest-src/googletest/CMakeLists.txt:56 (cmake_minimum_required):
-  Compatibility with CMake < 3.10 will be removed from a future version of
-  CMake.
-
-  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
-  to tell CMake that the project requires at least <min> but has been updated
-  to work with policies introduced by <max> or earlier.
-
-
--- Configuring done (0.2s)
--- Generating done (0.0s)
--- Build files have been written to: /Users/jwcomputer/Documents/CS8_Projects/99_99_final/build
-jwcomputer@Mac 99_99_final % cmake --build build 
+jwcomputer@JWs-MacBook-Pro 99_99_final % cmake --build build
 [ 28%] Built target main
 [ 32%] Built target gtest
-[ 33%] Building CXX object CMakeFiles/basic_test.dir/_tests/_test_files/basic_test.cpp.o
-[ 35%] Linking CXX executable bin/basic_test
 [ 60%] Built target basic_test
 [ 88%] Built target testB
 [ 92%] Built target gmock
 [ 96%] Built target gmock_main
 [100%] Built target gtest_main
-jwcomputer@Mac 99_99_final % build/bin/basic_test
+jwcomputer@JWs-MacBook-Pro 99_99_final % build/bin/basic_test
 
 
 ----------running basic_test.cpp---------
@@ -1869,9 +1822,379 @@ select
 >>> Select command detected.
 -------------Table ctor 1 Done!-----
 >>> No WHERE condition found. Selecting all records.
-Before assignment, _select_recnos: 0 1 2 3 
+-------Table::select_all fired!--------------Table::vector_to_table fired!-------
+'*' detected. Expanding to all fields.
 -------------Table ctor 1 Done!-----
-Records selected in select_all:0 1 2 3 
+-----Open_fileRW Fired!-----:
+ employee.tbl
+Checking file: employee.tbl
+File successfully opened: employee.tbl
+File opened for reading: employee.tbl
+Opening file for writing: employee_updated.tbl
+-------Table::field_col_no fired!-------
+Field name: last
+Field map size:5
+
+Field map contents:
+dep -> 2
+first -> 1
+last -> 0
+salary -> 3
+year -> 4
+Field found: last at index 0
+-------Table::field_col_no fired!-------
+Field name: first
+Field map size:5
+
+Field map contents:
+dep -> 2
+first -> 1
+last -> 0
+salary -> 3
+year -> 4
+Field found: first at index 1
+-------Table::field_col_no fired!-------
+Field name: dep
+Field map size:5
+
+Field map contents:
+dep -> 2
+first -> 1
+last -> 0
+salary -> 3
+year -> 4
+Field found: dep at index 2
+-------Table::field_col_no fired!-------
+Field name: salary
+Field map size:5
+
+Field map contents:
+dep -> 2
+first -> 1
+last -> 0
+salary -> 3
+year -> 4
+Field found: salary at index 3
+-------Table::field_col_no fired!-------
+Field name: year
+Field map size:5
+
+Field map contents:
+dep -> 2
+first -> 1
+last -> 0
+salary -> 3
+year -> 4
+Field found: year at index 4
+FileRecord::FileRecord fired!
+FileRecord::write fired!
+
+-------Table::insert_into fired!-------
+Fields to insert : Blow Joe CS 100000 2018
+_field_names last first dep salary year
+_field_names size: 5
+_field_map.size() 5
+FileRecord::FileRecord fired!
+-----Open_fileRW Fired!-----:
+ _select_table_18.tbl
+Checking file: _select_table_18.tbl
+File successfully opened: _select_table_18.tbl
+FileRecord::write fired!
+Record written successfully with record number: 0
+
+Updating _indices with field values:
+--------------------------------------Debug here !!!
+Field name: last
+Field index for last: 0
+Inserting field value: Blow for field: last at index: 0Inserted into _indices[0]: (Blow, 0)--------------------------------------Debug here !!!
+Field name: first
+Field index for first: 1
+Inserting field value: Joe for field: first at index: 1Inserted into _indices[1]: (Joe, 0)--------------------------------------Debug here !!!
+Field name: dep
+Field index for dep: 2
+Inserting field value: CS for field: dep at index: 2Inserted into _indices[2]: (CS, 0)--------------------------------------Debug here !!!
+Field name: salary
+Field index for salary: 3
+Inserting field value: 100000 for field: salary at index: 3Inserted into _indices[3]: (100000, 0)--------------------------------------Debug here !!!
+Field name: year
+Field index for year: 4
+Inserting field value: 2018 for field: year at index: 4Inserted into _indices[4]: (2018, 0)-------Table::field_col_no fired!-------
+Field name: last
+Field map size:5
+
+Field map contents:
+dep -> 2
+first -> 1
+last -> 0
+salary -> 3
+year -> 4
+Field found: last at index 0
+-------Table::field_col_no fired!-------
+Field name: first
+Field map size:5
+
+Field map contents:
+dep -> 2
+first -> 1
+last -> 0
+salary -> 3
+year -> 4
+Field found: first at index 1
+-------Table::field_col_no fired!-------
+Field name: dep
+Field map size:5
+
+Field map contents:
+dep -> 2
+first -> 1
+last -> 0
+salary -> 3
+year -> 4
+Field found: dep at index 2
+-------Table::field_col_no fired!-------
+Field name: salary
+Field map size:5
+
+Field map contents:
+dep -> 2
+first -> 1
+last -> 0
+salary -> 3
+year -> 4
+Field found: salary at index 3
+-------Table::field_col_no fired!-------
+Field name: year
+Field map size:5
+
+Field map contents:
+dep -> 2
+first -> 1
+last -> 0
+salary -> 3
+year -> 4
+Field found: year at index 4
+FileRecord::FileRecord fired!
+FileRecord::write fired!
+
+-------Table::insert_into fired!-------
+Fields to insert : Blow JoAnn Physics 200000 2016
+_field_names last first dep salary year
+_field_names size: 5
+_field_map.size() 5
+FileRecord::FileRecord fired!
+-----Open_fileRW Fired!-----:
+ _select_table_18.tbl
+Checking file: _select_table_18.tbl
+File successfully opened: _select_table_18.tbl
+FileRecord::write fired!
+Record written successfully with record number: 1
+
+Updating _indices with field values:
+--------------------------------------Debug here !!!
+Field name: last
+Field index for last: 0
+Inserting field value: Blow for field: last at index: 0Inserted into _indices[0]: (Blow, 1)--------------------------------------Debug here !!!
+Field name: first
+Field index for first: 1
+Inserting field value: JoAnn for field: first at index: 1Inserted into _indices[1]: (JoAnn, 1)--------------------------------------Debug here !!!
+Field name: dep
+Field index for dep: 2
+Inserting field value: Physics for field: dep at index: 2Inserted into _indices[2]: (Physics, 1)--------------------------------------Debug here !!!
+Field name: salary
+Field index for salary: 3
+Inserting field value: 200000 for field: salary at index: 3Inserted into _indices[3]: (200000, 1)--------------------------------------Debug here !!!
+Field name: year
+Field index for year: 4
+Inserting field value: 2016 for field: year at index: 4Inserted into _indices[4]: (2016, 1)-------Table::field_col_no fired!-------
+Field name: last
+Field map size:5
+
+Field map contents:
+dep -> 2
+first -> 1
+last -> 0
+salary -> 3
+year -> 4
+Field found: last at index 0
+-------Table::field_col_no fired!-------
+Field name: first
+Field map size:5
+
+Field map contents:
+dep -> 2
+first -> 1
+last -> 0
+salary -> 3
+year -> 4
+Field found: first at index 1
+-------Table::field_col_no fired!-------
+Field name: dep
+Field map size:5
+
+Field map contents:
+dep -> 2
+first -> 1
+last -> 0
+salary -> 3
+year -> 4
+Field found: dep at index 2
+-------Table::field_col_no fired!-------
+Field name: salary
+Field map size:5
+
+Field map contents:
+dep -> 2
+first -> 1
+last -> 0
+salary -> 3
+year -> 4
+Field found: salary at index 3
+-------Table::field_col_no fired!-------
+Field name: year
+Field map size:5
+
+Field map contents:
+dep -> 2
+first -> 1
+last -> 0
+salary -> 3
+year -> 4
+Field found: year at index 4
+FileRecord::FileRecord fired!
+FileRecord::write fired!
+
+-------Table::insert_into fired!-------
+Fields to insert : Johnson Jack HR 150000 2014
+_field_names last first dep salary year
+_field_names size: 5
+_field_map.size() 5
+FileRecord::FileRecord fired!
+-----Open_fileRW Fired!-----:
+ _select_table_18.tbl
+Checking file: _select_table_18.tbl
+File successfully opened: _select_table_18.tbl
+FileRecord::write fired!
+Record written successfully with record number: 2
+
+Updating _indices with field values:
+--------------------------------------Debug here !!!
+Field name: last
+Field index for last: 0
+Inserting field value: Johnson for field: last at index: 0Inserted into _indices[0]: (Johnson, 2)--------------------------------------Debug here !!!
+Field name: first
+Field index for first: 1
+Inserting field value: Jack for field: first at index: 1Inserted into _indices[1]: (Jack, 2)--------------------------------------Debug here !!!
+Field name: dep
+Field index for dep: 2
+Inserting field value: HR for field: dep at index: 2Inserted into _indices[2]: (HR, 2)--------------------------------------Debug here !!!
+Field name: salary
+Field index for salary: 3
+Inserting field value: 150000 for field: salary at index: 3Inserted into _indices[3]: (150000, 2)--------------------------------------Debug here !!!
+Field name: year
+Field index for year: 4
+Inserting field value: 2014 for field: year at index: 4Inserted into _indices[4]: (2014, 2)-------Table::field_col_no fired!-------
+Field name: last
+Field map size:5
+
+Field map contents:
+dep -> 2
+first -> 1
+last -> 0
+salary -> 3
+year -> 4
+Field found: last at index 0
+-------Table::field_col_no fired!-------
+Field name: first
+Field map size:5
+
+Field map contents:
+dep -> 2
+first -> 1
+last -> 0
+salary -> 3
+year -> 4
+Field found: first at index 1
+-------Table::field_col_no fired!-------
+Field name: dep
+Field map size:5
+
+Field map contents:
+dep -> 2
+first -> 1
+last -> 0
+salary -> 3
+year -> 4
+Field found: dep at index 2
+-------Table::field_col_no fired!-------
+Field name: salary
+Field map size:5
+
+Field map contents:
+dep -> 2
+first -> 1
+last -> 0
+salary -> 3
+year -> 4
+Field found: salary at index 3
+-------Table::field_col_no fired!-------
+Field name: year
+Field map size:5
+
+Field map contents:
+dep -> 2
+first -> 1
+last -> 0
+salary -> 3
+year -> 4
+Field found: year at index 4
+FileRecord::FileRecord fired!
+FileRecord::write fired!
+
+-------Table::insert_into fired!-------
+Fields to insert : Johnson Jimmy Chemistry 140000 2018
+_field_names last first dep salary year
+_field_names size: 5
+_field_map.size() 5
+FileRecord::FileRecord fired!
+-----Open_fileRW Fired!-----:
+ _select_table_18.tbl
+Checking file: _select_table_18.tbl
+File successfully opened: _select_table_18.tbl
+FileRecord::write fired!
+Record written successfully with record number: 3
+
+Updating _indices with field values:
+--------------------------------------Debug here !!!
+Field name: last
+Field index for last: 0
+Inserting field value: Johnson for field: last at index: 0Inserted into _indices[0]: (Johnson, 3)--------------------------------------Debug here !!!
+Field name: first
+Field index for first: 1
+Inserting field value: Jimmy for field: first at index: 1Inserted into _indices[1]: (Jimmy, 3)--------------------------------------Debug here !!!
+Field name: dep
+Field index for dep: 2
+Inserting field value: Chemistry for field: dep at index: 2Inserted into _indices[2]: (Chemistry, 3)--------------------------------------Debug here !!!
+Field name: salary
+Field index for salary: 3
+Inserting field value: 140000 for field: salary at index: 3Inserted into _indices[3]: (140000, 3)--------------------------------------Debug here !!!
+Field name: year
+Field index for year: 4
+Inserting field value: 2018 for field: year at index: 4Inserted into _indices[4]: (2018, 3)Selected table record numbers: 0 1 2 3 
+Table name: _select_table_18, records: 4
+_last_record: 3
+------------------------------------------------------------------------------------------
+        Record#           last          first            dep         salary           year
+------------------------------------------------------------------------------------------
+-----Open_fileRW Fired!-----:
+ employee_updated.tbl
+Checking file: employee_updated.tbl
+File successfully opened: employee_updated.tbl
+              0           Blow            Joe             CS         100000           2018
+              1           Blow          JoAnn        Physics         200000           2016
+              2        Johnson           Jack             HR         150000           2014
+              3        Johnson          Jimmy      Chemistry         140000           2018
+
+-------------------Table::vector_to_table done!----------------------------
 basic_test: records selected: 0 1 2 3
 
 >select last, first, age from employee
@@ -2000,319 +2323,7 @@ select
 >>> Select command detected.
 -------------Table ctor 1 Done!-----
 >>> No WHERE condition found. Selecting all records.
-Before assignment, _select_recnos: 0 1 2 3 
--------------Table ctor 1 Done!-----
-Records selected in select_all:0 1 2 3 
-basic_test: records selected: 0 1 2 3
-
->select last from employee
-Command Function Fired! select last from employee
-set_string Function Fired!
-set string : Input string: select last from employee
-Tokenize Function Fired!
-Input string: select last from employee
-STokenizer::set_string called with input: select last from employee
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Tokens in vector: 
-Processing token: select [Type: 16]
-Processing token: last [Type: 16]
-Processing token: from [Type: 16]
-Processing token: employee [Type: 16]
-Tokens: 
-[ALFA: select]
-[ALFA: last]
-[ALFA: from]
-[ALFA: employee]
-Tokenization done!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Get Parse Tree Function Fired!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Get Column Function Fired!
-This token is: select
-State = 0
-last_state = :0
-This token is: last
-State = 1
-last_state = :1
-This token is: from
-State = 2
-last_state = :2
-This token is: employee
-State = 3
-last_state = :3
-Parse Tree Function Fired!
-stuck here! _ptree size: 4
-select
->>> Parsed command: select
->>> Select command detected.
--------------Table ctor 1 Done!-----
->>> No WHERE condition found. Selecting all records.
-Before assignment, _select_recnos: 0 1 2 3 
--------------Table ctor 1 Done!-----
-Records selected in select_all:0 1 2 3 
-basic_test: records selected: 0 1 2 3
-
->select * from employee where last = Johnson
-Command Function Fired! select * from employee where last = Johnson
-set_string Function Fired!
-set string : Input string: select * from employee where last = Johnson
-Tokenize Function Fired!
-Input string: select * from employee where last = Johnson
-STokenizer::set_string called with input: select * from employee where last = Johnson
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Tokens in vector: 
-Processing token: select [Type: 16]
-Processing token: * [Type: 6]
-Processing token: from [Type: 16]
-Processing token: employee [Type: 16]
-Processing token: where [Type: 16]
-Processing token: last [Type: 16]
-Processing token: = [Type: 13]
-Processing token: Johnson [Type: 16]
-Combining tokens after RELATIONAL_OPERATOR at index 6
-Adding token: Johnson to combined string.
-Pushing combined token: Johnson
-Tokens: 
-[ALFA: select]
-[Asterisk: *]
-[ALFA: from]
-[ALFA: employee]
-[ALFA: where]
-[ALFA: last]
-[RelationalOperator: =]
-[ALFA: Johnson]
-Tokenization done!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Get Parse Tree Function Fired!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Get Column Function Fired!
-This token is: select
-State = 0
-last_state = :0
-This token is: *
-State = 1
-last_state = :1
-This token is: from
-State = 2
-last_state = :2
-This token is: employee
-State = 3
-last_state = :3
-This token is: where
-State = 4
-last_state = :4
-This token is: last
-State = 5
-last_state = :5
-This token is: =
-State = 8
-last_state = :8
-This token is: Johnson
-State = 10
-last_state = :10
-Parse Tree Function Fired!
-stuck here! _ptree size: 7
-select
->>> Parsed command: select
->>> Select command detected.
--------------Table ctor 1 Done!-----
->>> Applying WHERE condition.
->>> Condition from parse tree: last = Johnson
-Tokenize Function Fired!
-Input string: last = Johnson 
-STokenizer::set_string called with input: last = Johnson 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Tokens in vector: 
-Processing token: last [Type: 16]
-Processing token: = [Type: 13]
-Processing token: Johnson [Type: 16]
-Combining tokens after RELATIONAL_OPERATOR at index 1
-Adding token: Johnson to combined string.
-Pushing combined token: Johnson
-Tokens: 
-[ALFA: last]
-[RelationalOperator: =]
-[ALFA: Johnson]
-Tokenization done!
-Converting Infix to Postfix...
-Infix Queue  Queue: head->[ALFA: last]-> [RelationalOperator: =]-> [ALFA: Johnson]-> |||
--------ShuntingYard constructor FIred!-------
--------ShuntingYard::to_postfix Fired!-------
-Current Token:--------------> last
-is string or number
-Pushing token: last to output queue.
-Current Token:--------------> =
-is operator
-Pushing operator: = to stack.
-Current Token:--------------> Johnson
-is string or number
-Pushing token: Johnson to output queue.
-Postfix Expression: last Johnson = 
--------Table::select fired!-------
--------Table::cond fired!-------
--------Table::field_col_no fired!-------
-Field name: last
-Field map size:5
-
-Field map contents:
-dep -> 2
-first -> 1
-last -> 0
-salary -> 3
-year -> 4
-Field found: last at index 0
-Final record numbers after cond evaluation:2 3 
--------Table::cond done!-------
-Matching record numbers:
-  2   3 
--------Table::vector_to_table fired!-------
-'*' detected. Expanding to all fields.
+-------Table::select_all fired!--------------Table::vector_to_table fired!-------
 -------------Table ctor 1 Done!-----
 -----Open_fileRW Fired!-----:
  employee.tbl
@@ -2343,7 +2354,7 @@ salary -> 3
 year -> 4
 Field found: first at index 1
 -------Table::field_col_no fired!-------
-Field name: dep
+Field name: age
 Field map size:5
 
 Field map contents:
@@ -2352,2188 +2363,6 @@ first -> 1
 last -> 0
 salary -> 3
 year -> 4
-Field found: dep at index 2
--------Table::field_col_no fired!-------
-Field name: salary
-Field map size:5
-
-Field map contents:
-dep -> 2
-first -> 1
-last -> 0
-salary -> 3
-year -> 4
-Field found: salary at index 3
--------Table::field_col_no fired!-------
-Field name: year
-Field map size:5
-
-Field map contents:
-dep -> 2
-first -> 1
-last -> 0
-salary -> 3
-year -> 4
-Field found: year at index 4
-FileRecord::FileRecord fired!
-FileRecord::write fired!
-
--------Table::insert_into fired!-------
-Fields to insert : Johnson Jack HR 150000 2014
-_field_names last first dep salary year
-_field_names size: 5
-_field_map.size() 5
-FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_24.tbl
-Checking file: _select_table_24.tbl
-File successfully opened: _select_table_24.tbl
-FileRecord::write fired!
-Record written successfully with record number: 0
-
-Updating _indices with field values:
---------------------------------------Debug here !!!
-Field name: last
-Field index for last: 0
-Inserting field value: Johnson for field: last at index: 0Inserted into _indices[0]: (Johnson, 0)--------------------------------------Debug here !!!
-Field name: first
-Field index for first: 1
-Inserting field value: Jack for field: first at index: 1Inserted into _indices[1]: (Jack, 0)--------------------------------------Debug here !!!
-Field name: dep
-Field index for dep: 2
-Inserting field value: HR for field: dep at index: 2Inserted into _indices[2]: (HR, 0)--------------------------------------Debug here !!!
-Field name: salary
-Field index for salary: 3
-Inserting field value: 150000 for field: salary at index: 3Inserted into _indices[3]: (150000, 0)--------------------------------------Debug here !!!
-Field name: year
-Field index for year: 4
-Inserting field value: 2014 for field: year at index: 4Inserted into _indices[4]: (2014, 0)-------Table::field_col_no fired!-------
-Field name: last
-Field map size:5
-
-Field map contents:
-dep -> 2
-first -> 1
-last -> 0
-salary -> 3
-year -> 4
-Field found: last at index 0
--------Table::field_col_no fired!-------
-Field name: first
-Field map size:5
-
-Field map contents:
-dep -> 2
-first -> 1
-last -> 0
-salary -> 3
-year -> 4
-Field found: first at index 1
--------Table::field_col_no fired!-------
-Field name: dep
-Field map size:5
-
-Field map contents:
-dep -> 2
-first -> 1
-last -> 0
-salary -> 3
-year -> 4
-Field found: dep at index 2
--------Table::field_col_no fired!-------
-Field name: salary
-Field map size:5
-
-Field map contents:
-dep -> 2
-first -> 1
-last -> 0
-salary -> 3
-year -> 4
-Field found: salary at index 3
--------Table::field_col_no fired!-------
-Field name: year
-Field map size:5
-
-Field map contents:
-dep -> 2
-first -> 1
-last -> 0
-salary -> 3
-year -> 4
-Field found: year at index 4
-FileRecord::FileRecord fired!
-FileRecord::write fired!
-
--------Table::insert_into fired!-------
-Fields to insert : Johnson Jimmy Chemistry 140000 2018
-_field_names last first dep salary year
-_field_names size: 5
-_field_map.size() 5
-FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_24.tbl
-Checking file: _select_table_24.tbl
-File successfully opened: _select_table_24.tbl
-FileRecord::write fired!
-Record written successfully with record number: 1
-
-Updating _indices with field values:
---------------------------------------Debug here !!!
-Field name: last
-Field index for last: 0
-Inserting field value: Johnson for field: last at index: 0Inserted into _indices[0]: (Johnson, 1)--------------------------------------Debug here !!!
-Field name: first
-Field index for first: 1
-Inserting field value: Jimmy for field: first at index: 1Inserted into _indices[1]: (Jimmy, 1)--------------------------------------Debug here !!!
-Field name: dep
-Field index for dep: 2
-Inserting field value: Chemistry for field: dep at index: 2Inserted into _indices[2]: (Chemistry, 1)--------------------------------------Debug here !!!
-Field name: salary
-Field index for salary: 3
-Inserting field value: 140000 for field: salary at index: 3Inserted into _indices[3]: (140000, 1)--------------------------------------Debug here !!!
-Field name: year
-Field index for year: 4
-Inserting field value: 2018 for field: year at index: 4Inserted into _indices[4]: (2018, 1)Selected table record numbers: 0 1 
-Table name: _select_table_24, records: 2
-_last_record: 1
-------------------------------------------------------------------------------------------
-        Record#           last          first            dep         salary           year
-------------------------------------------------------------------------------------------
------Open_fileRW Fired!-----:
- employee_updated.tbl
-Checking file: employee_updated.tbl
-File successfully opened: employee_updated.tbl
-              0        Johnson           Jack             HR         150000           2014
-              1        Johnson          Jimmy      Chemistry         140000           2018
-
--------------------Table::vector_to_table done!----------------------------
-Selected table:
-Table name: _select_table_24, records: 2
-_last_record: 1
-------------------------------------------------------------------------------------------
-        Record#           last          first            dep         salary           year
-------------------------------------------------------------------------------------------
------Open_fileRW Fired!-----:
- employee_updated.tbl
-Checking file: employee_updated.tbl
-File successfully opened: employee_updated.tbl
-              0        Johnson           Jack             HR         150000           2014
-              1        Johnson          Jimmy      Chemistry         140000           2018
-basic_test: records selected: 2 3
-
->select * from employee where last=Blow and major="JoAnn"
-Command Function Fired! select * from employee where last=Blow and major="JoAnn"
-set_string Function Fired!
-set string : Input string: select * from employee where last=Blow and major="JoAnn"
-Tokenize Function Fired!
-Input string: select * from employee where last=Blow and major="JoAnn"
-STokenizer::set_string called with input: select * from employee where last=Blow and major="JoAnn"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Tokens in vector: 
-Processing token: select [Type: 16]
-Processing token: * [Type: 6]
-Processing token: from [Type: 16]
-Processing token: employee [Type: 16]
-Processing token: where [Type: 16]
-Processing token: last [Type: 16]
-Processing token: = [Type: 13]
-Processing token: Blow [Type: 16]
-Processing token: and [Type: 14]
-Processing token: major [Type: 16]
-Processing token: = [Type: 13]
-Processing token: JoAnn [Type: 2]
-Combining tokens after RELATIONAL_OPERATOR at index 6
-Adding token: Blow to combined string.
-Pushing combined token: Blow
-Combining tokens after RELATIONAL_OPERATOR at index 10
-Tokens: 
-[ALFA: select]
-[Asterisk: *]
-[ALFA: from]
-[ALFA: employee]
-[ALFA: where]
-[ALFA: last]
-[RelationalOperator: =]
-[ALFA: Blow]
-[LogicalOperator: and]
-[ALFA: major]
-[RelationalOperator: =]
-[String: JoAnn]
-Tokenization done!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Get Parse Tree Function Fired!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Get Column Function Fired!
-This token is: select
-State = 0
-last_state = :0
-This token is: *
-State = 1
-last_state = :1
-This token is: from
-State = 2
-last_state = :2
-This token is: employee
-State = 3
-last_state = :3
-This token is: where
-State = 4
-last_state = :4
-This token is: last
-State = 5
-last_state = :5
-This token is: =
-State = 8
-last_state = :8
-This token is: Blow
-State = 10
-last_state = :10
-This token is: and
-State = 8
-last_state = :8
-This token is: major
-State = 9
-last_state = :9
-This token is: =
-State = 8
-last_state = :8
-This token is: JoAnn
-State = 10
-last_state = :10
-Parse Tree Function Fired!
-stuck here! _ptree size: 7
-select
->>> Parsed command: select
->>> Select command detected.
--------------Table ctor 1 Done!-----
->>> Applying WHERE condition.
->>> Condition from parse tree: last = Blow and major = JoAnn
-Tokenize Function Fired!
-Input string: last = Blow and major = JoAnn 
-STokenizer::set_string called with input: last = Blow and major = JoAnn 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Tokens in vector: 
-Processing token: last [Type: 16]
-Processing token: = [Type: 13]
-Processing token: Blow [Type: 16]
-Processing token: and [Type: 14]
-Processing token: major [Type: 16]
-Processing token: = [Type: 13]
-Processing token: JoAnn [Type: 16]
-Combining tokens after RELATIONAL_OPERATOR at index 1
-Adding token: Blow to combined string.
-Pushing combined token: Blow
-Combining tokens after RELATIONAL_OPERATOR at index 5
-Adding token: JoAnn to combined string.
-Pushing combined token: JoAnn
-Tokens: 
-[ALFA: last]
-[RelationalOperator: =]
-[ALFA: Blow]
-[LogicalOperator: and]
-[ALFA: major]
-[RelationalOperator: =]
-[ALFA: JoAnn]
-Tokenization done!
-Converting Infix to Postfix...
-Infix Queue  Queue: head->[ALFA: last]-> [RelationalOperator: =]-> [ALFA: Blow]-> [LogicalOperator: and]-> [ALFA: major]-> [RelationalOperator: =]-> [ALFA: JoAnn]-> |||
--------ShuntingYard constructor FIred!-------
--------ShuntingYard::to_postfix Fired!-------
-Current Token:--------------> last
-is string or number
-Pushing token: last to output queue.
-Current Token:--------------> =
-is operator
-Pushing operator: = to stack.
-Current Token:--------------> Blow
-is string or number
-Pushing token: Blow to output queue.
-Current Token:--------------> and
-is operator
-Popping operator: = from stack.
-Pushing operator: and to stack.
-Current Token:--------------> major
-is string or number
-Pushing token: major to output queue.
-Current Token:--------------> =
-is operator
-Pushing operator: = to stack.
-Current Token:--------------> JoAnn
-is string or number
-Pushing token: JoAnn to output queue.
-Postfix Expression: last Blow = major JoAnn = and 
--------Table::select fired!-------
--------Table::cond fired!-------
--------Table::field_col_no fired!-------
-Field name: last
-Field map size:5
-
-Field map contents:
-dep -> 2
-first -> 1
-last -> 0
-salary -> 3
-year -> 4
-Field found: last at index 0
--------Table::field_col_no fired!-------
-Field name: major
-Field map size:5
-
-Field map contents:
-dep -> 2
-first -> 1
-last -> 0
-salary -> 3
-year -> 4
-Field not found: major. Returning -3.
-Field not found: major. Returning empty results.
-Matching record numbers:
-
--------Table::vector_to_table fired!-------
-'*' detected. Expanding to all fields.
--------------Table ctor 1 Done!-----
------Open_fileRW Fired!-----:
- employee.tbl
-Checking file: employee.tbl
-File successfully opened: employee.tbl
-File opened for reading: employee.tbl
-Opening file for writing: employee_updated.tbl
-Selected table record numbers: 
-Table name: _select_table_26, records: 0
-_last_record: -1
-------------------------------------------------------------------------------------------
-        Record#           last          first            dep         salary           year
-------------------------------------------------------------------------------------------
------Open_fileRW Fired!-----:
- employee_updated.tbl
-Checking file: employee_updated.tbl
-File successfully opened: employee_updated.tbl
-
--------------------Table::vector_to_table done!----------------------------
-Selected table:
-Table name: _select_table_26, records: 0
-_last_record: -1
-------------------------------------------------------------------------------------------
-        Record#           last          first            dep         salary           year
-------------------------------------------------------------------------------------------
------Open_fileRW Fired!-----:
- employee_updated.tbl
-Checking file: employee_updated.tbl
-File successfully opened: employee_updated.tbl
-basic_test: records selected: 
-
->select * from student
-Command Function Fired! select * from student
-set_string Function Fired!
-set string : Input string: select * from student
-Tokenize Function Fired!
-Input string: select * from student
-STokenizer::set_string called with input: select * from student
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Tokens in vector: 
-Processing token: select [Type: 16]
-Processing token: * [Type: 6]
-Processing token: from [Type: 16]
-Processing token: student [Type: 16]
-Tokens: 
-[ALFA: select]
-[Asterisk: *]
-[ALFA: from]
-[ALFA: student]
-Tokenization done!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Get Parse Tree Function Fired!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Get Column Function Fired!
-This token is: select
-State = 0
-last_state = :0
-This token is: *
-State = 1
-last_state = :1
-This token is: from
-State = 2
-last_state = :2
-This token is: student
-State = 3
-last_state = :3
-Parse Tree Function Fired!
-stuck here! _ptree size: 4
-select
->>> Parsed command: select
->>> Select command detected.
--------------Table ctor 1 Done!-----
->>> No WHERE condition found. Selecting all records.
-Before assignment, _select_recnos: 0 1 2 3 4 
--------------Table ctor 1 Done!-----
-Records selected in select_all:0 1 2 3 4 
-basic_test: records selected: 0 1 2 3 4
-
->select * from student where (major=CS or major=Art)
-Command Function Fired! select * from student where (major=CS or major=Art)
-set_string Function Fired!
-set string : Input string: select * from student where (major=CS or major=Art)
-Tokenize Function Fired!
-Input string: select * from student where (major=CS or major=Art)
-STokenizer::set_string called with input: select * from student where (major=CS or major=Art)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Tokens in vector: 
-Processing token: select [Type: 16]
-Processing token: * [Type: 6]
-Processing token: from [Type: 16]
-Processing token: student [Type: 16]
-Processing token: where [Type: 16]
-Processing token: ( [Type: 10]
-Processing token: major [Type: 16]
-Processing token: = [Type: 13]
-Processing token: CS [Type: 16]
-Processing token: or [Type: 14]
-Processing token: major [Type: 16]
-Processing token: = [Type: 13]
-Processing token: Art [Type: 16]
-Processing token: ) [Type: 11]
-Combining tokens after RELATIONAL_OPERATOR at index 7
-Adding token: CS to combined string.
-Pushing combined token: CS
-Combining tokens after RELATIONAL_OPERATOR at index 11
-Adding token: Art to combined string.
-Pushing combined token: Art
-Tokens: 
-[ALFA: select]
-[Asterisk: *]
-[ALFA: from]
-[ALFA: student]
-[ALFA: where]
-[LeftParen: (]
-[ALFA: major]
-[RelationalOperator: =]
-[ALFA: CS]
-[LogicalOperator: or]
-[ALFA: major]
-[RelationalOperator: =]
-[ALFA: Art]
-[RightParen: )]
-Tokenization done!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Get Parse Tree Function Fired!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Get Column Function Fired!
-This token is: select
-State = 0
-last_state = :0
-This token is: *
-State = 1
-last_state = :1
-This token is: from
-State = 2
-last_state = :2
-This token is: student
-State = 3
-last_state = :3
-This token is: where
-State = 4
-last_state = :4
-This token is: (
-State = 5
-last_state = :5
-This token is: major
-State = 6
-last_state = :6
-This token is: =
-State = 8
-last_state = :8
-This token is: CS
-State = 10
-last_state = :10
-This token is: or
-State = 8
-last_state = :8
-This token is: major
-State = 9
-last_state = :9
-This token is: =
-State = 8
-last_state = :8
-This token is: Art
-State = 10
-last_state = :10
-This token is: )
-State = 8
-last_state = :8
-Parse Tree Function Fired!
-stuck here! _ptree size: 7
-select
->>> Parsed command: select
->>> Select command detected.
--------------Table ctor 1 Done!-----
->>> Applying WHERE condition.
->>> Condition from parse tree: ( major = CS or major = Art )
-Tokenize Function Fired!
-Input string: ( major = CS or major = Art ) 
-STokenizer::set_string called with input: ( major = CS or major = Art ) 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Tokens in vector: 
-Processing token: ( [Type: 10]
-Processing token: major [Type: 16]
-Processing token: = [Type: 13]
-Processing token: CS [Type: 16]
-Processing token: or [Type: 14]
-Processing token: major [Type: 16]
-Processing token: = [Type: 13]
-Processing token: Art [Type: 16]
-Processing token: ) [Type: 11]
-Combining tokens after RELATIONAL_OPERATOR at index 2
-Adding token: CS to combined string.
-Pushing combined token: CS
-Combining tokens after RELATIONAL_OPERATOR at index 6
-Adding token: Art to combined string.
-Pushing combined token: Art
-Tokens: 
-[LeftParen: (]
-[ALFA: major]
-[RelationalOperator: =]
-[ALFA: CS]
-[LogicalOperator: or]
-[ALFA: major]
-[RelationalOperator: =]
-[ALFA: Art]
-[RightParen: )]
-Tokenization done!
-Converting Infix to Postfix...
-Infix Queue  Queue: head->[LeftParen: (]-> [ALFA: major]-> [RelationalOperator: =]-> [ALFA: CS]-> [LogicalOperator: or]-> [ALFA: major]-> [RelationalOperator: =]-> [ALFA: Art]-> [RightParen: )]-> |||
--------ShuntingYard constructor FIred!-------
--------ShuntingYard::to_postfix Fired!-------
-Current Token:--------------> (
-Current Token:--------------> major
-is string or number
-Pushing token: major to output queue.
-Current Token:--------------> =
-is operator
-Pushing operator: = to stack.
-Current Token:--------------> CS
-is string or number
-Pushing token: CS to output queue.
-Current Token:--------------> or
-is operator
-Popping operator: = from stack.
-Pushing operator: or to stack.
-Current Token:--------------> major
-is string or number
-Pushing token: major to output queue.
-Current Token:--------------> =
-is operator
-Pushing operator: = to stack.
-Current Token:--------------> Art
-is string or number
-Pushing token: Art to output queue.
-Current Token:--------------> )
-右括号情况
-Popped left paren from stack.
-Postfix Expression: major CS = major Art = or 
--------Table::select fired!-------
--------Table::cond fired!-------
--------Table::field_col_no fired!-------
-Field name: major
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: major at index 2
--------Table::field_col_no fired!-------
-Field name: major
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: major at index 2
--------ResultSet::or_with fired!-------
-_recnos:0 1 2 
-Result set after OR operation: 0 1 2 Final record numbers after cond evaluation:0 1 2 
--------Table::cond done!-------
-Matching record numbers:
-  0   1   2 
--------Table::vector_to_table fired!-------
-'*' detected. Expanding to all fields.
--------------Table ctor 1 Done!-----
------Open_fileRW Fired!-----:
- student.tbl
-Checking file: student.tbl
-File successfully opened: student.tbl
-File opened for reading: student.tbl
-Opening file for writing: student_updated.tbl
--------Table::field_col_no fired!-------
-Field name: fname
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: fname at index 0
--------Table::field_col_no fired!-------
-Field name: lname
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: lname at index 1
--------Table::field_col_no fired!-------
-Field name: major
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: major at index 2
--------Table::field_col_no fired!-------
-Field name: age
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
-
--------Table::insert_into fired!-------
-Fields to insert : Flo Yao Art 20
-_field_names fname lname major age
-_field_names size: 4
-_field_map.size() 4
-FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_30.tbl
-Checking file: _select_table_30.tbl
-File successfully opened: _select_table_30.tbl
-FileRecord::write fired!
-Record written successfully with record number: 0
-
-Updating _indices with field values:
---------------------------------------Debug here !!!
-Field name: fname
-Field index for fname: 0
-Inserting field value: Flo for field: fname at index: 0Inserted into _indices[0]: (Flo, 0)--------------------------------------Debug here !!!
-Field name: lname
-Field index for lname: 1
-Inserting field value: Yao for field: lname at index: 1Inserted into _indices[1]: (Yao, 0)--------------------------------------Debug here !!!
-Field name: major
-Field index for major: 2
-Inserting field value: Art for field: major at index: 2Inserted into _indices[2]: (Art, 0)--------------------------------------Debug here !!!
-Field name: age
-Field index for age: 3
-Inserting field value: 20 for field: age at index: 3Inserted into _indices[3]: (20, 0)-------Table::field_col_no fired!-------
-Field name: fname
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: fname at index 0
--------Table::field_col_no fired!-------
-Field name: lname
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: lname at index 1
--------Table::field_col_no fired!-------
-Field name: major
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: major at index 2
--------Table::field_col_no fired!-------
-Field name: age
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
-
--------Table::insert_into fired!-------
-Fields to insert : Bo Yang CS 28
-_field_names fname lname major age
-_field_names size: 4
-_field_map.size() 4
-FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_30.tbl
-Checking file: _select_table_30.tbl
-File successfully opened: _select_table_30.tbl
-FileRecord::write fired!
-Record written successfully with record number: 1
-
-Updating _indices with field values:
---------------------------------------Debug here !!!
-Field name: fname
-Field index for fname: 0
-Inserting field value: Bo for field: fname at index: 0Inserted into _indices[0]: (Bo, 1)--------------------------------------Debug here !!!
-Field name: lname
-Field index for lname: 1
-Inserting field value: Yang for field: lname at index: 1Inserted into _indices[1]: (Yang, 1)--------------------------------------Debug here !!!
-Field name: major
-Field index for major: 2
-Inserting field value: CS for field: major at index: 2Inserted into _indices[2]: (CS, 1)--------------------------------------Debug here !!!
-Field name: age
-Field index for age: 3
-Inserting field value: 28 for field: age at index: 3Inserted into _indices[3]: (28, 1)-------Table::field_col_no fired!-------
-Field name: fname
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: fname at index 0
--------Table::field_col_no fired!-------
-Field name: lname
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: lname at index 1
--------Table::field_col_no fired!-------
-Field name: major
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: major at index 2
--------Table::field_col_no fired!-------
-Field name: age
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
-
--------Table::insert_into fired!-------
-Fields to insert : Sammuel L. Jackson CS 40
-_field_names fname lname major age
-_field_names size: 4
-_field_map.size() 4
-FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_30.tbl
-Checking file: _select_table_30.tbl
-File successfully opened: _select_table_30.tbl
-FileRecord::write fired!
-Record written successfully with record number: 2
-
-Updating _indices with field values:
---------------------------------------Debug here !!!
-Field name: fname
-Field index for fname: 0
-Inserting field value: Sammuel L. for field: fname at index: 0Inserted into _indices[0]: (Sammuel L., 2)--------------------------------------Debug here !!!
-Field name: lname
-Field index for lname: 1
-Inserting field value: Jackson for field: lname at index: 1Inserted into _indices[1]: (Jackson, 2)--------------------------------------Debug here !!!
-Field name: major
-Field index for major: 2
-Inserting field value: CS for field: major at index: 2Inserted into _indices[2]: (CS, 2)--------------------------------------Debug here !!!
-Field name: age
-Field index for age: 3
-Inserting field value: 40 for field: age at index: 3Inserted into _indices[3]: (40, 2)Selected table record numbers: 0 1 2 
-Table name: _select_table_30, records: 3
-_last_record: 2
----------------------------------------------------------------------------
-        Record#          fname          lname          major            age
----------------------------------------------------------------------------
------Open_fileRW Fired!-----:
- student_updated.tbl
-Checking file: student_updated.tbl
-File successfully opened: student_updated.tbl
-              0            Flo            Yao            Art             20
-              1             Bo           Yang             CS             28
-              2     Sammuel L.        Jackson             CS             40
-
--------------------Table::vector_to_table done!----------------------------
-Selected table:
-Table name: _select_table_30, records: 3
-_last_record: 2
----------------------------------------------------------------------------
-        Record#          fname          lname          major            age
----------------------------------------------------------------------------
------Open_fileRW Fired!-----:
- student_updated.tbl
-Checking file: student_updated.tbl
-File successfully opened: student_updated.tbl
-              0            Flo            Yao            Art             20
-              1             Bo           Yang             CS             28
-              2     Sammuel L.        Jackson             CS             40
-basic_test: records selected: 0 1 2
-
->select * from student where lname>J
-Command Function Fired! select * from student where lname>J
-set_string Function Fired!
-set string : Input string: select * from student where lname>J
-Tokenize Function Fired!
-Input string: select * from student where lname>J
-STokenizer::set_string called with input: select * from student where lname>J
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Tokens in vector: 
-Processing token: select [Type: 16]
-Processing token: * [Type: 6]
-Processing token: from [Type: 16]
-Processing token: student [Type: 16]
-Processing token: where [Type: 16]
-Processing token: lname [Type: 16]
-Processing token: > [Type: 13]
-Processing token: J [Type: 16]
-Combining tokens after RELATIONAL_OPERATOR at index 6
-Adding token: J to combined string.
-Pushing combined token: J
-Tokens: 
-[ALFA: select]
-[Asterisk: *]
-[ALFA: from]
-[ALFA: student]
-[ALFA: where]
-[ALFA: lname]
-[RelationalOperator: >]
-[ALFA: J]
-Tokenization done!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Get Parse Tree Function Fired!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Get Column Function Fired!
-This token is: select
-State = 0
-last_state = :0
-This token is: *
-State = 1
-last_state = :1
-This token is: from
-State = 2
-last_state = :2
-This token is: student
-State = 3
-last_state = :3
-This token is: where
-State = 4
-last_state = :4
-This token is: lname
-State = 5
-last_state = :5
-This token is: >
-State = 8
-last_state = :8
-This token is: J
-State = 10
-last_state = :10
-Parse Tree Function Fired!
-stuck here! _ptree size: 7
-select
->>> Parsed command: select
->>> Select command detected.
--------------Table ctor 1 Done!-----
->>> Applying WHERE condition.
->>> Condition from parse tree: lname > J
-Tokenize Function Fired!
-Input string: lname > J 
-STokenizer::set_string called with input: lname > J 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Tokens in vector: 
-Processing token: lname [Type: 16]
-Processing token: > [Type: 13]
-Processing token: J [Type: 16]
-Combining tokens after RELATIONAL_OPERATOR at index 1
-Adding token: J to combined string.
-Pushing combined token: J
-Tokens: 
-[ALFA: lname]
-[RelationalOperator: >]
-[ALFA: J]
-Tokenization done!
-Converting Infix to Postfix...
-Infix Queue  Queue: head->[ALFA: lname]-> [RelationalOperator: >]-> [ALFA: J]-> |||
--------ShuntingYard constructor FIred!-------
--------ShuntingYard::to_postfix Fired!-------
-Current Token:--------------> lname
-is string or number
-Pushing token: lname to output queue.
-Current Token:--------------> >
-is operator
-Pushing operator: > to stack.
-Current Token:--------------> J
-is string or number
-Pushing token: J to output queue.
-Postfix Expression: lname J > 
--------Table::select fired!-------
--------Table::cond fired!-------
--------Table::field_col_no fired!-------
-Field name: lname
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: lname at index 1
-Processing '>': field_value = J
-Matching record: Key = Jackson, Record = 2
-Matching record: Key = Jackson, Record = 3
-Matching record: Key = Yang, Record = 1
-Matching record: Key = Yao, Record = 0
-Final record numbers after cond evaluation:2 3 1 0 
--------Table::cond done!-------
-Matching record numbers:
-  2   3   1   0 
--------Table::vector_to_table fired!-------
-'*' detected. Expanding to all fields.
--------------Table ctor 1 Done!-----
------Open_fileRW Fired!-----:
- student.tbl
-Checking file: student.tbl
-File successfully opened: student.tbl
-File opened for reading: student.tbl
-Opening file for writing: student_updated.tbl
--------Table::field_col_no fired!-------
-Field name: fname
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: fname at index 0
--------Table::field_col_no fired!-------
-Field name: lname
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: lname at index 1
--------Table::field_col_no fired!-------
-Field name: major
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: major at index 2
--------Table::field_col_no fired!-------
-Field name: age
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
-
--------Table::insert_into fired!-------
-Fields to insert : Sammuel L. Jackson CS 40
-_field_names fname lname major age
-_field_names size: 4
-_field_map.size() 4
-FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_32.tbl
-Checking file: _select_table_32.tbl
-File successfully opened: _select_table_32.tbl
-FileRecord::write fired!
-Record written successfully with record number: 0
-
-Updating _indices with field values:
---------------------------------------Debug here !!!
-Field name: fname
-Field index for fname: 0
-Inserting field value: Sammuel L. for field: fname at index: 0Inserted into _indices[0]: (Sammuel L., 0)--------------------------------------Debug here !!!
-Field name: lname
-Field index for lname: 1
-Inserting field value: Jackson for field: lname at index: 1Inserted into _indices[1]: (Jackson, 0)--------------------------------------Debug here !!!
-Field name: major
-Field index for major: 2
-Inserting field value: CS for field: major at index: 2Inserted into _indices[2]: (CS, 0)--------------------------------------Debug here !!!
-Field name: age
-Field index for age: 3
-Inserting field value: 40 for field: age at index: 3Inserted into _indices[3]: (40, 0)-------Table::field_col_no fired!-------
-Field name: fname
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: fname at index 0
--------Table::field_col_no fired!-------
-Field name: lname
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: lname at index 1
--------Table::field_col_no fired!-------
-Field name: major
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: major at index 2
--------Table::field_col_no fired!-------
-Field name: age
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
-
--------Table::insert_into fired!-------
-Fields to insert : Billy Jackson Math 27
-_field_names fname lname major age
-_field_names size: 4
-_field_map.size() 4
-FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_32.tbl
-Checking file: _select_table_32.tbl
-File successfully opened: _select_table_32.tbl
-FileRecord::write fired!
-Record written successfully with record number: 1
-
-Updating _indices with field values:
---------------------------------------Debug here !!!
-Field name: fname
-Field index for fname: 0
-Inserting field value: Billy for field: fname at index: 0Inserted into _indices[0]: (Billy, 1)--------------------------------------Debug here !!!
-Field name: lname
-Field index for lname: 1
-Inserting field value: Jackson for field: lname at index: 1Inserted into _indices[1]: (Jackson, 1)--------------------------------------Debug here !!!
-Field name: major
-Field index for major: 2
-Inserting field value: Math for field: major at index: 2Inserted into _indices[2]: (Math, 1)--------------------------------------Debug here !!!
-Field name: age
-Field index for age: 3
-Inserting field value: 27 for field: age at index: 3Inserted into _indices[3]: (27, 1)-------Table::field_col_no fired!-------
-Field name: fname
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: fname at index 0
--------Table::field_col_no fired!-------
-Field name: lname
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: lname at index 1
--------Table::field_col_no fired!-------
-Field name: major
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: major at index 2
--------Table::field_col_no fired!-------
-Field name: age
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
-
--------Table::insert_into fired!-------
-Fields to insert : Bo Yang CS 28
-_field_names fname lname major age
-_field_names size: 4
-_field_map.size() 4
-FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_32.tbl
-Checking file: _select_table_32.tbl
-File successfully opened: _select_table_32.tbl
-FileRecord::write fired!
-Record written successfully with record number: 2
-
-Updating _indices with field values:
---------------------------------------Debug here !!!
-Field name: fname
-Field index for fname: 0
-Inserting field value: Bo for field: fname at index: 0Inserted into _indices[0]: (Bo, 2)--------------------------------------Debug here !!!
-Field name: lname
-Field index for lname: 1
-Inserting field value: Yang for field: lname at index: 1Inserted into _indices[1]: (Yang, 2)--------------------------------------Debug here !!!
-Field name: major
-Field index for major: 2
-Inserting field value: CS for field: major at index: 2Inserted into _indices[2]: (CS, 2)--------------------------------------Debug here !!!
-Field name: age
-Field index for age: 3
-Inserting field value: 28 for field: age at index: 3Inserted into _indices[3]: (28, 2)-------Table::field_col_no fired!-------
-Field name: fname
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: fname at index 0
--------Table::field_col_no fired!-------
-Field name: lname
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: lname at index 1
--------Table::field_col_no fired!-------
-Field name: major
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: major at index 2
--------Table::field_col_no fired!-------
-Field name: age
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
-
--------Table::insert_into fired!-------
-Fields to insert : Flo Yao Art 20
-_field_names fname lname major age
-_field_names size: 4
-_field_map.size() 4
-FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_32.tbl
-Checking file: _select_table_32.tbl
-File successfully opened: _select_table_32.tbl
-FileRecord::write fired!
-Record written successfully with record number: 3
-
-Updating _indices with field values:
---------------------------------------Debug here !!!
-Field name: fname
-Field index for fname: 0
-Inserting field value: Flo for field: fname at index: 0Inserted into _indices[0]: (Flo, 3)--------------------------------------Debug here !!!
-Field name: lname
-Field index for lname: 1
-Inserting field value: Yao for field: lname at index: 1Inserted into _indices[1]: (Yao, 3)--------------------------------------Debug here !!!
-Field name: major
-Field index for major: 2
-Inserting field value: Art for field: major at index: 2Inserted into _indices[2]: (Art, 3)--------------------------------------Debug here !!!
-Field name: age
-Field index for age: 3
-Inserting field value: 20 for field: age at index: 3Inserted into _indices[3]: (20, 3)Selected table record numbers: 0 1 2 3 
-Table name: _select_table_32, records: 4
-_last_record: 3
----------------------------------------------------------------------------
-        Record#          fname          lname          major            age
----------------------------------------------------------------------------
------Open_fileRW Fired!-----:
- student_updated.tbl
-Checking file: student_updated.tbl
-File successfully opened: student_updated.tbl
-              0     Sammuel L.        Jackson             CS             40
-              1          Billy        Jackson           Math             27
-              2             Bo           Yang             CS             28
-              3            Flo            Yao            Art             20
-
--------------------Table::vector_to_table done!----------------------------
-Selected table:
-Table name: _select_table_32, records: 4
-_last_record: 3
----------------------------------------------------------------------------
-        Record#          fname          lname          major            age
----------------------------------------------------------------------------
------Open_fileRW Fired!-----:
- student_updated.tbl
-Checking file: student_updated.tbl
-File successfully opened: student_updated.tbl
-              0     Sammuel L.        Jackson             CS             40
-              1          Billy        Jackson           Math             27
-              2             Bo           Yang             CS             28
-              3            Flo            Yao            Art             20
-basic_test: records selected: 2 3 1 0
-
->select * from student where lname>J and (major=CS or major=Art)
-Command Function Fired! select * from student where lname>J and (major=CS or major=Art)
-set_string Function Fired!
-set string : Input string: select * from student where lname>J and (major=CS or major=Art)
-Tokenize Function Fired!
-Input string: select * from student where lname>J and (major=CS or major=Art)
-STokenizer::set_string called with input: select * from student where lname>J and (major=CS or major=Art)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Tokens in vector: 
-Processing token: select [Type: 16]
-Processing token: * [Type: 6]
-Processing token: from [Type: 16]
-Processing token: student [Type: 16]
-Processing token: where [Type: 16]
-Processing token: lname [Type: 16]
-Processing token: > [Type: 13]
-Processing token: J [Type: 16]
-Processing token: and [Type: 14]
-Processing token: ( [Type: 10]
-Processing token: major [Type: 16]
-Processing token: = [Type: 13]
-Processing token: CS [Type: 16]
-Processing token: or [Type: 14]
-Processing token: major [Type: 16]
-Processing token: = [Type: 13]
-Processing token: Art [Type: 16]
-Processing token: ) [Type: 11]
-Combining tokens after RELATIONAL_OPERATOR at index 6
-Adding token: J to combined string.
-Pushing combined token: J
-Combining tokens after RELATIONAL_OPERATOR at index 11
-Adding token: CS to combined string.
-Pushing combined token: CS
-Combining tokens after RELATIONAL_OPERATOR at index 15
-Adding token: Art to combined string.
-Pushing combined token: Art
-Tokens: 
-[ALFA: select]
-[Asterisk: *]
-[ALFA: from]
-[ALFA: student]
-[ALFA: where]
-[ALFA: lname]
-[RelationalOperator: >]
-[ALFA: J]
-[LogicalOperator: and]
-[LeftParen: (]
-[ALFA: major]
-[RelationalOperator: =]
-[ALFA: CS]
-[LogicalOperator: or]
-[ALFA: major]
-[RelationalOperator: =]
-[ALFA: Art]
-[RightParen: )]
-Tokenization done!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Get Parse Tree Function Fired!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Get Column Function Fired!
-This token is: select
-State = 0
-last_state = :0
-This token is: *
-State = 1
-last_state = :1
-This token is: from
-State = 2
-last_state = :2
-This token is: student
-State = 3
-last_state = :3
-This token is: where
-State = 4
-last_state = :4
-This token is: lname
-State = 5
-last_state = :5
-This token is: >
-State = 8
-last_state = :8
-This token is: J
-State = 10
-last_state = :10
-This token is: and
-State = 8
-last_state = :8
-This token is: (
-State = 9
-last_state = :9
-This token is: major
-State = 6
-last_state = :6
-This token is: =
-State = 8
-last_state = :8
-This token is: CS
-State = 10
-last_state = :10
-This token is: or
-State = 8
-last_state = :8
-This token is: major
-State = 9
-last_state = :9
-This token is: =
-State = 8
-last_state = :8
-This token is: Art
-State = 10
-last_state = :10
-This token is: )
-State = 8
-last_state = :8
-Parse Tree Function Fired!
-stuck here! _ptree size: 7
-select
->>> Parsed command: select
->>> Select command detected.
--------------Table ctor 1 Done!-----
->>> Applying WHERE condition.
->>> Condition from parse tree: lname > J and ( major = CS or major = Art )
-Tokenize Function Fired!
-Input string: lname > J and ( major = CS or major = Art ) 
-STokenizer::set_string called with input: lname > J and ( major = CS or major = Art ) 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Tokens in vector: 
-Processing token: lname [Type: 16]
-Processing token: > [Type: 13]
-Processing token: J [Type: 16]
-Processing token: and [Type: 14]
-Processing token: ( [Type: 10]
-Processing token: major [Type: 16]
-Processing token: = [Type: 13]
-Processing token: CS [Type: 16]
-Processing token: or [Type: 14]
-Processing token: major [Type: 16]
-Processing token: = [Type: 13]
-Processing token: Art [Type: 16]
-Processing token: ) [Type: 11]
-Combining tokens after RELATIONAL_OPERATOR at index 1
-Adding token: J to combined string.
-Pushing combined token: J
-Combining tokens after RELATIONAL_OPERATOR at index 6
-Adding token: CS to combined string.
-Pushing combined token: CS
-Combining tokens after RELATIONAL_OPERATOR at index 10
-Adding token: Art to combined string.
-Pushing combined token: Art
-Tokens: 
-[ALFA: lname]
-[RelationalOperator: >]
-[ALFA: J]
-[LogicalOperator: and]
-[LeftParen: (]
-[ALFA: major]
-[RelationalOperator: =]
-[ALFA: CS]
-[LogicalOperator: or]
-[ALFA: major]
-[RelationalOperator: =]
-[ALFA: Art]
-[RightParen: )]
-Tokenization done!
-Converting Infix to Postfix...
-Infix Queue  Queue: head->[ALFA: lname]-> [RelationalOperator: >]-> [ALFA: J]-> [LogicalOperator: and]-> [LeftParen: (]-> [ALFA: major]-> [RelationalOperator: =]-> [ALFA: CS]-> [LogicalOperator: or]-> [ALFA: major]-> [RelationalOperator: =]-> [ALFA: Art]-> [RightParen: )]-> |||
--------ShuntingYard constructor FIred!-------
--------ShuntingYard::to_postfix Fired!-------
-Current Token:--------------> lname
-is string or number
-Pushing token: lname to output queue.
-Current Token:--------------> >
-is operator
-Pushing operator: > to stack.
-Current Token:--------------> J
-is string or number
-Pushing token: J to output queue.
-Current Token:--------------> and
-is operator
-Popping operator: > from stack.
-Pushing operator: and to stack.
-Current Token:--------------> (
-Current Token:--------------> major
-is string or number
-Pushing token: major to output queue.
-Current Token:--------------> =
-is operator
-Pushing operator: = to stack.
-Current Token:--------------> CS
-is string or number
-Pushing token: CS to output queue.
-Current Token:--------------> or
-is operator
-Popping operator: = from stack.
-Pushing operator: or to stack.
-Current Token:--------------> major
-is string or number
-Pushing token: major to output queue.
-Current Token:--------------> =
-is operator
-Pushing operator: = to stack.
-Current Token:--------------> Art
-is string or number
-Pushing token: Art to output queue.
-Current Token:--------------> )
-右括号情况
-Popped left paren from stack.
-Postfix Expression: lname J > major CS = major Art = or and 
--------Table::select fired!-------
--------Table::cond fired!-------
--------Table::field_col_no fired!-------
-Field name: lname
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: lname at index 1
-Processing '>': field_value = J
-Matching record: Key = Jackson, Record = 2
-Matching record: Key = Jackson, Record = 3
-Matching record: Key = Yang, Record = 1
-Matching record: Key = Yao, Record = 0
--------Table::field_col_no fired!-------
-Field name: major
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: major at index 2
--------Table::field_col_no fired!-------
-Field name: major
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: major at index 2
--------ResultSet::or_with fired!-------
-_recnos:0 1 2 
-Result set after OR operation: 0 1 2 -------ResultSet::and_with fired!-------
-_recnos:0 1 2 
-Final record numbers after cond evaluation:0 1 2 
--------Table::cond done!-------
-Matching record numbers:
-  0   1   2 
--------Table::vector_to_table fired!-------
-'*' detected. Expanding to all fields.
--------------Table ctor 1 Done!-----
------Open_fileRW Fired!-----:
- student.tbl
-Checking file: student.tbl
-File successfully opened: student.tbl
-File opened for reading: student.tbl
-Opening file for writing: student_updated.tbl
--------Table::field_col_no fired!-------
-Field name: fname
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: fname at index 0
--------Table::field_col_no fired!-------
-Field name: lname
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: lname at index 1
--------Table::field_col_no fired!-------
-Field name: major
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: major at index 2
--------Table::field_col_no fired!-------
-Field name: age
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
-
--------Table::insert_into fired!-------
-Fields to insert : Flo Yao Art 20
-_field_names fname lname major age
-_field_names size: 4
-_field_map.size() 4
-FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_34.tbl
-Checking file: _select_table_34.tbl
-File successfully opened: _select_table_34.tbl
-FileRecord::write fired!
-Record written successfully with record number: 0
-
-Updating _indices with field values:
---------------------------------------Debug here !!!
-Field name: fname
-Field index for fname: 0
-Inserting field value: Flo for field: fname at index: 0Inserted into _indices[0]: (Flo, 0)--------------------------------------Debug here !!!
-Field name: lname
-Field index for lname: 1
-Inserting field value: Yao for field: lname at index: 1Inserted into _indices[1]: (Yao, 0)--------------------------------------Debug here !!!
-Field name: major
-Field index for major: 2
-Inserting field value: Art for field: major at index: 2Inserted into _indices[2]: (Art, 0)--------------------------------------Debug here !!!
-Field name: age
-Field index for age: 3
-Inserting field value: 20 for field: age at index: 3Inserted into _indices[3]: (20, 0)-------Table::field_col_no fired!-------
-Field name: fname
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: fname at index 0
--------Table::field_col_no fired!-------
-Field name: lname
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: lname at index 1
--------Table::field_col_no fired!-------
-Field name: major
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: major at index 2
--------Table::field_col_no fired!-------
-Field name: age
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
-
--------Table::insert_into fired!-------
-Fields to insert : Bo Yang CS 28
-_field_names fname lname major age
-_field_names size: 4
-_field_map.size() 4
-FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_34.tbl
-Checking file: _select_table_34.tbl
-File successfully opened: _select_table_34.tbl
-FileRecord::write fired!
-Record written successfully with record number: 1
-
-Updating _indices with field values:
---------------------------------------Debug here !!!
-Field name: fname
-Field index for fname: 0
-Inserting field value: Bo for field: fname at index: 0Inserted into _indices[0]: (Bo, 1)--------------------------------------Debug here !!!
-Field name: lname
-Field index for lname: 1
-Inserting field value: Yang for field: lname at index: 1Inserted into _indices[1]: (Yang, 1)--------------------------------------Debug here !!!
-Field name: major
-Field index for major: 2
-Inserting field value: CS for field: major at index: 2Inserted into _indices[2]: (CS, 1)--------------------------------------Debug here !!!
-Field name: age
-Field index for age: 3
-Inserting field value: 28 for field: age at index: 3Inserted into _indices[3]: (28, 1)-------Table::field_col_no fired!-------
-Field name: fname
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: fname at index 0
--------Table::field_col_no fired!-------
-Field name: lname
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: lname at index 1
--------Table::field_col_no fired!-------
-Field name: major
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: major at index 2
--------Table::field_col_no fired!-------
-Field name: age
-Field map size:4
-
-Field map contents:
-age -> 3
-fname -> 0
-lname -> 1
-major -> 2
-Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
-
--------Table::insert_into fired!-------
-Fields to insert : Sammuel L. Jackson CS 40
-_field_names fname lname major age
-_field_names size: 4
-_field_map.size() 4
-FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_34.tbl
-Checking file: _select_table_34.tbl
-File successfully opened: _select_table_34.tbl
-FileRecord::write fired!
-Record written successfully with record number: 2
-
-Updating _indices with field values:
---------------------------------------Debug here !!!
-Field name: fname
-Field index for fname: 0
-Inserting field value: Sammuel L. for field: fname at index: 0Inserted into _indices[0]: (Sammuel L., 2)--------------------------------------Debug here !!!
-Field name: lname
-Field index for lname: 1
-Inserting field value: Jackson for field: lname at index: 1Inserted into _indices[1]: (Jackson, 2)--------------------------------------Debug here !!!
-Field name: major
-Field index for major: 2
-Inserting field value: CS for field: major at index: 2Inserted into _indices[2]: (CS, 2)--------------------------------------Debug here !!!
-Field name: age
-Field index for age: 3
-Inserting field value: 40 for field: age at index: 3Inserted into _indices[3]: (40, 2)Selected table record numbers: 0 1 2 
-Table name: _select_table_34, records: 3
-_last_record: 2
----------------------------------------------------------------------------
-        Record#          fname          lname          major            age
----------------------------------------------------------------------------
------Open_fileRW Fired!-----:
- student_updated.tbl
-Checking file: student_updated.tbl
-File successfully opened: student_updated.tbl
-              0            Flo            Yao            Art             20
-              1             Bo           Yang             CS             28
-              2     Sammuel L.        Jackson             CS             40
-
--------------------Table::vector_to_table done!----------------------------
-Selected table:
-Table name: _select_table_34, records: 3
-_last_record: 2
----------------------------------------------------------------------------
-        Record#          fname          lname          major            age
----------------------------------------------------------------------------
------Open_fileRW Fired!-----:
- student_updated.tbl
-Checking file: student_updated.tbl
-File successfully opened: student_updated.tbl
-              0            Flo            Yao            Art             20
-              1             Bo           Yang             CS             28
-              2     Sammuel L.        Jackson             CS             40
-basic_test: records selected: 0 1 2
------ END TEST --------
-[       OK ] SQL_BASIC.SQLBasic (37 ms)
-[----------] 1 test from SQL_BASIC (37 ms total)
-
-[----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (37 ms total)
-[  PASSED  ] 1 test.
-jwcomputer@Mac 99_99_final % 
+Field not found: age. Returning -3.
+zsh: segmentation fault  build/bin/basic_test
+jwcomputer@JWs-MacBook-Pro 99_99_final % 

@@ -17,10 +17,10 @@ Table SQL::command(const string& cmd) {
 
         string command = ptree["command"][0];
 
-
         cout << ">>> Parsed command: " << command << endl;
 
         if (command == "make") {
+            cout << ">>> ------>> cmd[0] = Make----------------" << endl;
             string table_name = ptree["table_name"][0];
             vector<string> fields = ptree["col"];
             cout << ">>> Creating table: " << table_name << " with fields: ";
@@ -31,6 +31,8 @@ Table SQL::command(const string& cmd) {
             _tables[table_name] = Table(table_name, fields);  // create a new table
             }
         else if (command == "insert") {
+            cout << ">>> ------>> cmd[0] = insert----------------" << endl;
+
             string table_name = ptree["table_name"][0];
             vector<string> values = ptree["values"];
 
@@ -45,12 +47,10 @@ Table SQL::command(const string& cmd) {
             }
 
         else if (command == "select") {
-            cout << ">>> Select command detected." << endl;
+            cout << ">>> ------>> cmd[0] = select---------------" << endl;
             string table_name = ptree["table_name"][0];
             vector<string> fields = ptree.get("fields");
             Table result;
-
-
 
             // Check if there's a 'where' condition
             if (ptree.find("where") != ptree.end()) {
