@@ -100,11 +100,6 @@ Table SQL::command(const string& cmd) {
         cout << table << endl;
         }
 
-    string recnos_debug = "[DEBUG] Selected record numbers: ";
-    for (const auto& recno : _select_recnos) {
-        recnos_debug += to_string(recno) + " ";
-        }
-    system(("echo '" + recnos_debug + "'").c_str());
 
 
     cout << ">>> Command executed successfully." << endl;

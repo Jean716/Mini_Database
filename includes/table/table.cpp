@@ -444,6 +444,13 @@ Table Table::select_all(vector<string> fields) {
         new_table._indices.push_back(index);
         }
 
+    string recnos_debug = "Select All::Selected record numbers: ";
+    for (const auto& recno : _select_recnos) {
+        recnos_debug += to_string(recno) + " ";
+        }
+    system(("echo '" + recnos_debug + "'").c_str());
+
+
 
     return new_table;
     }
@@ -466,6 +473,13 @@ Table Table::select(const vector<string>&  fields, const Queue<Token*>& postfix)
     cout << "Selected table:" << endl;
     cout << selected_table;
     selected_table._select_recnos = matching_recnos;
+
+    string recnos_debug = "Selected record numbers: ";
+    for (const auto& recno : _select_recnos) {
+        recnos_debug += to_string(recno) + " ";
+        }
+    system(("echo '" + recnos_debug + "'").c_str());
+
 
     DEBUG_PRINT("-------Table::select done!-------");
     return selected_table;
