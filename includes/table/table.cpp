@@ -446,6 +446,7 @@ Table Table::select_all(vector<string> fields) {
     //---------------------------------------------------------
 
     Table t = vector_to_table(fields, recnos);
+    _select_recnos = recnos;
     return t;
     }
 
@@ -488,7 +489,7 @@ Table Table::select(const vector<string>&  fields, const Queue<Token*>& postfix)
     cout << "Selected table:" << endl;
     cout << selected_table;
     selected_table._select_recnos = matching_recnos;
-
+    _select_recnos = matching_recnos;
 
 
     DEBUG_PRINT("-------Table::select done!-------");

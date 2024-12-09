@@ -94,9 +94,7 @@ bool sql_basic(bool debug = false) {
           cout << ">" << command_list[i] << endl;
           sql.command(command_list[i]);
           }
-
-     cout << endl
-          << endl;
+     cout << endl << endl;
      for (int i = MAKE_TABLE_COMMANDS; i < command_list.size(); i++) {
           cout << "\n>" << command_list[i] << endl;
           if (debug)
@@ -129,6 +127,7 @@ int main(int argc, char **argv) {
      std::cout << "\n\n----------running basic_test.cpp---------\n\n" << std::endl;
      return RUN_ALL_TESTS();
      }
+
 /*
 build git:(master) ✗  😊 $> tree ../includes
 ../includes
