@@ -405,7 +405,6 @@ int Table::field_col_no(string field_name) {
         return -2;   // -2 indicates all fields
         }
 
-    // 检查 field_map 的内容
     cout << "Field map contents:" << endl;
     for (const auto& pair : _field_map) {
         cout << pair.first << " -> " << pair.second << endl;

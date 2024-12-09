@@ -23,12 +23,24 @@ extern int select_table[MAX_ROWS][MAX_COLUMNS];
 extern int where_table[MAX_ROWS][MAX_COLUMNS];
 
 map_sl Parser::_keywords;
-Parser::Parser() :_input(""), _fail(false) {
+Parser::Parser()
+    : _input(""),
+    _fail(false),
+    _tokens(),
+    _ptree(),
+    _adjacency_table{} {
     cout << "Parser Default Constructor Fired!" << endl;
     init_adjacency_table();
     build_keyword_list(_keywords);
     set_string(_input);
     }
+
+// Parser::Parser() :_input(""), _fail(false) {
+//     cout << "Parser Default Constructor Fired!" << endl;
+//     init_adjacency_table();
+//     build_keyword_list(_keywords);
+//     set_string(_input);
+//     }
 
 Parser::Parser(const char* s) : _input(s), _fail(false) {
     cout << "Parser Constructor Fired!" << endl;
@@ -37,11 +49,6 @@ Parser::Parser(const char* s) : _input(s), _fail(false) {
     set_string(_input);
     }
 
-// mmap_ss Parser::parse_tree() const {
-//     cout << "Parse Tree Function Fired!" << endl;
-//     cout << "stuck here!" << endl;
-//     return _ptree;
-//     }
 
 mmap_ss Parser::parse_tree() const {
     cout << "Parse Tree Function Fired!" << endl;
