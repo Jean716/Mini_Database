@@ -47,6 +47,7 @@ const int SELECT_COMMANDS = 20;
 
 
 
+
 bool sql_basic(bool debug = false) {
      SQL sql;
      Table t;

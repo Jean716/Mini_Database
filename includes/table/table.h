@@ -36,7 +36,6 @@ class Table
         bool _empty;
         long _last_record; // the last record number
         static int serial; // used to generate a unique serial number for each table
-
     public:
         Table();  // default constructor
         Table(const string& name); // for opening an existing table，for selecting a table by name
