@@ -37,6 +37,7 @@ Parser::Parser(const char* s) : _input(s), _fail(false) {
 
 mmap_ss Parser::parse_tree() const {
     cout << "Parse Tree Function Fired!" << endl;
+    cout << "stuck here!" << endl;
     return _ptree;
     }
 
@@ -200,11 +201,11 @@ void Parser::init_adjacency_table() {
 
 bool Parser::get_parse_tree() {
     cout << "Get Parse Tree Function Fired!" << endl;
-    // if (_tokens.empty()) {
-    //     _fail = true;
-    //     cout << "Error: Token list is empty." << endl;
-    //     return false;
-    //     }
+    if (_tokens.empty()) {
+        _fail = true;
+        cout << "Error: Token list is empty." << endl;
+        return false;
+        }
     int state = 0;
     int last_success_state = -1;
     _ptree.clear();
@@ -215,9 +216,9 @@ bool Parser::get_parse_tree() {
         string token_str = token->value();
         int token_type = token->type();
         int last_state = state;
-        // cout << "This token is: " << token_str << endl;
-        // cout << "State = " << state << endl;
-        // cout << "last_state = :" << last_state << endl;
+        cout << "This token is: " << token_str << endl;
+        cout << "State = " << state << endl;
+        cout << "last_state = :" << last_state << endl;
 
 
         if (token_type == TOKEN_SPACE || token_type == TOKEN_COMMA) {

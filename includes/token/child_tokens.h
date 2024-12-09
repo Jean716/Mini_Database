@@ -91,31 +91,7 @@ class AsteriskToken : public Token
             }
     };
 
-// 分号 Token
-// class SemicolonToken : public Token
-//     {
-//     public:
-//         SemicolonToken() : Token(TOKEN_SEMICOLON, ";") {}
-//         int type() const override { return _type; }
-//         string value() const override { return _value; }
-//         string type_string() const override { return "SEMICOLON"; }
-//         void print(ostream& outs) const override {
-//             outs << "[Semicolon: ;]";
-//             }
-//     };
 
-
-// class DotToken : public Token
-//     {
-//     public:
-//         DotToken() : Token(TOKEN_DOT, ".") {}
-//         int type() const override { return _type; }
-//         string value() const override { return _value; }
-//         string type_string() const override { return "DOT"; }
-//         void print(ostream& outs) const override {
-//             outs << "[Dot: .]";
-//             }
-//     };
 
 class QuoteToken : public Token
     {
