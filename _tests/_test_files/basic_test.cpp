@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <set>
 #include <vector>
+#include  <sstream>
 
 //------------------------------------------------------------------------------------------
 //Files we are testing:
@@ -56,6 +57,9 @@ bool sql_basic(bool debug = false) {
      for (int i = 0; i < MAKE_TABLE_COMMANDS; i++) {
           cout << ">" << command_list[i] << endl;
           sql.command(command_list[i]);
+
+          string echo_cmd = "echo 'Executed command: " + command_list[i] + "'";
+          system(echo_cmd.c_str());
           }
 
      cout << endl
@@ -67,6 +71,15 @@ bool sql_basic(bool debug = false) {
           else
                t = sql.command(command_list[i]);
           cout << "basic_test: records selected: " << sql.select_recnos() << endl;
+
+
+          ostringstream records_output;
+          records_output << "echo 'Selected records: ";
+          for (auto rec : sql.select_recnos()) {
+               records_output << rec << " ";
+               }
+          records_output << "'";
+          system(records_output.str().c_str());
           }
 
      cout << "----- END TEST --------" << endl;
@@ -81,6 +94,10 @@ bool debug = false;
 TEST(SQL_BASIC, SQLBasic) {
      bool success = sql_basic(debug);
      EXPECT_EQ(success, true);
+
+
+     system("echo 'Test case SQL_BASIC completed successfully!'");
+
      }
 
 int main(int argc, char **argv) {

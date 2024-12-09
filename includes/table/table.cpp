@@ -4,6 +4,8 @@
 #include <utility>
 #include <vector>
 #include <map>
+#include <sstream>
+#include <cstdlib>
 #include "../../includes/queue/MyQueue.h"
 #include "../../includes/token/token.h"
 #include "../../includes/bplustree/bplustree.h"
@@ -385,7 +387,6 @@ int Table::field_col_no(string field_name) {
         }
     cout << endl;
 
-    // 去除空格和隐藏字符
     field_name.erase(remove_if(field_name.begin(), field_name.end(), ::isspace), field_name.end());
 
     if (field_name == "*") {
@@ -393,7 +394,6 @@ int Table::field_col_no(string field_name) {
         return -2;   // -2 indicates all fields
         }
 
-    // 检查 field_map 的内容
     cout << "Field map contents:" << endl;
     for (const auto& pair : _field_map) {
         cout << pair.first << " -> " << pair.second << endl;
@@ -683,6 +683,14 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
  //LINK - operator<<
 ostream& operator<<(ostream & outs, const Table & t) {
     DEBUG_PRINT("-------Table operator<< fired!-------");
+    ostringstream table_output;
+    table_output << "Table name: " << t._name << "\nRecords:\n";
+    table_output << "File name: " << t._file_name << "\nRecords:\n";
+
+    // Use echo to output table data
+    string echo_cmd = "echo \"" + table_output.str() + "\"";
+    system(echo_cmd.c_str());
+
     cout << "Table name: " << t._name << ", records: " << t._last_record + 1 << endl;
     cout << "_last_record: " << t._last_record << endl;
 
