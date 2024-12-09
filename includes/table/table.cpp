@@ -380,15 +380,9 @@ int Table::field_col_no(string field_name) {
     cout << "-------Table::field_col_no fired!-------" << endl;
     cout << "Field name: " << field_name << endl;
     cout << "Field map size:" << _field_map.size() << endl;
-    // 打印 field_name 的详细信息
-    cout << "Field name: " << field_name << endl;
-    cout << "Field name (ASCII): ";
-    for (char c : field_name) {
-        cout << int(c) << " ";
-        }
+
     cout << endl;
 
-    // 去除空格和隐藏字符
     field_name.erase(remove_if(field_name.begin(), field_name.end(), ::isspace), field_name.end());
 
     if (field_name == "*") {
