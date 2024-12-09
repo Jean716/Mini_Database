@@ -375,16 +375,33 @@ bool Table::is_empty() { return _empty; }
 //LINK - field_col_no
 int Table::field_col_no(string field_name) {
     cout << "-------Table::field_col_no fired!-------" << endl;
+    cout << "Field name: " << field_name << endl;
+    cout << "Field map size:" << _field_map.size() << endl;
+    // 打印 field_name 的详细信息
+    cout << "Field name: " << field_name << endl;
+    cout << "Field name (ASCII): ";
+    for (char c : field_name) {
+        cout << int(c) << " ";
+        }
+    cout << endl;
+
+    // 去除空格和隐藏字符
+    field_name.erase(remove_if(field_name.begin(), field_name.end(), ::isspace), field_name.end());
+
     if (field_name == "*") {
         cout << "'*' detected; returning -2 (indicating all fields)." << endl;
         return -2;   // -2 indicates all fields
         }
+
+    // 检查 field_map 的内容
+    cout << "Field map contents:" << endl;
+    for (const auto& pair : _field_map) {
+        cout << pair.first << " -> " << pair.second << endl;
+        }
+
     if (_field_map.find(field_name) != _field_map.end()) {
-        // cout << "Field found: " << field_name << " at index " << _field_map.at(field_name) << endl;
-        // cout << "Field map contents:" << endl;
-        // for (const auto& pair : _field_map) {
-        //     cout << pair.first << " -> " << pair.second << endl;
-        //     }
+        cout << "Field found: " << field_name << " at index "
+            << _field_map.at(field_name) << endl;
         return _field_map.at(field_name);
         }
 

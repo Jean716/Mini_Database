@@ -44,6 +44,9 @@ const vector<string> command_list = {
 const int MAKE_TABLE_COMMANDS = 11;
 const int SELECT_COMMANDS = 20;
 
+
+
+
 bool sql_basic(bool debug = false) {
      SQL sql;
      Table t;

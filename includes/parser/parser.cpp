@@ -41,7 +41,7 @@ mmap_ss Parser::parse_tree() const {
     }
 
 void Parser::set_string(const string & input) {
-    cout << "Set String Function Fired!" << endl;
+    cout << "set_string Function Fired!" << endl;
     Queue<Token*> postfix;
     cout << "set string : Input string: " << input << endl;
     tokenize(input, postfix);
@@ -82,12 +82,50 @@ void Parser::tokenize(const string& input, Queue<Token*>& infix) {
     for (size_t i = 0; i < _tokens.size(); ++i) {
         string current_value = _tokens[i]->value();
 
+        // Case 1: Detect "values" keyword to start combining
         if (current_value == "values") {
             // Push the "values" token and start combining
             new_tokens.push_back(_tokens[i]);
             is_combining = true;
             combined = "";
             }
+        // Case 2: Detect operator and combine following ALFA tokens
+
+        else if (_tokens[i]->type() == TOKEN_RELATIONAL_OPERATOR) {
+            new_tokens.push_back(_tokens[i]); // Push the operator
+            size_t j = i + 1;
+            combined = "";
+
+            // Combine consecutive ALFA tokens
+            while (j < _tokens.size() && _tokens[j]->type() == TOKEN_ALFA) {
+                if (!combined.empty()) {
+                    combined += " "; // Add space between words
+                    }
+                combined += _tokens[j]->value();
+                j++;
+                }
+
+            // Push combined token if any
+            if (!combined.empty()) {
+                new_tokens.push_back(new ALFAToken(combined));
+                }
+
+            i = j - 1; // Update the index
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // Case 3: Combine ALFA tokens after "values" until a comma
         else if (is_combining) {
             // Combine ALFA tokens until a comma is found
             if (_tokens[i]->value() == ",") {
