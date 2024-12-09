@@ -350,6 +350,21 @@ Table Table::vector_to_table(const vector<string>& fields, const vector<long>& v
     new_table._last_record = vector_of_recnos.size() - 1;
     new_table._file_name = new_file_name;
 
+
+
+
+
+    cout << "Selected table record numbers: ";
+    for (const auto& recno : new_table._select_recnos) {
+        cout << recno << " ";
+        }
+    cout << endl;
+
+    cout << new_table;
+    cout << endl;
+
+
+
     cout << "-------------------Table::vector_to_table done!----------------------------" << endl;
     return new_table;
     }
@@ -445,10 +460,6 @@ Table Table::select_all(vector<string> fields) {
     for (const auto& index : _indices) {
         new_table._indices.push_back(index);
         }
-    string recnos_debug = "Select All::Selected record numbers: ";
-    for (const auto& recno : _select_recnos) {
-        recnos_debug += to_string(recno) + " ";
-        }
 
 
 
@@ -473,6 +484,7 @@ Table Table::select(const vector<string>&  fields, const Queue<Token*>& postfix)
     cout << "Selected table:" << endl;
     cout << selected_table;
     selected_table._select_recnos = matching_recnos;
+
 
 
     DEBUG_PRINT("-------Table::select done!-------");

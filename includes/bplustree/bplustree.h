@@ -156,19 +156,6 @@ class BPlusTree
             }
 
 
-        // Testing helper to call the private remove_biggest function
-        // void test_remove_biggest() {
-        //     if (!empty()) {
-        //         T largest;
-        //         remove_biggest(largest);
-        //         std::cout << "Removed largest: " << largest << std::endl;
-        //         print_tree(); // Show tree state after removing the largest
-        //         }
-        //     else {
-        //         std::cout << "Tree is empty, cannot remove biggest element." << std::endl;
-        //         }
-        //     }
-
 
         void check_node_consistency() const {
             if (!is_leaf()) {
@@ -786,34 +773,7 @@ void BPlusTree<T>::transfer_left(int i) {
         }
     }
 
-// template <typename T>
-// void BPlusTree<T>::transfer_right(int i) { // leafs only
-//     cout << "Transfering right from subset[" << i << "] to subset[" << (i + 1) << "]" << endl;
 
-//     T borrowed_item;
-
-//     detach_item(subset[i]->data, subset[i]->data_count, borrowed_item);
-//     cout << "After detach, subset[i]->data_count: " << subset[i]->data_count << endl;
-
-
-//     insert_item(subset[i + 1]->data, 0, subset[i + 1]->data_count, borrowed_item);
-
-
-//     data[i] = subset[i + 1]->data[0];
-
-//     if (subset[i]->is_leaf() && subset[i + 1]->is_leaf()) {
-//         subset[i]->next = subset[i + 1];
-//         }
-
-
-//     std::cout << "Transfer right completed" << std::endl;
-//     update_parent_keys();
-//     if (!is_valid()) {
-//         std::cerr << "Tree is NOT valid after remove operation!" << std::endl;
-//         }
-
-
-//     }
 
 template <typename T>
 void BPlusTree<T>::transfer_right(int i) {
@@ -823,17 +783,13 @@ void BPlusTree<T>::transfer_right(int i) {
     BPlusTree<T>* leftSibling = subset[i];
     BPlusTree<T>* rightSibling = subset[i + 1];
 
-    // 从左兄弟节点分离出最后一个数据项
     detach_item(leftSibling->data, leftSibling->data_count, borrowed_item);
     std::cout << "After detach, leftSibling->data_count: " << leftSibling->data_count << std::endl;
 
-    // 插入到右兄弟节点的第一个位置
     insert_item(rightSibling->data, 0, rightSibling->data_count, borrowed_item);
 
-    // 更新父节点的键值
     data[i] = rightSibling->data[0];
 
-    // 如果不是叶节点，处理子节点转移
     if (!leftSibling->is_leaf()) {
         BPlusTree<T>* borrowed_child;
         detach_item(leftSibling->subset, leftSibling->child_count, borrowed_child);
@@ -859,18 +815,43 @@ void BPlusTree<T>::transfer_right(int i) {
 //      C L E A R   /  C O P Y
 //---------------------------------------------------------------
 
+// template <typename T>
+// void BPlusTree<T>::clear_tree() {
+//     for (int i = 0; i < child_count; ++i) {
+//         if (subset[i] != nullptr) {
+//             cerr << "Clearing subset[" << i << "]" << endl;
+
+//             subset[i]->clear_tree();
+//             delete subset[i];
+//             subset[i] = nullptr;
+//             }
+//         }
+//     //std::cerr << "All children cleared. Resetting data_count and child_count." << std::endl;
+
+//     data_count = 0;
+//     child_count = 0;
+//     next = nullptr;
+//     }
+
 template <typename T>
 void BPlusTree<T>::clear_tree() {
+    // std::cerr << "Clearing node with data_count: " << data_count
+    //     << ", child_count: " << child_count << std::endl;
+    if (child_count > MAXIMUM + 1) {
+        std::cerr << "Error: child_count exceeds MAX_CHILDREN." << std::endl;
+        return;
+        }
     for (int i = 0; i < child_count; ++i) {
         if (subset[i] != nullptr) {
-            // std::cerr << "Clearing subset[" << i << "]" << std::endl;
-
+            //std::cerr << "Clearing subset[" << i << "] with address: " << subset[i] << std::endl;
             subset[i]->clear_tree();
             delete subset[i];
             subset[i] = nullptr;
             }
+        else {
+            std::cerr << "Warning: subset[" << i << "] is nullptr." << std::endl;
+            }
         }
-    //std::cerr << "All children cleared. Resetting data_count and child_count." << std::endl;
 
     data_count = 0;
     child_count = 0;
@@ -901,8 +882,9 @@ void BPlusTree<T>::copy_tree(const BPlusTree<T>&other) {
 //ANCHOR - copy_tree
 template <class T>
 void BPlusTree<T>::copy_tree(const BPlusTree<T>&other, BPlusTree<T>*&last_node) {
-    clear_tree();
-    assert(empty());
+    if (!empty()) {
+        clear_tree();
+        }
 
     DEBUG_PRINT("\n--- Starting copy_tree ---\n");
     DEBUG_PRINT("New node address: " << this << ", Other node address: " << &other);

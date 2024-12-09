@@ -5,7 +5,9 @@
 #include <iomanip>
 #include <cassert>
 #include <queue>
+#include <map>
 using namespace std;
+
 #include "../../includes/tokenizer/state_machine_functions.h"
 #include "../../includes/parser/typedefs.h"
 #include "../../includes/tokenizer/stokenize.h"
@@ -35,9 +37,16 @@ Parser::Parser(const char* s) : _input(s), _fail(false) {
     set_string(_input);
     }
 
+// mmap_ss Parser::parse_tree() const {
+//     cout << "Parse Tree Function Fired!" << endl;
+//     cout << "stuck here!" << endl;
+//     return _ptree;
+//     }
+
 mmap_ss Parser::parse_tree() const {
     cout << "Parse Tree Function Fired!" << endl;
-    cout << "stuck here!" << endl;
+    cout << "stuck here! _ptree size: " << _ptree.size() << endl;
+    cout << _ptree["command"][0] << endl;
     return _ptree;
     }
 
@@ -177,10 +186,8 @@ void Parser::init_adjacency_table() {
         return;
         }
 
-
     Token* token = _tokens[0];
     string token_str = token->value();
-
 
     if (token_str == "select") {
         init_select_table(_adjacency_table);
