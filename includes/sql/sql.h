@@ -12,14 +12,11 @@ class SQL
     {
     public:
         Table command(const string& cmd);
-        const vector<long> select_recnos() const {
-
-            return _select_recnos;
-            }
+        const vector<long> select_recnos() const;
 
     private:
         map<string, Table> _tables; //table name-> table
-        vector<long> _select_recnos;
+        multimap<vector<long>, Table> _select_recnos; // record numbers -> table
         Parser _parser;
         Table _table; // current table
     };

@@ -49,6 +49,7 @@ Table SQL::command(const string& cmd) {
         else if (command == "select") {
             cout << ">>> ------>> cmd[0] = select---------------" << endl;
             string table_name = ptree["table_name"][0];
+            cout << ">>> Selecting from table: " << table_name << endl;
             vector<string> fields = ptree.get("fields");
             Table result;
 
@@ -72,15 +73,27 @@ Table SQL::command(const string& cmd) {
 
                 // Call Table's select function with fields and postfix condition
                 result = _tables[table_name].select(fields, postfix_condition);
+
+
                 }
             else {
                 // Select all records
                 cout << ">>> No WHERE condition found. Selecting all records." << endl;
                 result = _tables[table_name].select_all(fields);
+
                 }
             //------------------------------Debug _select_recnos-------------------------------------------------
-             //Update SQL::_select_recnos with the selected record numbers from the result table
-            _select_recnos = result.get_select_recnos();
+               // get the selected record numbers and store them in  multimap _select_recnos
+            vector<long> recnos = result.get_select_recnos();
+            _tables[table_name].get_select_recnos() = recnos;
+            cout << "Debug: _tables[table_name].get_select_recnos() = " << _tables[table_name].get_select_recnos() << endl;
+            _select_recnos.insert({ recnos, result });
+            //---------------------------------------------------------------------------------------------------
+            cout << "debug: command()::Record Number: ";
+            for (const auto& recno : recnos) {
+                cout << recno << "";
+                }
+            cout << endl;
 
             // Store the result table
             _table = result;
@@ -100,12 +113,38 @@ Table SQL::command(const string& cmd) {
         }
     catch (...) {
         cerr << "Unknown error occurred while executing command: " << cmd << endl;
-
-        ofstream log("debug.log", ios::app);
-        log << "Unknown error occurred while executing command: " << cmd << endl;
-        log.close();
         }
 
 
     return Table();  // Return an empty table by default
     }
+
+const vector<long> SQL::select_recnos() const {
+    if (_select_recnos.empty()) {
+        cout << "Debug: _select_recnos is empty. No records selected." << endl;
+        return {};
+        }
+    // Get the last entry in the multimap
+    const auto& last_entry = _select_recnos.rbegin(); // get the last entry in the multimap
+
+    auto it = _select_recnos.begin();
+    while (it != _select_recnos.end()) {
+        cout << "[Key]Record Numbers: ";
+        for (const auto& recno : it->first) {
+            cout << recno << " ";
+            }
+
+        cout << " -> [Value]Tables: ";
+        auto range = _select_recnos.equal_range(it->first);
+        for (auto val_it = range.first; val_it != range.second; ++val_it) {
+            cout << val_it->second.get_name() << " ";
+            }
+        cout << endl;
+
+        it = range.second;
+        }
+
+    return last_entry->first;
+    }
+
+

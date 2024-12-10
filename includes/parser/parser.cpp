@@ -54,6 +54,8 @@ mmap_ss Parser::parse_tree() const {
     cout << "Parse Tree Function Fired!" << endl;
     cout << "stuck here! _ptree size: " << _ptree.size() << endl;
     cout << _ptree["command"][0] << endl;
+    cout << _ptree << endl;
+
     return _ptree;
     }
 

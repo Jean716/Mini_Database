@@ -20,9 +20,10 @@ int Table::serial = 0;
 
 Table::Table() {
     DEBUG_PRINT("-------Table ctor 1 fired!-------");
-    serial++;
-    _name = "_select_table_" + to_string(serial);
-    _file_name = _name + ".tbl";
+    // serial++;
+    // _name = "_select_table_" + to_string(serial);
+    _name = "";
+    _file_name = "";
     _empty = true;
     _last_record = -1;
     _field_names = vector<string>();
@@ -92,7 +93,7 @@ Table::Table(const string& name) {
 //LINK - Table ctor 3
 Table::Table(const string& name, const vector<string> &fields_names) {
     DEBUG_PRINT("-------Table ctor 3 fired!-------");
-    //serial++;
+    serial++;
     _name = name;
     _field_names = fields_names;
     _empty = true;
@@ -293,27 +294,17 @@ Table Table::vector_to_table(const vector<string>& fields, const vector<long>& v
         actual_fields = fields;
         }
 
-    // 2. Initialize new table
-    Table new_table;
-    new_table._field_names = actual_fields;
 
-    // 3. Build field map for new_table
-    for (size_t i = 0; i < actual_fields.size(); ++i) {
-        new_table._field_map[actual_fields[i]] = i;
-        new_table._indices.push_back(multimap<string, long>());
-        }
+    // 2. Initialize new table,use the constructor3
+    string new_table_name = "_selected_table_" + to_string(serial);
+    Table new_table(new_table_name, actual_fields);
 
-    // 4. Open original file for reading
+    // 3. Open original file for reading
     fstream file;
     open_fileRW(file, _file_name.c_str());
     cout << "File opened for reading: " << _file_name << endl;
 
-    // 5. Open new file for writing
-    string new_file_name = _name + "_updated.tbl";
-    fstream new_file;
-    open_fileW(new_file, new_file_name.c_str());
-
-    // 6. Process records
+    // 4. Open new file for writing
     for (const auto& recno : vector_of_recnos) {
         FileRecord record;
         record.read(file, recno);
@@ -335,28 +326,18 @@ Table Table::vector_to_table(const vector<string>& fields, const vector<long>& v
                 }
             }
 
-        // Write to new file
-        FileRecord new_record(record_fields);
-        new_record.write(new_file);
-
         // Update indices
         new_table.insert_into(record_fields);
         }
 
     file.close();
-    new_file.close();
-
-    // 7. Update table metadata
-    new_table._last_record = vector_of_recnos.size() - 1;
-    new_table._file_name = new_file_name;
-
-    cout << "Selected table record numbers: ";
+    cout << "Vector_to_table :: record numbers: ";
     for (const auto& recno : new_table._select_recnos) {
         cout << recno << " ";
         }
-    cout << endl;
+    cout << "Vector_to_table :: table name: ";
+    cout << new_table._name << endl;
 
-    cout << new_table;
     cout << endl;
 
     cout << "-------------------Table::vector_to_table done!----------------------------" << endl;
@@ -438,7 +419,7 @@ Table Table::select_all(vector<string> fields) {
         recnos.push_back(i);
         }
     //---------------------------------------------------------
-    cout << "recnos: ";
+    cout << "select_all()::recnos: ";
     for (const auto& recno : recnos) {
         cout << recno << " ";
         }
@@ -446,7 +427,8 @@ Table Table::select_all(vector<string> fields) {
     //---------------------------------------------------------
 
     Table t = vector_to_table(fields, recnos);
-    _select_recnos = recnos;
+    _select_recnos = t._select_recnos;
+
     return t;
     }
 
@@ -484,16 +466,19 @@ Table Table::select(const vector<string>&  fields, const Queue<Token*>& postfix)
         }
     cout << endl;
 
-    Table selected_table = vector_to_table(fields, matching_recnos);
+    Table result = vector_to_table(fields, matching_recnos);
 
-    cout << "Selected table:" << endl;
-    cout << selected_table;
-    selected_table._select_recnos = matching_recnos;
-    _select_recnos = matching_recnos;
+    cout << "vector_to_table() result->_name: " << result._name << endl;
+
+    cout << result;
+    result._select_recnos = matching_recnos;
+    // _select_recnos = matching_recnos;
+    _select_recnos = result._select_recnos;
+
 
 
     DEBUG_PRINT("-------Table::select done!-------");
-    return selected_table;
+    return result;
     }
 
 

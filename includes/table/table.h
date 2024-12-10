@@ -63,7 +63,7 @@ class Table
 
         // void build_keyword_list(map_sl &list);
         //int get_token_type(const string& s); // NOT USED
-        string Name() { return _name; }
+        const string get_name() const { return _name; }
         Table vector_to_table(const vector<string> &fields, const vector<long> &vector_of_recnos);
 
         long get_file_size(const string& filename) {

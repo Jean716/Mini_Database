@@ -160,6 +160,20 @@ last_state = :5
 Parse Tree Function Fired!
 stuck here! _ptree size: 4
 make
+    ⎴
+    table_name: [employee]
+    command: [make]
+    ⎵
+^
+⎴
+command: [make]
+⎵
+    ^
+    ⎴
+    col : [last, first, dep, salary, year]
+    ⎵
+
+
 Error: child_count exceeds MAX_CHILDREN.
 >>> Parsed command: make
 >>> ------>> cmd[0] = Make----------------
@@ -292,6 +306,20 @@ last_state = :5
 Parse Tree Function Fired!
 stuck here! _ptree size: 4
 make
+    ⎴
+    table_name: [employee]
+    command: [make]
+    ⎵
+^
+⎴
+command: [make]
+⎵
+    ^
+    ⎴
+    col : [last, first, dep, salary, year]
+    ⎵
+
+
 >>> Parsed command: make
 >>> ------>> cmd[0] = Make----------------
 >>> Creating table: employee with fields: last first dep salary year 
@@ -422,6 +450,20 @@ last_state = :5
 Parse Tree Function Fired!
 stuck here! _ptree size: 4
 insert
+    ⎴
+    values: [Blow, Joe, CS, 100000, 2018]
+    table_name: [employee]
+    ⎵
+^
+⎴
+table_name: [employee]
+⎵
+    ^
+    ⎴
+    command: [insert]
+    ⎵
+
+
 >>> Parsed command: insert
 >>> ------>> cmd[0] = insert----------------
 >>> Inserting into table: employee values: Blow Joe CS 100000 2018 
@@ -432,10 +474,6 @@ _field_names last first dep salary year
 _field_names size: 5
 _field_map.size() 5
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- employee.tbl
-Checking file: employee.tbl
-File successfully opened: employee.tbl
 FileRecord::write fired!
 Record written successfully with record number: 0
 
@@ -573,6 +611,20 @@ last_state = :5
 Parse Tree Function Fired!
 stuck here! _ptree size: 4
 insert
+    ⎴
+    values: [Blow, JoAnn, Physics, 200000, 2016]
+    table_name: [employee]
+    ⎵
+^
+⎴
+table_name: [employee]
+⎵
+    ^
+    ⎴
+    command: [insert]
+    ⎵
+
+
 >>> Parsed command: insert
 >>> ------>> cmd[0] = insert----------------
 >>> Inserting into table: employee values: Blow JoAnn Physics 200000 2016 
@@ -583,10 +635,6 @@ _field_names last first dep salary year
 _field_names size: 5
 _field_map.size() 5
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- employee.tbl
-Checking file: employee.tbl
-File successfully opened: employee.tbl
 FileRecord::write fired!
 Record written successfully with record number: 1
 
@@ -724,6 +772,20 @@ last_state = :5
 Parse Tree Function Fired!
 stuck here! _ptree size: 4
 insert
+    ⎴
+    values: [Johnson, Jack, HR, 150000, 2014]
+    table_name: [employee]
+    ⎵
+^
+⎴
+table_name: [employee]
+⎵
+    ^
+    ⎴
+    command: [insert]
+    ⎵
+
+
 >>> Parsed command: insert
 >>> ------>> cmd[0] = insert----------------
 >>> Inserting into table: employee values: Johnson Jack HR 150000 2014 
@@ -734,10 +796,6 @@ _field_names last first dep salary year
 _field_names size: 5
 _field_map.size() 5
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- employee.tbl
-Checking file: employee.tbl
-File successfully opened: employee.tbl
 FileRecord::write fired!
 Record written successfully with record number: 2
 
@@ -875,6 +933,20 @@ last_state = :5
 Parse Tree Function Fired!
 stuck here! _ptree size: 4
 insert
+    ⎴
+    values: [Johnson, Jimmy, Chemistry, 140000, 2018]
+    table_name: [employee]
+    ⎵
+^
+⎴
+table_name: [employee]
+⎵
+    ^
+    ⎴
+    command: [insert]
+    ⎵
+
+
 >>> Parsed command: insert
 >>> ------>> cmd[0] = insert----------------
 >>> Inserting into table: employee values: Johnson Jimmy Chemistry 140000 2018 
@@ -885,10 +957,6 @@ _field_names last first dep salary year
 _field_names size: 5
 _field_map.size() 5
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- employee.tbl
-Checking file: employee.tbl
-File successfully opened: employee.tbl
 FileRecord::write fired!
 Record written successfully with record number: 3
 
@@ -1014,6 +1082,20 @@ last_state = :5
 Parse Tree Function Fired!
 stuck here! _ptree size: 4
 make
+    ⎴
+    table_name: [student]
+    command: [make]
+    ⎵
+^
+⎴
+command: [make]
+⎵
+    ^
+    ⎴
+    col : [fname, lname, major, age]
+    ⎵
+
+
 >>> Parsed command: make
 >>> ------>> cmd[0] = Make----------------
 >>> Creating table: student with fields: fname lname major age 
@@ -1134,6 +1216,20 @@ last_state = :5
 Parse Tree Function Fired!
 stuck here! _ptree size: 4
 insert
+    ⎴
+    values: [Flo, Yao, Art, 20]
+    table_name: [student]
+    ⎵
+^
+⎴
+table_name: [student]
+⎵
+    ^
+    ⎴
+    command: [insert]
+    ⎵
+
+
 >>> Parsed command: insert
 >>> ------>> cmd[0] = insert----------------
 >>> Inserting into table: student values: Flo Yao Art 20 
@@ -1144,10 +1240,6 @@ _field_names fname lname major age
 _field_names size: 4
 _field_map.size() 4
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- student.tbl
-Checking file: student.tbl
-File successfully opened: student.tbl
 FileRecord::write fired!
 Record written successfully with record number: 0
 
@@ -1272,6 +1364,20 @@ last_state = :5
 Parse Tree Function Fired!
 stuck here! _ptree size: 4
 insert
+    ⎴
+    values: [Bo, Yang, CS, 28]
+    table_name: [student]
+    ⎵
+^
+⎴
+table_name: [student]
+⎵
+    ^
+    ⎴
+    command: [insert]
+    ⎵
+
+
 >>> Parsed command: insert
 >>> ------>> cmd[0] = insert----------------
 >>> Inserting into table: student values: Bo Yang CS 28 
@@ -1282,10 +1388,6 @@ _field_names fname lname major age
 _field_names size: 4
 _field_map.size() 4
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- student.tbl
-Checking file: student.tbl
-File successfully opened: student.tbl
 FileRecord::write fired!
 Record written successfully with record number: 1
 
@@ -1410,6 +1512,20 @@ last_state = :5
 Parse Tree Function Fired!
 stuck here! _ptree size: 4
 insert
+    ⎴
+    values: [Sammuel L., Jackson, CS, 40]
+    table_name: [student]
+    ⎵
+^
+⎴
+table_name: [student]
+⎵
+    ^
+    ⎴
+    command: [insert]
+    ⎵
+
+
 >>> Parsed command: insert
 >>> ------>> cmd[0] = insert----------------
 >>> Inserting into table: student values: Sammuel L. Jackson CS 40 
@@ -1420,10 +1536,6 @@ _field_names fname lname major age
 _field_names size: 4
 _field_map.size() 4
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- student.tbl
-Checking file: student.tbl
-File successfully opened: student.tbl
 FileRecord::write fired!
 Record written successfully with record number: 2
 
@@ -1548,6 +1660,20 @@ last_state = :5
 Parse Tree Function Fired!
 stuck here! _ptree size: 4
 insert
+    ⎴
+    values: [Billy, Jackson, Math, 27]
+    table_name: [student]
+    ⎵
+^
+⎴
+table_name: [student]
+⎵
+    ^
+    ⎴
+    command: [insert]
+    ⎵
+
+
 >>> Parsed command: insert
 >>> ------>> cmd[0] = insert----------------
 >>> Inserting into table: student values: Billy Jackson Math 27 
@@ -1558,10 +1684,6 @@ _field_names fname lname major age
 _field_names size: 4
 _field_map.size() 4
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- student.tbl
-Checking file: student.tbl
-File successfully opened: student.tbl
 FileRecord::write fired!
 Record written successfully with record number: 3
 
@@ -1686,6 +1808,20 @@ last_state = :5
 Parse Tree Function Fired!
 stuck here! _ptree size: 4
 insert
+    ⎴
+    values: [Mary Ann, Davis, Math, 30]
+    table_name: [student]
+    ⎵
+^
+⎴
+table_name: [student]
+⎵
+    ^
+    ⎴
+    command: [insert]
+    ⎵
+
+
 >>> Parsed command: insert
 >>> ------>> cmd[0] = insert----------------
 >>> Inserting into table: student values: Mary Ann Davis Math 30 
@@ -1696,10 +1832,6 @@ _field_names fname lname major age
 _field_names size: 4
 _field_map.size() 4
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- student.tbl
-Checking file: student.tbl
-File successfully opened: student.tbl
 FileRecord::write fired!
 Record written successfully with record number: 4
 
@@ -1822,21 +1954,39 @@ last_state = :3
 Parse Tree Function Fired!
 stuck here! _ptree size: 4
 select
+    ⎴
+    table_name: [employee]
+    fields: [*]
+    ⎵
+^
+⎴
+fields: [*]
+⎵
+    ^
+    ⎴
+    command: [select]
+    ⎵
+
+
 >>> Parsed command: select
 >>> ------>> cmd[0] = select---------------
+>>> Selecting from table: employee
 -------------Table ctor 1 Done!-----
 >>> No WHERE condition found. Selecting all records.
 -------Table::select_all fired!-------
-recnos: 0 1 2 3 
+select_all()::recnos: 0 1 2 3 
 -------Table::vector_to_table fired!-------
 '*' detected. Expanding to all fields.
--------------Table ctor 1 Done!-----
------Open_fileRW Fired!-----:
- employee.tbl
-Checking file: employee.tbl
-File successfully opened: employee.tbl
+-------------------Table ctor 3 Done!----------------------------
+Current state of _indices:
+_indices size: 5
+Index 0 initialized for field: last
+Index 1 initialized for field: first
+Index 2 initialized for field: dep
+Index 3 initialized for field: salary
+Index 4 initialized for field: year
+-----------------------------------------------
 File opened for reading: employee.tbl
-Opening file for writing: employee_updated.tbl
 -------Table::field_col_no fired!-------
 Field name: last
 Field map size:5
@@ -1892,8 +2042,6 @@ last -> 0
 salary -> 3
 year -> 4
 Field found: year at index 4
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Blow Joe CS 100000 2018
@@ -1901,10 +2049,6 @@ _field_names last first dep salary year
 _field_names size: 5
 _field_map.size() 5
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_18.tbl
-Checking file: _select_table_18.tbl
-File successfully opened: _select_table_18.tbl
 FileRecord::write fired!
 Record written successfully with record number: 0
 
@@ -1979,8 +2123,6 @@ last -> 0
 salary -> 3
 year -> 4
 Field found: year at index 4
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Blow JoAnn Physics 200000 2016
@@ -1988,10 +2130,6 @@ _field_names last first dep salary year
 _field_names size: 5
 _field_map.size() 5
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_18.tbl
-Checking file: _select_table_18.tbl
-File successfully opened: _select_table_18.tbl
 FileRecord::write fired!
 Record written successfully with record number: 1
 
@@ -2066,8 +2204,6 @@ last -> 0
 salary -> 3
 year -> 4
 Field found: year at index 4
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Johnson Jack HR 150000 2014
@@ -2075,10 +2211,6 @@ _field_names last first dep salary year
 _field_names size: 5
 _field_map.size() 5
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_18.tbl
-Checking file: _select_table_18.tbl
-File successfully opened: _select_table_18.tbl
 FileRecord::write fired!
 Record written successfully with record number: 2
 
@@ -2153,8 +2285,6 @@ last -> 0
 salary -> 3
 year -> 4
 Field found: year at index 4
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Johnson Jimmy Chemistry 140000 2018
@@ -2162,10 +2292,6 @@ _field_names last first dep salary year
 _field_names size: 5
 _field_map.size() 5
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_18.tbl
-Checking file: _select_table_18.tbl
-File successfully opened: _select_table_18.tbl
 FileRecord::write fired!
 Record written successfully with record number: 3
 
@@ -2185,23 +2311,14 @@ Field index for salary: 3
 Inserting field value: 140000 for field: salary at index: 3Inserted into _indices[3]: (140000, 3)--------------------------------------Debug here !!!
 Field name: year
 Field index for year: 4
-Inserting field value: 2018 for field: year at index: 4Inserted into _indices[4]: (2018, 3)Selected table record numbers: 0 1 2 3 
-Table name: _select_table_18, records: 4
-_last_record: 3
-------------------------------------------------------------------------------------------
-        Record#           last          first            dep         salary           year
-------------------------------------------------------------------------------------------
------Open_fileRW Fired!-----:
- employee_updated.tbl
-Checking file: employee_updated.tbl
-File successfully opened: employee_updated.tbl
-              0           Blow            Joe             CS         100000           2018
-              1           Blow          JoAnn        Physics         200000           2016
-              2        Johnson           Jack             HR         150000           2014
-              3        Johnson          Jimmy      Chemistry         140000           2018
+Inserting field value: 2018 for field: year at index: 4Inserted into _indices[4]: (2018, 3)Vector_to_table :: record numbers: 0 1 2 3 Vector_to_table :: table name: _selected_table_3
 
 -------------------Table::vector_to_table done!----------------------------
-basic_test: records selected: 0 1 2 3
+Debug: _tables[table_name].get_select_recnos() = 0 1 2 3
+debug: command()::Record Number: 0123
+basic_test: records selected: 
+[Key]Record Numbers: 0 1 2 3  -> [Value]Tables: _selected_table_3 
+0 1 2 3
 
 >select last, first, age from employee
 Command Function Fired! select last, first, age from employee
@@ -2325,20 +2442,37 @@ last_state = :3
 Parse Tree Function Fired!
 stuck here! _ptree size: 4
 select
+    ⎴
+    table_name: [employee]
+    fields: [last, first, age]
+    ⎵
+^
+⎴
+fields: [last, first, age]
+⎵
+    ^
+    ⎴
+    command: [select]
+    ⎵
+
+
+Error: child_count exceeds MAX_CHILDREN.
 >>> Parsed command: select
 >>> ------>> cmd[0] = select---------------
+>>> Selecting from table: employee
 -------------Table ctor 1 Done!-----
 >>> No WHERE condition found. Selecting all records.
 -------Table::select_all fired!-------
-recnos: 0 1 2 3 
+select_all()::recnos: 0 1 2 3 
 -------Table::vector_to_table fired!-------
--------------Table ctor 1 Done!-----
------Open_fileRW Fired!-----:
- employee.tbl
-Checking file: employee.tbl
-File successfully opened: employee.tbl
+-------------------Table ctor 3 Done!----------------------------
+Current state of _indices:
+_indices size: 3
+Index 0 initialized for field: last
+Index 1 initialized for field: first
+Index 2 initialized for field: age
+-----------------------------------------------
 File opened for reading: employee.tbl
-Opening file for writing: employee_updated.tbl
 -------Table::field_col_no fired!-------
 Field name: last
 Field map size:5
@@ -2373,8 +2507,6 @@ salary -> 3
 year -> 4
 Field not found: age. Returning -3.
 Field not found: age
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Blow Joe
@@ -2382,10 +2514,6 @@ _field_names last first age
 _field_names size: 3
 _field_map.size() 3
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_20.tbl
-Checking file: _select_table_20.tbl
-File successfully opened: _select_table_20.tbl
 FileRecord::write fired!
 Record written successfully with record number: 0
 
@@ -2430,8 +2558,6 @@ salary -> 3
 year -> 4
 Field not found: age. Returning -3.
 Field not found: age
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Blow JoAnn
@@ -2439,10 +2565,6 @@ _field_names last first age
 _field_names size: 3
 _field_map.size() 3
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_20.tbl
-Checking file: _select_table_20.tbl
-File successfully opened: _select_table_20.tbl
 FileRecord::write fired!
 Record written successfully with record number: 1
 
@@ -2487,8 +2609,6 @@ salary -> 3
 year -> 4
 Field not found: age. Returning -3.
 Field not found: age
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Johnson Jack
@@ -2496,10 +2616,6 @@ _field_names last first age
 _field_names size: 3
 _field_map.size() 3
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_20.tbl
-Checking file: _select_table_20.tbl
-File successfully opened: _select_table_20.tbl
 FileRecord::write fired!
 Record written successfully with record number: 2
 
@@ -2544,8 +2660,6 @@ salary -> 3
 year -> 4
 Field not found: age. Returning -3.
 Field not found: age
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Johnson Jimmy
@@ -2553,10 +2667,6 @@ _field_names last first age
 _field_names size: 3
 _field_map.size() 3
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_20.tbl
-Checking file: _select_table_20.tbl
-File successfully opened: _select_table_20.tbl
 FileRecord::write fired!
 Record written successfully with record number: 3
 
@@ -2567,23 +2677,14 @@ Field index for last: 0
 Inserting field value: Johnson for field: last at index: 0Inserted into _indices[0]: (Johnson, 3)--------------------------------------Debug here !!!
 Field name: first
 Field index for first: 1
-Inserting field value: Jimmy for field: first at index: 1Inserted into _indices[1]: (Jimmy, 3)Selected table record numbers: 0 1 2 3 
-Table name: _select_table_20, records: 4
-_last_record: 3
-------------------------------------------------------------
-        Record#           last          first            age
-------------------------------------------------------------
------Open_fileRW Fired!-----:
- employee_updated.tbl
-Checking file: employee_updated.tbl
-File successfully opened: employee_updated.tbl
-              0           Blow            Joe               
-              1           Blow          JoAnn               
-              2        Johnson           Jack               
-              3        Johnson          Jimmy               
+Inserting field value: Jimmy for field: first at index: 1Inserted into _indices[1]: (Jimmy, 3)Vector_to_table :: record numbers: 0 1 2 3 Vector_to_table :: table name: _selected_table_4
 
 -------------------Table::vector_to_table done!----------------------------
-basic_test: records selected: 0 1 2 3
+Debug: _tables[table_name].get_select_recnos() = 0 1 2 3
+debug: command()::Record Number: 0123
+basic_test: records selected: 
+[Key]Record Numbers: 0 1 2 3  -> [Value]Tables: _selected_table_3 _selected_table_4 
+0 1 2 3
 
 >select last from employee
 Command Function Fired! select last from employee
@@ -2687,20 +2788,35 @@ last_state = :3
 Parse Tree Function Fired!
 stuck here! _ptree size: 4
 select
+    ⎴
+    table_name: [employee]
+    fields: [last]
+    ⎵
+^
+⎴
+fields: [last]
+⎵
+    ^
+    ⎴
+    command: [select]
+    ⎵
+
+
+Error: child_count exceeds MAX_CHILDREN.
 >>> Parsed command: select
 >>> ------>> cmd[0] = select---------------
+>>> Selecting from table: employee
 -------------Table ctor 1 Done!-----
 >>> No WHERE condition found. Selecting all records.
 -------Table::select_all fired!-------
-recnos: 0 1 2 3 
+select_all()::recnos: 0 1 2 3 
 -------Table::vector_to_table fired!-------
--------------Table ctor 1 Done!-----
------Open_fileRW Fired!-----:
- employee.tbl
-Checking file: employee.tbl
-File successfully opened: employee.tbl
+-------------------Table ctor 3 Done!----------------------------
+Current state of _indices:
+_indices size: 1
+Index 0 initialized for field: last
+-----------------------------------------------
 File opened for reading: employee.tbl
-Opening file for writing: employee_updated.tbl
 -------Table::field_col_no fired!-------
 Field name: last
 Field map size:5
@@ -2712,8 +2828,6 @@ last -> 0
 salary -> 3
 year -> 4
 Field found: last at index 0
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Blow
@@ -2721,10 +2835,6 @@ _field_names last
 _field_names size: 1
 _field_map.size() 1
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_22.tbl
-Checking file: _select_table_22.tbl
-File successfully opened: _select_table_22.tbl
 FileRecord::write fired!
 Record written successfully with record number: 0
 
@@ -2743,8 +2853,6 @@ last -> 0
 salary -> 3
 year -> 4
 Field found: last at index 0
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Blow
@@ -2752,10 +2860,6 @@ _field_names last
 _field_names size: 1
 _field_map.size() 1
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_22.tbl
-Checking file: _select_table_22.tbl
-File successfully opened: _select_table_22.tbl
 FileRecord::write fired!
 Record written successfully with record number: 1
 
@@ -2774,8 +2878,6 @@ last -> 0
 salary -> 3
 year -> 4
 Field found: last at index 0
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Johnson
@@ -2783,10 +2885,6 @@ _field_names last
 _field_names size: 1
 _field_map.size() 1
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_22.tbl
-Checking file: _select_table_22.tbl
-File successfully opened: _select_table_22.tbl
 FileRecord::write fired!
 Record written successfully with record number: 2
 
@@ -2805,8 +2903,6 @@ last -> 0
 salary -> 3
 year -> 4
 Field found: last at index 0
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Johnson
@@ -2814,10 +2910,6 @@ _field_names last
 _field_names size: 1
 _field_map.size() 1
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_22.tbl
-Checking file: _select_table_22.tbl
-File successfully opened: _select_table_22.tbl
 FileRecord::write fired!
 Record written successfully with record number: 3
 
@@ -2825,23 +2917,14 @@ Updating _indices with field values:
 --------------------------------------Debug here !!!
 Field name: last
 Field index for last: 0
-Inserting field value: Johnson for field: last at index: 0Inserted into _indices[0]: (Johnson, 3)Selected table record numbers: 0 1 2 3 
-Table name: _select_table_22, records: 4
-_last_record: 3
-------------------------------
-        Record#           last
-------------------------------
------Open_fileRW Fired!-----:
- employee_updated.tbl
-Checking file: employee_updated.tbl
-File successfully opened: employee_updated.tbl
-              0           Blow
-              1           Blow
-              2        Johnson
-              3        Johnson
+Inserting field value: Johnson for field: last at index: 0Inserted into _indices[0]: (Johnson, 3)Vector_to_table :: record numbers: 0 1 2 3 Vector_to_table :: table name: _selected_table_5
 
 -------------------Table::vector_to_table done!----------------------------
-basic_test: records selected: 0 1 2 3
+Debug: _tables[table_name].get_select_recnos() = 0 1 2 3
+debug: command()::Record Number: 0123
+basic_test: records selected: 
+[Key]Record Numbers: 0 1 2 3  -> [Value]Tables: _selected_table_3 _selected_table_4 _selected_table_5 
+0 1 2 3
 
 >select * from employee where last = Johnson
 Command Function Fired! select * from employee where last = Johnson
@@ -2968,8 +3051,30 @@ last_state = :10
 Parse Tree Function Fired!
 stuck here! _ptree size: 7
 select
+    ⎴
+    where: [yes]
+    table_name: [employee]
+    ⎵
+^
+⎴
+table_name: [employee]
+    ^
+    ⎴
+    fields: [*]
+    ⎵
+fields: [*]
+⎵
+    ^
+    ⎴
+    condition: [last, =, Johnson]
+    command: [select]
+    ⎵
+
+
+Error: child_count exceeds MAX_CHILDREN.
 >>> Parsed command: select
 >>> ------>> cmd[0] = select---------------
+>>> Selecting from table: employee
 -------------Table ctor 1 Done!-----
 >>> Applying WHERE condition.
 >>> Condition from parse tree: last = Johnson
@@ -3040,13 +3145,16 @@ Matching record numbers:
   2   3 
 -------Table::vector_to_table fired!-------
 '*' detected. Expanding to all fields.
--------------Table ctor 1 Done!-----
------Open_fileRW Fired!-----:
- employee.tbl
-Checking file: employee.tbl
-File successfully opened: employee.tbl
+-------------------Table ctor 3 Done!----------------------------
+Current state of _indices:
+_indices size: 5
+Index 0 initialized for field: last
+Index 1 initialized for field: first
+Index 2 initialized for field: dep
+Index 3 initialized for field: salary
+Index 4 initialized for field: year
+-----------------------------------------------
 File opened for reading: employee.tbl
-Opening file for writing: employee_updated.tbl
 -------Table::field_col_no fired!-------
 Field name: last
 Field map size:5
@@ -3102,8 +3210,6 @@ last -> 0
 salary -> 3
 year -> 4
 Field found: year at index 4
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Johnson Jack HR 150000 2014
@@ -3111,10 +3217,6 @@ _field_names last first dep salary year
 _field_names size: 5
 _field_map.size() 5
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_24.tbl
-Checking file: _select_table_24.tbl
-File successfully opened: _select_table_24.tbl
 FileRecord::write fired!
 Record written successfully with record number: 0
 
@@ -3189,8 +3291,6 @@ last -> 0
 salary -> 3
 year -> 4
 Field found: year at index 4
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Johnson Jimmy Chemistry 140000 2018
@@ -3198,10 +3298,6 @@ _field_names last first dep salary year
 _field_names size: 5
 _field_map.size() 5
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_24.tbl
-Checking file: _select_table_24.tbl
-File successfully opened: _select_table_24.tbl
 FileRecord::write fired!
 Record written successfully with record number: 1
 
@@ -3221,33 +3317,23 @@ Field index for salary: 3
 Inserting field value: 140000 for field: salary at index: 3Inserted into _indices[3]: (140000, 1)--------------------------------------Debug here !!!
 Field name: year
 Field index for year: 4
-Inserting field value: 2018 for field: year at index: 4Inserted into _indices[4]: (2018, 1)Selected table record numbers: 0 1 
-Table name: _select_table_24, records: 2
-_last_record: 1
-------------------------------------------------------------------------------------------
-        Record#           last          first            dep         salary           year
-------------------------------------------------------------------------------------------
------Open_fileRW Fired!-----:
- employee_updated.tbl
-Checking file: employee_updated.tbl
-File successfully opened: employee_updated.tbl
-              0        Johnson           Jack             HR         150000           2014
-              1        Johnson          Jimmy      Chemistry         140000           2018
+Inserting field value: 2018 for field: year at index: 4Inserted into _indices[4]: (2018, 1)Vector_to_table :: record numbers: 0 1 Vector_to_table :: table name: _selected_table_6
 
 -------------------Table::vector_to_table done!----------------------------
-Selected table:
-Table name: _select_table_24, records: 2
+vector_to_table() result->_name: _selected_table_6
+Table name: _selected_table_6, records: 2
 _last_record: 1
 ------------------------------------------------------------------------------------------
-        Record#           last          first            dep         salary           year
+Record#        last           first          dep            salary         year           
 ------------------------------------------------------------------------------------------
------Open_fileRW Fired!-----:
- employee_updated.tbl
-Checking file: employee_updated.tbl
-File successfully opened: employee_updated.tbl
-              0        Johnson           Jack             HR         150000           2014
-              1        Johnson          Jimmy      Chemistry         140000           2018
-basic_test: records selected: 2 3
+0              Johnson        Jack           HR             150000         2014           
+1              Johnson        Jimmy          Chemistry      140000         2018           
+Debug: _tables[table_name].get_select_recnos() = 2 3
+debug: command()::Record Number: 23
+basic_test: records selected: 
+[Key]Record Numbers: 0 1 2 3  -> [Value]Tables: _selected_table_3 _selected_table_4 _selected_table_5 
+[Key]Record Numbers: 2 3  -> [Value]Tables: _selected_table_6 
+2 3
 
 >select * from employee where last=Blow and major="JoAnn"
 Command Function Fired! select * from employee where last=Blow and major="JoAnn"
@@ -3395,8 +3481,30 @@ last_state = :10
 Parse Tree Function Fired!
 stuck here! _ptree size: 7
 select
+    ⎴
+    where: [yes]
+    table_name: [employee]
+    ⎵
+^
+⎴
+table_name: [employee]
+    ^
+    ⎴
+    fields: [*]
+    ⎵
+fields: [*]
+⎵
+    ^
+    ⎴
+    condition: [last, =, Blow, and, major, =, JoAnn]
+    command: [select]
+    ⎵
+
+
+Error: child_count exceeds MAX_CHILDREN.
 >>> Parsed command: select
 >>> ------>> cmd[0] = select---------------
+>>> Selecting from table: employee
 -------------Table ctor 1 Done!-----
 >>> Applying WHERE condition.
 >>> Condition from parse tree: last = Blow and major = JoAnn
@@ -3501,36 +3609,32 @@ Matching record numbers:
 
 -------Table::vector_to_table fired!-------
 '*' detected. Expanding to all fields.
--------------Table ctor 1 Done!-----
------Open_fileRW Fired!-----:
- employee.tbl
-Checking file: employee.tbl
-File successfully opened: employee.tbl
+-------------------Table ctor 3 Done!----------------------------
+Current state of _indices:
+_indices size: 5
+Index 0 initialized for field: last
+Index 1 initialized for field: first
+Index 2 initialized for field: dep
+Index 3 initialized for field: salary
+Index 4 initialized for field: year
+-----------------------------------------------
 File opened for reading: employee.tbl
-Opening file for writing: employee_updated.tbl
-Selected table record numbers: 
-Table name: _select_table_26, records: 0
-_last_record: -1
-------------------------------------------------------------------------------------------
-        Record#           last          first            dep         salary           year
-------------------------------------------------------------------------------------------
------Open_fileRW Fired!-----:
- employee_updated.tbl
-Checking file: employee_updated.tbl
-File successfully opened: employee_updated.tbl
+Vector_to_table :: record numbers: Vector_to_table :: table name: _selected_table_7
 
 -------------------Table::vector_to_table done!----------------------------
-Selected table:
-Table name: _select_table_26, records: 0
+vector_to_table() result->_name: _selected_table_7
+Table name: _selected_table_7, records: 0
 _last_record: -1
 ------------------------------------------------------------------------------------------
-        Record#           last          first            dep         salary           year
+Record#        last           first          dep            salary         year           
 ------------------------------------------------------------------------------------------
------Open_fileRW Fired!-----:
- employee_updated.tbl
-Checking file: employee_updated.tbl
-File successfully opened: employee_updated.tbl
+Debug: _tables[table_name].get_select_recnos() = 
+debug: command()::Record Number: 
 basic_test: records selected: 
+[Key]Record Numbers:  -> [Value]Tables: _selected_table_7 
+[Key]Record Numbers: 0 1 2 3  -> [Value]Tables: _selected_table_3 _selected_table_4 _selected_table_5 
+[Key]Record Numbers: 2 3  -> [Value]Tables: _selected_table_6 
+2 3
 
 >select * from student
 Command Function Fired! select * from student
@@ -3634,21 +3738,39 @@ last_state = :3
 Parse Tree Function Fired!
 stuck here! _ptree size: 4
 select
+    ⎴
+    table_name: [student]
+    fields: [*]
+    ⎵
+^
+⎴
+fields: [*]
+⎵
+    ^
+    ⎴
+    command: [select]
+    ⎵
+
+
+Error: child_count exceeds MAX_CHILDREN.
 >>> Parsed command: select
 >>> ------>> cmd[0] = select---------------
+>>> Selecting from table: student
 -------------Table ctor 1 Done!-----
 >>> No WHERE condition found. Selecting all records.
 -------Table::select_all fired!-------
-recnos: 0 1 2 3 4 
+select_all()::recnos: 0 1 2 3 4 
 -------Table::vector_to_table fired!-------
 '*' detected. Expanding to all fields.
--------------Table ctor 1 Done!-----
------Open_fileRW Fired!-----:
- student.tbl
-Checking file: student.tbl
-File successfully opened: student.tbl
+-------------------Table ctor 3 Done!----------------------------
+Current state of _indices:
+_indices size: 4
+Index 0 initialized for field: fname
+Index 1 initialized for field: lname
+Index 2 initialized for field: major
+Index 3 initialized for field: age
+-----------------------------------------------
 File opened for reading: student.tbl
-Opening file for writing: student_updated.tbl
 -------Table::field_col_no fired!-------
 Field name: fname
 Field map size:4
@@ -3689,8 +3811,6 @@ fname -> 0
 lname -> 1
 major -> 2
 Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Flo Yao Art 20
@@ -3698,10 +3818,6 @@ _field_names fname lname major age
 _field_names size: 4
 _field_map.size() 4
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_28.tbl
-Checking file: _select_table_28.tbl
-File successfully opened: _select_table_28.tbl
 FileRecord::write fired!
 Record written successfully with record number: 0
 
@@ -3758,8 +3874,6 @@ fname -> 0
 lname -> 1
 major -> 2
 Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Bo Yang CS 28
@@ -3767,10 +3881,6 @@ _field_names fname lname major age
 _field_names size: 4
 _field_map.size() 4
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_28.tbl
-Checking file: _select_table_28.tbl
-File successfully opened: _select_table_28.tbl
 FileRecord::write fired!
 Record written successfully with record number: 1
 
@@ -3827,8 +3937,6 @@ fname -> 0
 lname -> 1
 major -> 2
 Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Sammuel L. Jackson CS 40
@@ -3836,10 +3944,6 @@ _field_names fname lname major age
 _field_names size: 4
 _field_map.size() 4
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_28.tbl
-Checking file: _select_table_28.tbl
-File successfully opened: _select_table_28.tbl
 FileRecord::write fired!
 Record written successfully with record number: 2
 
@@ -3896,8 +4000,6 @@ fname -> 0
 lname -> 1
 major -> 2
 Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Billy Jackson Math 27
@@ -3905,10 +4007,6 @@ _field_names fname lname major age
 _field_names size: 4
 _field_map.size() 4
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_28.tbl
-Checking file: _select_table_28.tbl
-File successfully opened: _select_table_28.tbl
 FileRecord::write fired!
 Record written successfully with record number: 3
 
@@ -3965,8 +4063,6 @@ fname -> 0
 lname -> 1
 major -> 2
 Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Mary Ann Davis Math 30
@@ -3974,10 +4070,6 @@ _field_names fname lname major age
 _field_names size: 4
 _field_map.size() 4
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_28.tbl
-Checking file: _select_table_28.tbl
-File successfully opened: _select_table_28.tbl
 FileRecord::write fired!
 Record written successfully with record number: 4
 
@@ -3994,24 +4086,17 @@ Field index for major: 2
 Inserting field value: Math for field: major at index: 2Inserted into _indices[2]: (Math, 4)--------------------------------------Debug here !!!
 Field name: age
 Field index for age: 3
-Inserting field value: 30 for field: age at index: 3Inserted into _indices[3]: (30, 4)Selected table record numbers: 0 1 2 3 4 
-Table name: _select_table_28, records: 5
-_last_record: 4
----------------------------------------------------------------------------
-        Record#          fname          lname          major            age
----------------------------------------------------------------------------
------Open_fileRW Fired!-----:
- student_updated.tbl
-Checking file: student_updated.tbl
-File successfully opened: student_updated.tbl
-              0            Flo            Yao            Art             20
-              1             Bo           Yang             CS             28
-              2     Sammuel L.        Jackson             CS             40
-              3          Billy        Jackson           Math             27
-              4       Mary Ann          Davis           Math             30
+Inserting field value: 30 for field: age at index: 3Inserted into _indices[3]: (30, 4)Vector_to_table :: record numbers: 0 1 2 3 4 Vector_to_table :: table name: _selected_table_8
 
 -------------------Table::vector_to_table done!----------------------------
-basic_test: records selected: 0 1 2 3 4
+Debug: _tables[table_name].get_select_recnos() = 0 1 2 3 4
+debug: command()::Record Number: 01234
+basic_test: records selected: 
+[Key]Record Numbers:  -> [Value]Tables: _selected_table_7 
+[Key]Record Numbers: 0 1 2 3  -> [Value]Tables: _selected_table_3 _selected_table_4 _selected_table_5 
+[Key]Record Numbers: 0 1 2 3 4  -> [Value]Tables: _selected_table_8 
+[Key]Record Numbers: 2 3  -> [Value]Tables: _selected_table_6 
+2 3
 
 >select * from student where (major=CS or major=Art)
 Command Function Fired! select * from student where (major=CS or major=Art)
@@ -4171,8 +4256,30 @@ last_state = :8
 Parse Tree Function Fired!
 stuck here! _ptree size: 7
 select
+    ⎴
+    where: [yes]
+    table_name: [student]
+    ⎵
+^
+⎴
+table_name: [student]
+    ^
+    ⎴
+    fields: [*]
+    ⎵
+fields: [*]
+⎵
+    ^
+    ⎴
+    condition: [(, major, =, CS, or, major, =, Art, )]
+    command: [select]
+    ⎵
+
+
+Error: child_count exceeds MAX_CHILDREN.
 >>> Parsed command: select
 >>> ------>> cmd[0] = select---------------
+>>> Selecting from table: student
 -------------Table ctor 1 Done!-----
 >>> Applying WHERE condition.
 >>> Condition from parse tree: ( major = CS or major = Art )
@@ -4286,13 +4393,15 @@ Matching record numbers:
   0   1   2 
 -------Table::vector_to_table fired!-------
 '*' detected. Expanding to all fields.
--------------Table ctor 1 Done!-----
------Open_fileRW Fired!-----:
- student.tbl
-Checking file: student.tbl
-File successfully opened: student.tbl
+-------------------Table ctor 3 Done!----------------------------
+Current state of _indices:
+_indices size: 4
+Index 0 initialized for field: fname
+Index 1 initialized for field: lname
+Index 2 initialized for field: major
+Index 3 initialized for field: age
+-----------------------------------------------
 File opened for reading: student.tbl
-Opening file for writing: student_updated.tbl
 -------Table::field_col_no fired!-------
 Field name: fname
 Field map size:4
@@ -4333,8 +4442,6 @@ fname -> 0
 lname -> 1
 major -> 2
 Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Flo Yao Art 20
@@ -4342,10 +4449,6 @@ _field_names fname lname major age
 _field_names size: 4
 _field_map.size() 4
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_30.tbl
-Checking file: _select_table_30.tbl
-File successfully opened: _select_table_30.tbl
 FileRecord::write fired!
 Record written successfully with record number: 0
 
@@ -4402,8 +4505,6 @@ fname -> 0
 lname -> 1
 major -> 2
 Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Bo Yang CS 28
@@ -4411,10 +4512,6 @@ _field_names fname lname major age
 _field_names size: 4
 _field_map.size() 4
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_30.tbl
-Checking file: _select_table_30.tbl
-File successfully opened: _select_table_30.tbl
 FileRecord::write fired!
 Record written successfully with record number: 1
 
@@ -4471,8 +4568,6 @@ fname -> 0
 lname -> 1
 major -> 2
 Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Sammuel L. Jackson CS 40
@@ -4480,10 +4575,6 @@ _field_names fname lname major age
 _field_names size: 4
 _field_map.size() 4
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_30.tbl
-Checking file: _select_table_30.tbl
-File successfully opened: _select_table_30.tbl
 FileRecord::write fired!
 Record written successfully with record number: 2
 
@@ -4500,35 +4591,27 @@ Field index for major: 2
 Inserting field value: CS for field: major at index: 2Inserted into _indices[2]: (CS, 2)--------------------------------------Debug here !!!
 Field name: age
 Field index for age: 3
-Inserting field value: 40 for field: age at index: 3Inserted into _indices[3]: (40, 2)Selected table record numbers: 0 1 2 
-Table name: _select_table_30, records: 3
-_last_record: 2
----------------------------------------------------------------------------
-        Record#          fname          lname          major            age
----------------------------------------------------------------------------
------Open_fileRW Fired!-----:
- student_updated.tbl
-Checking file: student_updated.tbl
-File successfully opened: student_updated.tbl
-              0            Flo            Yao            Art             20
-              1             Bo           Yang             CS             28
-              2     Sammuel L.        Jackson             CS             40
+Inserting field value: 40 for field: age at index: 3Inserted into _indices[3]: (40, 2)Vector_to_table :: record numbers: 0 1 2 Vector_to_table :: table name: _selected_table_9
 
 -------------------Table::vector_to_table done!----------------------------
-Selected table:
-Table name: _select_table_30, records: 3
+vector_to_table() result->_name: _selected_table_9
+Table name: _selected_table_9, records: 3
 _last_record: 2
 ---------------------------------------------------------------------------
-        Record#          fname          lname          major            age
+Record#        fname          lname          major          age            
 ---------------------------------------------------------------------------
------Open_fileRW Fired!-----:
- student_updated.tbl
-Checking file: student_updated.tbl
-File successfully opened: student_updated.tbl
-              0            Flo            Yao            Art             20
-              1             Bo           Yang             CS             28
-              2     Sammuel L.        Jackson             CS             40
-basic_test: records selected: 0 1 2
+0              Flo            Yao            Art            20             
+1              Bo             Yang           CS             28             
+2              Sammuel L.     Jackson        CS             40             
+Debug: _tables[table_name].get_select_recnos() = 0 1 2
+debug: command()::Record Number: 012
+basic_test: records selected: 
+[Key]Record Numbers:  -> [Value]Tables: _selected_table_7 
+[Key]Record Numbers: 0 1 2  -> [Value]Tables: _selected_table_9 
+[Key]Record Numbers: 0 1 2 3  -> [Value]Tables: _selected_table_3 _selected_table_4 _selected_table_5 
+[Key]Record Numbers: 0 1 2 3 4  -> [Value]Tables: _selected_table_8 
+[Key]Record Numbers: 2 3  -> [Value]Tables: _selected_table_6 
+2 3
 
 >select * from student where lname>J
 Command Function Fired! select * from student where lname>J
@@ -4655,8 +4738,30 @@ last_state = :10
 Parse Tree Function Fired!
 stuck here! _ptree size: 7
 select
+    ⎴
+    where: [yes]
+    table_name: [student]
+    ⎵
+^
+⎴
+table_name: [student]
+    ^
+    ⎴
+    fields: [*]
+    ⎵
+fields: [*]
+⎵
+    ^
+    ⎴
+    condition: [lname, >, J]
+    command: [select]
+    ⎵
+
+
+Error: child_count exceeds MAX_CHILDREN.
 >>> Parsed command: select
 >>> ------>> cmd[0] = select---------------
+>>> Selecting from table: student
 -------------Table ctor 1 Done!-----
 >>> Applying WHERE condition.
 >>> Condition from parse tree: lname > J
@@ -4731,13 +4836,15 @@ Matching record numbers:
   2   3   1   0 
 -------Table::vector_to_table fired!-------
 '*' detected. Expanding to all fields.
--------------Table ctor 1 Done!-----
------Open_fileRW Fired!-----:
- student.tbl
-Checking file: student.tbl
-File successfully opened: student.tbl
+-------------------Table ctor 3 Done!----------------------------
+Current state of _indices:
+_indices size: 4
+Index 0 initialized for field: fname
+Index 1 initialized for field: lname
+Index 2 initialized for field: major
+Index 3 initialized for field: age
+-----------------------------------------------
 File opened for reading: student.tbl
-Opening file for writing: student_updated.tbl
 -------Table::field_col_no fired!-------
 Field name: fname
 Field map size:4
@@ -4778,8 +4885,6 @@ fname -> 0
 lname -> 1
 major -> 2
 Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Sammuel L. Jackson CS 40
@@ -4787,10 +4892,6 @@ _field_names fname lname major age
 _field_names size: 4
 _field_map.size() 4
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_32.tbl
-Checking file: _select_table_32.tbl
-File successfully opened: _select_table_32.tbl
 FileRecord::write fired!
 Record written successfully with record number: 0
 
@@ -4847,8 +4948,6 @@ fname -> 0
 lname -> 1
 major -> 2
 Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Billy Jackson Math 27
@@ -4856,10 +4955,6 @@ _field_names fname lname major age
 _field_names size: 4
 _field_map.size() 4
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_32.tbl
-Checking file: _select_table_32.tbl
-File successfully opened: _select_table_32.tbl
 FileRecord::write fired!
 Record written successfully with record number: 1
 
@@ -4916,8 +5011,6 @@ fname -> 0
 lname -> 1
 major -> 2
 Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Bo Yang CS 28
@@ -4925,10 +5018,6 @@ _field_names fname lname major age
 _field_names size: 4
 _field_map.size() 4
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_32.tbl
-Checking file: _select_table_32.tbl
-File successfully opened: _select_table_32.tbl
 FileRecord::write fired!
 Record written successfully with record number: 2
 
@@ -4985,8 +5074,6 @@ fname -> 0
 lname -> 1
 major -> 2
 Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Flo Yao Art 20
@@ -4994,10 +5081,6 @@ _field_names fname lname major age
 _field_names size: 4
 _field_map.size() 4
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_32.tbl
-Checking file: _select_table_32.tbl
-File successfully opened: _select_table_32.tbl
 FileRecord::write fired!
 Record written successfully with record number: 3
 
@@ -5014,37 +5097,29 @@ Field index for major: 2
 Inserting field value: Art for field: major at index: 2Inserted into _indices[2]: (Art, 3)--------------------------------------Debug here !!!
 Field name: age
 Field index for age: 3
-Inserting field value: 20 for field: age at index: 3Inserted into _indices[3]: (20, 3)Selected table record numbers: 0 1 2 3 
-Table name: _select_table_32, records: 4
-_last_record: 3
----------------------------------------------------------------------------
-        Record#          fname          lname          major            age
----------------------------------------------------------------------------
------Open_fileRW Fired!-----:
- student_updated.tbl
-Checking file: student_updated.tbl
-File successfully opened: student_updated.tbl
-              0     Sammuel L.        Jackson             CS             40
-              1          Billy        Jackson           Math             27
-              2             Bo           Yang             CS             28
-              3            Flo            Yao            Art             20
+Inserting field value: 20 for field: age at index: 3Inserted into _indices[3]: (20, 3)Vector_to_table :: record numbers: 0 1 2 3 Vector_to_table :: table name: _selected_table_10
 
 -------------------Table::vector_to_table done!----------------------------
-Selected table:
-Table name: _select_table_32, records: 4
+vector_to_table() result->_name: _selected_table_10
+Table name: _selected_table_10, records: 4
 _last_record: 3
 ---------------------------------------------------------------------------
-        Record#          fname          lname          major            age
+Record#        fname          lname          major          age            
 ---------------------------------------------------------------------------
------Open_fileRW Fired!-----:
- student_updated.tbl
-Checking file: student_updated.tbl
-File successfully opened: student_updated.tbl
-              0     Sammuel L.        Jackson             CS             40
-              1          Billy        Jackson           Math             27
-              2             Bo           Yang             CS             28
-              3            Flo            Yao            Art             20
-basic_test: records selected: 2 3 1 0
+0              Sammuel L.     Jackson        CS             40             
+1              Billy          Jackson        Math           27             
+2              Bo             Yang           CS             28             
+3              Flo            Yao            Art            20             
+Debug: _tables[table_name].get_select_recnos() = 2 3 1 0
+debug: command()::Record Number: 2310
+basic_test: records selected: 
+[Key]Record Numbers:  -> [Value]Tables: _selected_table_7 
+[Key]Record Numbers: 0 1 2  -> [Value]Tables: _selected_table_9 
+[Key]Record Numbers: 0 1 2 3  -> [Value]Tables: _selected_table_3 _selected_table_4 _selected_table_5 
+[Key]Record Numbers: 0 1 2 3 4  -> [Value]Tables: _selected_table_8 
+[Key]Record Numbers: 2 3  -> [Value]Tables: _selected_table_6 
+[Key]Record Numbers: 2 3 1 0  -> [Value]Tables: _selected_table_10 
+2 3 1 0
 
 >select * from student where lname>J and (major=CS or major=Art)
 Command Function Fired! select * from student where lname>J and (major=CS or major=Art)
@@ -5227,8 +5302,30 @@ last_state = :8
 Parse Tree Function Fired!
 stuck here! _ptree size: 7
 select
+    ⎴
+    where: [yes]
+    table_name: [student]
+    ⎵
+^
+⎴
+table_name: [student]
+    ^
+    ⎴
+    fields: [*]
+    ⎵
+fields: [*]
+⎵
+    ^
+    ⎴
+    condition: [lname, >, J, and, (, major, =, CS, or, major, =, Art, )]
+    command: [select]
+    ⎵
+
+
+Error: child_count exceeds MAX_CHILDREN.
 >>> Parsed command: select
 >>> ------>> cmd[0] = select---------------
+>>> Selecting from table: student
 -------------Table ctor 1 Done!-----
 >>> Applying WHERE condition.
 >>> Condition from parse tree: lname > J and ( major = CS or major = Art )
@@ -5383,13 +5480,15 @@ Matching record numbers:
   0   1   2 
 -------Table::vector_to_table fired!-------
 '*' detected. Expanding to all fields.
--------------Table ctor 1 Done!-----
------Open_fileRW Fired!-----:
- student.tbl
-Checking file: student.tbl
-File successfully opened: student.tbl
+-------------------Table ctor 3 Done!----------------------------
+Current state of _indices:
+_indices size: 4
+Index 0 initialized for field: fname
+Index 1 initialized for field: lname
+Index 2 initialized for field: major
+Index 3 initialized for field: age
+-----------------------------------------------
 File opened for reading: student.tbl
-Opening file for writing: student_updated.tbl
 -------Table::field_col_no fired!-------
 Field name: fname
 Field map size:4
@@ -5430,8 +5529,6 @@ fname -> 0
 lname -> 1
 major -> 2
 Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Flo Yao Art 20
@@ -5439,10 +5536,6 @@ _field_names fname lname major age
 _field_names size: 4
 _field_map.size() 4
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_34.tbl
-Checking file: _select_table_34.tbl
-File successfully opened: _select_table_34.tbl
 FileRecord::write fired!
 Record written successfully with record number: 0
 
@@ -5499,8 +5592,6 @@ fname -> 0
 lname -> 1
 major -> 2
 Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Bo Yang CS 28
@@ -5508,10 +5599,6 @@ _field_names fname lname major age
 _field_names size: 4
 _field_map.size() 4
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_34.tbl
-Checking file: _select_table_34.tbl
-File successfully opened: _select_table_34.tbl
 FileRecord::write fired!
 Record written successfully with record number: 1
 
@@ -5568,8 +5655,6 @@ fname -> 0
 lname -> 1
 major -> 2
 Field found: age at index 3
-FileRecord::FileRecord fired!
-FileRecord::write fired!
 
 -------Table::insert_into fired!-------
 Fields to insert : Sammuel L. Jackson CS 40
@@ -5577,10 +5662,6 @@ _field_names fname lname major age
 _field_names size: 4
 _field_map.size() 4
 FileRecord::FileRecord fired!
------Open_fileRW Fired!-----:
- _select_table_34.tbl
-Checking file: _select_table_34.tbl
-File successfully opened: _select_table_34.tbl
 FileRecord::write fired!
 Record written successfully with record number: 2
 
@@ -5597,40 +5678,33 @@ Field index for major: 2
 Inserting field value: CS for field: major at index: 2Inserted into _indices[2]: (CS, 2)--------------------------------------Debug here !!!
 Field name: age
 Field index for age: 3
-Inserting field value: 40 for field: age at index: 3Inserted into _indices[3]: (40, 2)Selected table record numbers: 0 1 2 
-Table name: _select_table_34, records: 3
-_last_record: 2
----------------------------------------------------------------------------
-        Record#          fname          lname          major            age
----------------------------------------------------------------------------
------Open_fileRW Fired!-----:
- student_updated.tbl
-Checking file: student_updated.tbl
-File successfully opened: student_updated.tbl
-              0            Flo            Yao            Art             20
-              1             Bo           Yang             CS             28
-              2     Sammuel L.        Jackson             CS             40
+Inserting field value: 40 for field: age at index: 3Inserted into _indices[3]: (40, 2)Vector_to_table :: record numbers: 0 1 2 Vector_to_table :: table name: _selected_table_11
 
 -------------------Table::vector_to_table done!----------------------------
-Selected table:
-Table name: _select_table_34, records: 3
+vector_to_table() result->_name: _selected_table_11
+Table name: _selected_table_11, records: 3
 _last_record: 2
 ---------------------------------------------------------------------------
-        Record#          fname          lname          major            age
+Record#        fname          lname          major          age            
 ---------------------------------------------------------------------------
------Open_fileRW Fired!-----:
- student_updated.tbl
-Checking file: student_updated.tbl
-File successfully opened: student_updated.tbl
-              0            Flo            Yao            Art             20
-              1             Bo           Yang             CS             28
-              2     Sammuel L.        Jackson             CS             40
-basic_test: records selected: 0 1 2
+0              Flo            Yao            Art            20             
+1              Bo             Yang           CS             28             
+2              Sammuel L.     Jackson        CS             40             
+Debug: _tables[table_name].get_select_recnos() = 0 1 2
+debug: command()::Record Number: 012
+basic_test: records selected: 
+[Key]Record Numbers:  -> [Value]Tables: _selected_table_7 
+[Key]Record Numbers: 0 1 2  -> [Value]Tables: _selected_table_9 _selected_table_11 
+[Key]Record Numbers: 0 1 2 3  -> [Value]Tables: _selected_table_3 _selected_table_4 _selected_table_5 
+[Key]Record Numbers: 0 1 2 3 4  -> [Value]Tables: _selected_table_8 
+[Key]Record Numbers: 2 3  -> [Value]Tables: _selected_table_6 
+[Key]Record Numbers: 2 3 1 0  -> [Value]Tables: _selected_table_10 
+2 3 1 0
 ----- END TEST --------
-[       OK ] SQL_BASIC.SQLBasic (34 ms)
-[----------] 1 test from SQL_BASIC (34 ms total)
+[       OK ] SQL_BASIC.SQLBasic (29 ms)
+[----------] 1 test from SQL_BASIC (29 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (34 ms total)
+[==========] 1 test from 1 test suite ran. (29 ms total)
 [  PASSED  ] 1 test.
 jwcomputer@JWs-MacBook-Pro 99_99_final % 
