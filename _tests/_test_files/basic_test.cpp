@@ -101,7 +101,8 @@ bool sql_basic(bool debug = false) {
                cout << sql.command(command_list[i]) << endl;
           else
                t = sql.command(command_list[i]);
-          cout << "basic_test: records selected: \n" << sql.select_recnos() << endl;
+          cout << "cmd: " << command_list[i] << endl;
+          cout << "basic_test: records selected: " << sql.select_recnos() << endl;
           }
      cout << "----- END TEST --------" << endl;
      return true;

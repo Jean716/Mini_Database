@@ -28,7 +28,10 @@ Table SQL::command(const string& cmd) {
                 cout << field << " ";
                 }
             cout << endl;
-            _tables[table_name] = Table(table_name, fields);  // create a new table
+            _table = Table(table_name, fields);
+            cout << "Make a new table: " << endl;
+            cout << _table << endl;
+            _tables.insert({ table_name,_table });
             }
         else if (command == "insert") {
             cout << ">>> ------>> cmd[0] = insert----------------" << endl;
@@ -43,7 +46,14 @@ Table SQL::command(const string& cmd) {
             cout << endl;
 
 
-            _tables[table_name].insert_into(values);
+            _table.insert_into(values);
+            cout << "Current table: " << endl;
+            cout << _table << endl;
+
+            _tables[_table.get_name()] = _table;
+
+
+            //_tables[table_name].insert_into(values);
             }
 
         else if (command == "select") {
@@ -72,21 +82,25 @@ Table SQL::command(const string& cmd) {
                 Queue<Token*> postfix_condition = _parser.convert_to_postfix(infix_condition);
 
                 // Call Table's select function with fields and postfix condition
-                result = _tables[table_name].select(fields, postfix_condition);
+                result = _table.select(fields, postfix_condition);
+
+                _tables.insert({ _table.get_name(), result });
 
 
                 }
             else {
                 // Select all records
                 cout << ">>> No WHERE condition found. Selecting all records." << endl;
-                result = _tables[table_name].select_all(fields);
+                result = _table.select_all(fields);
+                _tables.insert({ _table.get_name(), result });
+
 
                 }
             //------------------------------Debug _select_recnos-------------------------------------------------
                // get the selected record numbers and store them in  multimap _select_recnos
             vector<long> recnos = result.get_select_recnos();
-            _tables[table_name].get_select_recnos() = recnos;
-            cout << "Debug: _tables[table_name].get_select_recnos() = " << _tables[table_name].get_select_recnos() << endl;
+            _table.get_select_recnos() = recnos;
+            // _tables[table_name].get_select_recnos() = recnos;
             _select_recnos.insert({ recnos, result });
             //---------------------------------------------------------------------------------------------------
             cout << "debug: command()::Record Number: ";
@@ -120,31 +134,9 @@ Table SQL::command(const string& cmd) {
     }
 
 const vector<long> SQL::select_recnos() const {
-    if (_select_recnos.empty()) {
-        cout << "Debug: _select_recnos is empty. No records selected." << endl;
-        return {};
-        }
-    // Get the last entry in the multimap
-    const auto& last_entry = _select_recnos.rbegin(); // get the last entry in the multimap
 
-    auto it = _select_recnos.begin();
-    while (it != _select_recnos.end()) {
-        cout << "[Key]Record Numbers: ";
-        for (const auto& recno : it->first) {
-            cout << recno << " ";
-            }
+    return _table.get_select_recnos();
 
-        cout << " -> [Value]Tables: ";
-        auto range = _select_recnos.equal_range(it->first);
-        for (auto val_it = range.first; val_it != range.second; ++val_it) {
-            cout << val_it->second.get_name() << " ";
-            }
-        cout << endl;
-
-        it = range.second;
-        }
-
-    return last_entry->first;
     }
 
 
