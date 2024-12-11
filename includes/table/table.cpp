@@ -3,7 +3,6 @@
 #include <fstream>
 #include <utility>
 #include <vector>
-#include <map>
 #include "../../includes/queue/MyQueue.h"
 #include "../../includes/token/token.h"
 #include "../../includes/bplustree/bplustree.h"
@@ -259,7 +258,6 @@ int Table::insert_into(vector<string>& fields) {
         //     cout << pair.first << " -> " << pair.second << endl;
         //     }
         //---------------------------------------------------------
-        cout << "--------------------------------------Debug here !!!" << endl;
 
         cout << "Field name: " << _field_names[i] << endl;
         int field_index = _field_map.at(_field_names[i]);

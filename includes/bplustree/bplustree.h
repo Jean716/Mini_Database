@@ -835,15 +835,8 @@ void BPlusTree<T>::transfer_right(int i) {
 
 template <typename T>
 void BPlusTree<T>::clear_tree() {
-    // std::cerr << "Clearing node with data_count: " << data_count
-    //     << ", child_count: " << child_count << std::endl;
-    if (child_count > MAXIMUM + 1) {
-        std::cerr << "Error: child_count exceeds MAX_CHILDREN." << std::endl;
-        return;
-        }
     for (int i = 0; i < child_count; ++i) {
         if (subset[i] != nullptr) {
-            //std::cerr << "Clearing subset[" << i << "] with address: " << subset[i] << std::endl;
             subset[i]->clear_tree();
             delete subset[i];
             subset[i] = nullptr;
@@ -1022,20 +1015,18 @@ bool BPlusTree<T>::is_valid() {
     return true;
     }
 
-
-
 template <typename T>
 std::string BPlusTree<T>::in_order() {
     std::string result;
     if (is_leaf()) {
         for (int i = 0; i < data_count; ++i) {
-            result += std::to_string(data[i]) + "|";
+            result += to_string(data[i]) + "|";
             }
         }
     else {
         for (int i = 0; i < data_count; ++i) {
             result += subset[i]->in_order();
-            result += std::to_string(data[i]) + "|";
+            result += to_string(data[i]) + "|";
             }
         result += subset[data_count]->in_order();
         }

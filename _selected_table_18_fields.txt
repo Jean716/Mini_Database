@@ -1,3 +1,5 @@
-last
-first
+fname
+lname
+major
 age
+company

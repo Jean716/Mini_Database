@@ -52,7 +52,6 @@ Parser::Parser(const char* s) : _input(s), _fail(false) {
 
 mmap_ss Parser::parse_tree() const {
     cout << "Parse Tree Function Fired!" << endl;
-    cout << "stuck here! _ptree size: " << _ptree.size() << endl;
     cout << _ptree["command"][0] << endl;
     cout << _ptree << endl;
 
@@ -191,7 +190,6 @@ void Parser::init_adjacency_table() {
 
     if (_tokens.empty()) {
         _fail = true;
-        cout << "Token list is empty." << endl;
         return;
         }
 
@@ -301,7 +299,7 @@ map_sl Parser::get_column(vector<Token*> tokens) {
         switch (token_type) {
                 case TOKEN_ALFA:
                     if (_keywords.contains(token_str)) {
-                        // cout << "get_column: " << token_str << " is a keyword." << endl;
+                        cout << "get_column: " << token_str << " is a keyword." << endl;
                         column = _keywords.get(token_str);
                         }
                     else {

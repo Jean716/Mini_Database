@@ -7,6 +7,21 @@
 
 
 void init_make_table(int table[MAX_ROWS][MAX_COLUMNS]) {
+    // init_table(table);
+    // mark_fail(table, 1);
+    // mark_fail(table, 2);
+    // mark_fail(table, 3);
+    // mark_fail(table, 4);
+    // mark_success(table, 5);
+
+    // mark_cell(0, table, MAKE, 1);
+    // mark_cell(1, table, TABLE, 2);
+    // mark_cell(2, table, SYM, 3);
+    // mark_cell(3, table, FIELDS, 4);
+    // mark_cell(4, table, SYM, 5);
+    // mark_cell(5, table, SYM, 5);
+    // mark_cell(5, table, COMMA, 5);
+    // mark_cell(6, table, SYM, 5);
     init_table(table);
     mark_fail(table, 1);
     mark_fail(table, 2);
@@ -14,14 +29,22 @@ void init_make_table(int table[MAX_ROWS][MAX_COLUMNS]) {
     mark_fail(table, 4);
     mark_success(table, 5);
 
-    mark_cell(0, table, MAKE, 1);
-    mark_cell(1, table, TABLE, 2);
-    mark_cell(2, table, SYM, 3);
-    mark_cell(3, table, FIELDS, 4);
-    mark_cell(4, table, SYM, 5);
-    mark_cell(5, table, SYM, 5);
-    mark_cell(5, table, COMMA, 5);
-    mark_cell(6, table, SYM, 5);
+    // Transitions
+    mark_cell(0, table, MAKE, 1);       // make -> state 1
+    mark_cell(1, table, TABLE, 2);     // table -> state 2
+    mark_cell(2, table, SYM, 3);       // table name -> state 3
+    mark_cell(3, table, FIELDS, 4);    // fields -> state 4
+    mark_cell(4, table, SYM, 5);       // first field -> state 5
+    mark_cell(5, table, SYM, 5);       // additional fields -> state 5
+    mark_cell(5, table, COMMA, 5);     // comma -> state 5
+
+    // Handle spaces
+    mark_cells(0, table, SPACES, 0);     // allow spaces in state 0
+    mark_cells(1, table, SPACES, 1);     // allow spaces in state 1
+    mark_cells(2, table, SPACES, 2);     // allow spaces in state 2
+    mark_cells(3, table, SPACES, 3);     // allow spaces in state 3
+    mark_cells(4, table, SPACES, 4);     // allow spaces in state 4
+    mark_cells(5, table, SPACES, 5);     // allow spaces in state 5
     }
 
 
@@ -111,7 +134,7 @@ void init_select_table(int table[MAX_ROWS][MAX_COLUMNS]) {
 void process_make_state(int state, mmap_ss& ptree, const string& token_str) {
     switch (state) {
             case 1:
-                ptree["command"].push_back("make");
+                ptree["command"].push_back(token_str);
                 break;
             case 3:
                 ptree["table_name"].push_back(token_str);

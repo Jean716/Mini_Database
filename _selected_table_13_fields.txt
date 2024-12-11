@@ -2,3 +2,4 @@ fname
 lname
 major
 age
+company
