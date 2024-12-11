@@ -42,6 +42,9 @@ class Table
         Table(const string& name, const vector<string> &fields_names); // for creating a new table with fields
 
         void set_fields(vector<string> &fld_names);
+        void set_select_recnos(vector<long> &recnos) {
+            _select_recnos = recnos;
+            }
         vector<string> get_fields() const;         // vectorstr is a typedef for vector<string> that include the field names
         int field_col_no(string field_name);
 

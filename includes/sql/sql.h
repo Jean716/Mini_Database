@@ -13,6 +13,7 @@ class SQL
     public:
         Table command(const string& cmd);
         const vector<long> select_recnos() const;
+        const Table get_table() const { return _table; }
 
     private:
         map<string, Table> _tables; //table name-> table

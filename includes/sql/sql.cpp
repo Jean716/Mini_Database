@@ -44,16 +44,12 @@ Table SQL::command(const string& cmd) {
                 cout << value << " ";
                 }
             cout << endl;
-
-
             _table.insert_into(values);
             cout << "Current table: " << endl;
             cout << _table << endl;
 
-            _tables[_table.get_name()] = _table;
+            _tables[table_name] = _table;
 
-
-            //_tables[table_name].insert_into(values);
             }
 
         else if (command == "select") {
@@ -82,25 +78,19 @@ Table SQL::command(const string& cmd) {
                 Queue<Token*> postfix_condition = _parser.convert_to_postfix(infix_condition);
 
                 // Call Table's select function with fields and postfix condition
-                result = _table.select(fields, postfix_condition);
-
-                _tables.insert({ _table.get_name(), result });
-
-
+                result = _tables[table_name].select(fields, postfix_condition);
                 }
             else {
                 // Select all records
                 cout << ">>> No WHERE condition found. Selecting all records." << endl;
-                result = _table.select_all(fields);
-                _tables.insert({ _table.get_name(), result });
+                result = _tables[table_name].select_all(fields);
 
 
                 }
             //------------------------------Debug _select_recnos-------------------------------------------------
                // get the selected record numbers and store them in  multimap _select_recnos
             vector<long> recnos = result.get_select_recnos();
-            _table.get_select_recnos() = recnos;
-            // _tables[table_name].get_select_recnos() = recnos;
+            _table.set_select_recnos(recnos);
             _select_recnos.insert({ recnos, result });
             //---------------------------------------------------------------------------------------------------
             cout << "debug: command()::Record Number: ";
