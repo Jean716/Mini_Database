@@ -8,18 +8,24 @@
 #include "../../includes/bplustree/bplustree.h"
 #include "../../includes/binary_files/file_record.h"
 #include "../../includes/binary_files/utilities.h"
+#include "../../includes/parser/parser.h"
+#include "../../includes/parser/typedefs.h"
 using namespace std;
 
-SQL::SQL()
-    : _parser(), _table() {
-    cout << "SQL default constructor fired!" << endl;
+SQL::SQL() {
+    cout << "SQL constructor fired!" << endl;
+    _tables.clear();
+    _select_recnos.clear();
+    _parser.set_string("");
     }
 
 Table SQL::command(const string& cmd) {
     cout << "Command Function Fired! " << cmd << endl;
 
     _parser.set_string(cmd);
+
     mmap_ss ptree = _parser.parse_tree();
+
     string command = ptree["command"][0];
 
     cout << ">>> Parsed command: " << command << endl;
@@ -62,6 +68,10 @@ Table SQL::command(const string& cmd) {
         string table_name = ptree["table_name"][0];
         vector<string> fields = ptree.get("fields");
         Table result;
+
+        if (_tables.find(table_name) == _tables.end()) {
+            throw runtime_error("Table does not exist: " + table_name);
+            }
 
         // Check if there's a 'where' condition
         if (ptree.find("where") != ptree.end()) {

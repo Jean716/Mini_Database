@@ -21,25 +21,6 @@ Table::Table()
     cout << "Table default constructor fired!" << endl;
     }
 
-// Table::Table() {
-//     DEBUG_PRINT("-------Table ctor 1 fired!-------");
-//     // serial++;
-//     // _name = "_select_table_" + to_string(serial);
-//     _name = "";
-//     _file_name = "";
-//     _empty = true;
-//     _last_record = -1;
-//     _field_names = vector<string>();
-//     _select_recnos = vector<long>();
-//     _field_map = map<string, long>();
-//     _keyword = map<string, long>();
-//     _indices = vector<multimap<string, long>>();
-
-//     DEBUG_PRINT("Table serial number: " << serial);
-//     DEBUG_PRINT("Table file name: " << _file_name);
-
-//     cout << "-------------Table ctor 1 Done!-----" << endl;
-//     }
 
 Table::Table(const string& name) {
     DEBUG_PRINT("-------Table ctor 2 fired!-------");
@@ -102,8 +83,10 @@ Table::Table(const string& name, const vector<string> &fields_names) {
     _empty = true;
     _last_record = -1;
     _file_name = _name + ".tbl";
-    ofstream ofs(_file_name, ios::trunc | ios::binary);
-    ofs.close();
+    _field_map.clear();
+    _indices.clear();
+    // ofstream ofs(_file_name, ios::trunc | ios::binary);
+    // ofs.close();
 
     DEBUG_PRINT("Table serial number: " << serial);
 
@@ -229,10 +212,10 @@ int Table::insert_into(vector<string>& fields) {
         throw runtime_error("The number of fields does not match the table definition.");
         }
     //---------------------------------------------------------
-    // if (record_exists(fields)) {
-    //     cout << "Duplicate record found, skipping insertion." << endl;
-    //     return _last_record;
-    //     }
+    if (record_exists(fields)) {
+        cout << "Duplicate record found, skipping insertion." << endl;
+        return _last_record;
+        }
 
     //---------------------------------------------------------
     // 2. create FileRecord object and open the file
@@ -300,7 +283,6 @@ Table Table::vector_to_table(const vector<string>& fields, const vector<long>& v
     else {
         actual_fields = fields;
         }
-
 
     // 2. Initialize new table,use the constructor3
     string new_table_name = "_selected_table_" + to_string(serial);
@@ -440,7 +422,25 @@ Table Table::select_all(vector<string> fields) {
         }
     cout << endl;
     //---------------------------------------------------------
+// // Step 3: Iterate through each record and validate fields
+//     fstream file;
+//     open_fileRW(file, _file_name.c_str());
+//     for (long recno : recnos) {
+//         FileRecord record;
+//         if (record.read(file, recno)) {
+//             cout << "Read record at recno " << recno << ": ";
+//             vector<string> record_data = record.get_record();
+//             for (const auto& field : record_data) {
+//                 cout << field << " ";
+//                 }
+//             cout << endl;
+//             }
+//         else {
+//             cout << "Failed to read record at recno: " << recno << endl;
+//             }
+//         }
 
+    // file.close();
     Table t = vector_to_table(fields, recnos);
     _select_recnos = t._select_recnos;
 

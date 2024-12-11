@@ -815,23 +815,6 @@ void BPlusTree<T>::transfer_right(int i) {
 //      C L E A R   /  C O P Y
 //---------------------------------------------------------------
 
-// template <typename T>
-// void BPlusTree<T>::clear_tree() {
-//     for (int i = 0; i < child_count; ++i) {
-//         if (subset[i] != nullptr) {
-//             cerr << "Clearing subset[" << i << "]" << endl;
-
-//             subset[i]->clear_tree();
-//             delete subset[i];
-//             subset[i] = nullptr;
-//             }
-//         }
-//     //std::cerr << "All children cleared. Resetting data_count and child_count." << std::endl;
-
-//     data_count = 0;
-//     child_count = 0;
-//     next = nullptr;
-//     }
 
 template <typename T>
 void BPlusTree<T>::clear_tree() {
@@ -840,9 +823,6 @@ void BPlusTree<T>::clear_tree() {
             subset[i]->clear_tree();
             delete subset[i];
             subset[i] = nullptr;
-            }
-        else {
-            std::cerr << "Warning: subset[" << i << "] is nullptr." << std::endl;
             }
         }
 

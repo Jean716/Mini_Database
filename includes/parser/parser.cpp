@@ -45,14 +45,18 @@ Parser::Parser(const char* s) : _input(s), _fail(false) {
 
 mmap_ss Parser::parse_tree() const {
     cout << "Parse Tree Function Fired!" << endl;
-    cout << _ptree["command"][0] << endl;
+    cout << "command: " << _ptree["command"][0] << endl;
+
     cout << _ptree << endl;
+    cout << "Parse Tree Function Done!" << endl;
 
     return _ptree;
     }
 
 void Parser::set_string(const string & input) {
     cout << "set_string Function Fired!" << endl;
+    _ptree.clear();
+    _tokens.clear();
     Queue<Token*> postfix;
     cout << "set string : Input string: " << input << endl;
     tokenize(input, postfix);
