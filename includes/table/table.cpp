@@ -284,6 +284,11 @@ int Table::insert_into(vector<string>& fields) {
 Table Table::vector_to_table(const vector<string>& fields, const vector<long>& vector_of_recnos) {
     cout << "-------Table::vector_to_table fired!-------" << endl;
 
+    cout << "vector_to_table :: check vector_of_recnos: ";
+    for (const auto& recno : vector_of_recnos) {
+        cout << recno << " ";
+        }
+
     // 1. Handle '*' case
     vector<string> actual_fields;
     if (fields.size() == 1 && fields[0] == "*") {
@@ -305,16 +310,21 @@ Table Table::vector_to_table(const vector<string>& fields, const vector<long>& v
     cout << "File opened for reading: " << _file_name << endl;
 
     // 4. Open new file for writing
+    fstream new_file;
+    open_fileW(new_file, new_table.get_file_name().c_str());
+    cout << "File opened for writing: " << new_table.get_file_name() << endl;
+
+
+    // 5. Process each record in vector_of_recnos
     for (const auto& recno : vector_of_recnos) {
         FileRecord record;
         record.read(file, recno);
-
         vector<string> record_fields;
         for (const auto& field : actual_fields) {
             int field_index = field_col_no(field);
             if (field_index == -2) {
                 // Handle '*': Add all fields
-                record_fields.insert(record_fields.end(), record._record.begin(), record._record.end());
+                record_fields.insert(record_fields.end(), record.get_record().begin(), record.get_record().end());
                 break;
                 }
             else if (field_index == -1 || field_index == -3) {
@@ -322,28 +332,31 @@ Table Table::vector_to_table(const vector<string>& fields, const vector<long>& v
                 continue;
                 }
             else {
-                record_fields.push_back(record._record[field_index]);
+                record_fields.push_back(record[field_index]);
                 }
             }
 
-        // Update indices
+        FileRecord new_record(record_fields);
+        new_record.write(new_file);
+
         new_table.insert_into(record_fields);
         }
 
+    // 6. Close files
     file.close();
+    new_file.close();
+
     cout << "Vector_to_table :: record numbers: ";
-    for (const auto& recno : new_table._select_recnos) {
+    for (const auto& recno : new_table.get_select_recnos()) {
         cout << recno << " ";
         }
-    cout << "Vector_to_table :: table name: ";
-    cout << new_table._name << endl;
-
     cout << endl;
 
+    cout << "Vector_to_table :: table name: " << new_table.get_name() << endl;
     cout << "-------------------Table::vector_to_table done!----------------------------" << endl;
+
     return new_table;
     }
-
 //set fields
 void Table::set_fields(vector<string>& fld_names) {
     DEBUG_PRINT("-------set_fields fired!-------");
@@ -512,11 +525,12 @@ void Table::reindex() {
 //LINK - cond
 vector<long> Table::cond(const Queue<Token*>& postfix) {
     cout << "-------Table::cond fired!-------" << endl;
+    cout << "Postfix expression: ";
+    cout << postfix << endl;
 
     ResultSet result_set;
     Stack<vectorlong> logical_stack;
     Stack<string> string_stack;
-
     Queue<Token*> temp_postfix = postfix;
 
     while (!temp_postfix.empty()) {
@@ -535,6 +549,7 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
             string field_name = string_stack.pop();
 
             int field_index = field_col_no(field_name);
+            cout << "Field index for " << field_name << ": " << field_index << endl;
             if (field_index == -1) {
                 throw runtime_error("Field not found: " + field_name);
                 }
@@ -544,12 +559,18 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
                 }
 
             const auto& field_index_map = _indices[field_index];
+            cout << "Debug cond(): printing _indices: ";
+            for (const auto& pair : field_index_map) {
+                cout << pair.first << " -> " << pair.second << endl;
+                }
             vector<long> matching_recnos;
 
             if (token->value() == "=") {
+                cout << "Processing '=': field_value = " << field_value << endl;
                 auto range = field_index_map.equal_range(field_value);
                 for (auto it = range.first; it != range.second; ++it) {
                     matching_recnos.push_back(it->second);
+
                     }
                 }
             else if (token->value() == "!=") {

@@ -109,8 +109,6 @@ Table SQL::command(const string& cmd) {
                 }
             cout << endl;
 
-            // Store the result table
-            _table = result;
             return result;
             }
         else {
