@@ -29,18 +29,12 @@ Parser::Parser()
     _tokens(),
     _ptree(),
     _adjacency_table{} {
-    cout << "Parser Default Constructor Fired!" << endl;
-    init_adjacency_table();
     build_keyword_list(_keywords);
-    set_string(_input);
+    cout << "Parser Default Constructor Fired!" << endl;
+
     }
 
-// Parser::Parser() :_input(""), _fail(false) {
-//     cout << "Parser Default Constructor Fired!" << endl;
-//     init_adjacency_table();
-//     build_keyword_list(_keywords);
-//     set_string(_input);
-//     }
+
 
 Parser::Parser(const char* s) : _input(s), _fail(false) {
     cout << "Parser Constructor Fired!" << endl;
@@ -48,7 +42,6 @@ Parser::Parser(const char* s) : _input(s), _fail(false) {
     build_keyword_list(_keywords);
     set_string(_input);
     }
-
 
 mmap_ss Parser::parse_tree() const {
     cout << "Parse Tree Function Fired!" << endl;
@@ -83,11 +76,11 @@ void Parser::tokenize(const string& input, Queue<Token*>& infix) {
     Token* token = nullptr;
     _tokens.clear();
     //---------------------------------------
-    cout << "Tokens in vector: " << endl;
+   // cout << "Tokens in vector: " << endl;
     while (tokenizer.more()) {
         tokenizer >> token;
         if (token && token->type() != TOKEN_SPACE) {
-            cout << "Processing token: " << token->value() << " [Type: " << token->type() << "]" << endl;
+            //cout << "Processing token: " << token->value() << " [Type: " << token->type() << "]" << endl;
 
             _tokens.push_back(token);
             //infix.push(token);
@@ -186,20 +179,24 @@ void Parser::tokenize(const string& input, Queue<Token*>& infix) {
     }
 
 void Parser::init_adjacency_table() {
+    cout << "Init Adjacency Table Function Fired!" << endl;
     init_table(_adjacency_table);
 
     if (_tokens.empty()) {
+        cout << "Error: Token list is empty." << endl;
         _fail = true;
         return;
         }
 
-    Token* token = _tokens[0];
-    string token_str = token->value();
-
+    // Token* token = _tokens[0];
+    // string token_str = token->value();
+    string token_str = _tokens[0]->value();
+    cout << "First token: " << token_str << endl;
     if (token_str == "select") {
         init_select_table(_adjacency_table);
         }
     else if (token_str == "make") {
+        cout << "This is make table!" << endl;
         init_make_table(_adjacency_table);
         }
     else if (token_str == "insert") {
@@ -215,11 +212,17 @@ void Parser::init_adjacency_table() {
 
 bool Parser::get_parse_tree() {
     cout << "Get Parse Tree Function Fired!" << endl;
+    // cout << "[Debug]Print Tokens first in get_parse_tree function: " << endl;
+    // for (Token* token : _tokens) {
+    //     cout << *token << endl;
+    //     }
+
     if (_tokens.empty()) {
         _fail = true;
         cout << "Error: Token list is empty." << endl;
         return false;
         }
+
     int state = 0;
     int last_success_state = -1;
     _ptree.clear();
@@ -240,21 +243,21 @@ bool Parser::get_parse_tree() {
             }
 
         int column_no = token_columns.get(token_str);
-        // cout << "Column Number: " << column_no << endl;
-
-
+        cout << "Column Number: " << column_no << endl;
         state = _adjacency_table[last_state][column_no];
-        // cout << "State from table: " << state << endl;
+        cout << "State from table: " << state << endl;
 
         string first_token = _tokens[0]->value();
         if (first_token == "insert") {
+            cout << "command is insert!" << endl;
             process_insert_state(state, _ptree, token_str);
             }
         else if (first_token == "select") {
-            // cout << "command is select!" << endl;
+            cout << "command is select!" << endl;
             process_select_state(state, _ptree, token_str);
             }
         else if (first_token == "make") {
+            cout << "command is make!" << endl;
             process_make_state(state, _ptree, token_str);
             }
         else {
@@ -293,7 +296,7 @@ map_sl Parser::get_column(vector<Token*> tokens) {
     for (Token* token : tokens) {
         string token_str = token->value();
         int token_type = token->type();
-        // cout << "current token is " << token_str << endl;
+        cout << "current token is " << token_str << endl;
         int column = -1;
 
         switch (token_type) {

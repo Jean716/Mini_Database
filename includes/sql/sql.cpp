@@ -10,19 +10,16 @@
 #include "../../includes/binary_files/utilities.h"
 using namespace std;
 
-SQL::SQL() {
-    cout << "SQL Constructor Fired!" << endl;
-    _parser = Parser();
-    _table = Table();
+SQL::SQL()
+    : _parser(), _table() {
+    cout << "SQL default constructor fired!" << endl;
     }
-
 
 Table SQL::command(const string& cmd) {
     cout << "Command Function Fired! " << cmd << endl;
 
     _parser.set_string(cmd);
     mmap_ss ptree = _parser.parse_tree();
-
     string command = ptree["command"][0];
 
     cout << ">>> Parsed command: " << command << endl;
@@ -31,6 +28,12 @@ Table SQL::command(const string& cmd) {
         cout << ">>> ------>> cmd[0] = Make----------------" << endl;
         string table_name = ptree["table_name"][0];
         vector<string> fields = ptree["col"];
+
+        if (_tables.find(table_name) != _tables.end()) {
+            cout << "Table already exists. Overwriting: " << table_name << endl;
+            _tables.erase(table_name);
+            }
+
         cout << ">>> Creating table: " << table_name << " with fields: ";
         for (const auto& field : fields) {
             cout << field << " ";
@@ -98,5 +101,4 @@ Table SQL::command(const string& cmd) {
 
     return Table();  // Return an empty table by default
     }
-
 

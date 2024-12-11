@@ -16,26 +16,30 @@
 #include "../../includes/rpn/rpn.h"
 #include "../../includes/rpn/rpn.h"
 int Table::serial = 0;
-
-Table::Table() {
-    DEBUG_PRINT("-------Table ctor 1 fired!-------");
-    // serial++;
-    // _name = "_select_table_" + to_string(serial);
-    _name = "";
-    _file_name = "";
-    _empty = true;
-    _last_record = -1;
-    _field_names = vector<string>();
-    _select_recnos = vector<long>();
-    _field_map = map<string, long>();
-    _keyword = map<string, long>();
-    _indices = vector<multimap<string, long>>();
-
-    DEBUG_PRINT("Table serial number: " << serial);
-    DEBUG_PRINT("Table file name: " << _file_name);
-
-    cout << "-------------Table ctor 1 Done!-----" << endl;
+Table::Table()
+    : _name(""), _file_name(""), _empty(true), _last_record(-1) {
+    cout << "Table default constructor fired!" << endl;
     }
+
+// Table::Table() {
+//     DEBUG_PRINT("-------Table ctor 1 fired!-------");
+//     // serial++;
+//     // _name = "_select_table_" + to_string(serial);
+//     _name = "";
+//     _file_name = "";
+//     _empty = true;
+//     _last_record = -1;
+//     _field_names = vector<string>();
+//     _select_recnos = vector<long>();
+//     _field_map = map<string, long>();
+//     _keyword = map<string, long>();
+//     _indices = vector<multimap<string, long>>();
+
+//     DEBUG_PRINT("Table serial number: " << serial);
+//     DEBUG_PRINT("Table file name: " << _file_name);
+
+//     cout << "-------------Table ctor 1 Done!-----" << endl;
+//     }
 
 Table::Table(const string& name) {
     DEBUG_PRINT("-------Table ctor 2 fired!-------");

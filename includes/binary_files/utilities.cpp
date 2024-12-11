@@ -41,10 +41,18 @@ void open_fileRW(fstream& f, const char filename[]) {
         }
     }
 
+// only open file for writing，it will truncate the file if it exists
 void open_fileW(fstream & f, const char filename[]) {
     cout << "Opening file for writing: " << filename << endl;
-    f.open(filename, ios::out | ios::binary | ios::trunc);
-    if (!f) {
-        throw runtime_error("Failed to open file for writing: " + string(filename));
+    try {
+        cout << "Opening file for writing (overwrite mode): " << filename << endl;
+        f.open(filename, ios::out | ios::binary | ios::trunc);
+        if (!f.is_open()) {
+            throw runtime_error("Failed to open file for writing: " + string(filename));
+            }
+        }
+    catch (const exception& e) {
+        cerr << "Exception in open_fileW: " << e.what() << endl;
+        throw;
         }
     }
