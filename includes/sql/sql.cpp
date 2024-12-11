@@ -12,12 +12,6 @@
 #include "../../includes/parser/typedefs.h"
 using namespace std;
 
-SQL::SQL() {
-    cout << "SQL constructor fired!" << endl;
-    _tables.clear();
-    _select_recnos.clear();
-    _parser.set_string("");
-    }
 
 Table SQL::command(const string& cmd) {
     cout << "Command Function Fired! " << cmd << endl;
@@ -97,6 +91,7 @@ Table SQL::command(const string& cmd) {
         else {
             // Select all records
             cout << ">>> No WHERE condition found. Selecting all records." << endl;
+            cout << "current table name: " << table_name << endl;
             result = _tables[table_name].select_all(fields);
             }
         //------------------------------Debug _select_recnos-------------------------------------------------
