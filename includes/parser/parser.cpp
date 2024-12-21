@@ -31,87 +31,159 @@ Parser::Parser()
     _adjacency_table{} {
     build_keyword_list(_keywords);
     cout << "Parser Default Constructor Fired!" << endl;
+
     }
 
+
+
 Parser::Parser(const char* s) : _input(s), _fail(false) {
-    cout << "-[0]---Parser::Parser Constructor Fired!------" << endl;
+    cout << "Parser Constructor Fired!" << endl;
     cout << "Input string: " << (s ? s : "null") << endl;
     build_keyword_list(_keywords);
     set_string(_input);
-    cout << "-[100]---Parser::Parser Constructor Done!------" << endl;
     }
 
 mmap_ss Parser::parse_tree() const {
-    cout << "Parse Tree Function Fired! [" << _input << "]" << endl;
+    cout << "Parse Tree Function Fired!" << endl;
     cout << "command: " << _ptree["command"][0] << endl;
-    cout << "table_name: " << _ptree["table_name"][0] << endl;
 
     cout << _ptree << endl;
     cout << "Parse Tree Function Done!" << endl;
-    cout << "-65 Parser::parse_tree()----returning _ptree -----------[" << _input << "]" << endl;
+
     return _ptree;
     }
 
 void Parser::set_string(const string & input) {
-    cout << "-[0]---set_string Function Fired!------" << endl;
+    cout << "set_string Function Fired!" << endl;
     _ptree.clear();
     _tokens.clear();
-    Queue<Token*> infix;
-    _input = input;
-    tokenize(_input, infix);
+    Queue<Token*> postfix;
+    cout << "set string : Input string: " << input << endl;
+    tokenize(input, postfix);
     init_adjacency_table();
-    _fail = !get_parse_tree();
+    if (!get_parse_tree()) {
+        cout << "Failed to parse the input string." << endl;
+        }
 
     }
 
 void Parser::tokenize(const string& input, Queue<Token*>& infix) {
-    cout << "-[0]-Parser::tokenize() function Fired!" << endl;
+    cout << "Tokenize Function Fired!" << endl;
     cout << "Input string: " << input << endl;
+    char c_input[MAX_BUFFER];
+    strncpy(c_input, input.c_str(), MAX_BUFFER - 1);
+    c_input[MAX_BUFFER - 1] = '\0';
 
-    STokenizer tokenizer;
-    tokenizer.set_string(input.c_str());
+    // cout << "Input string: " << c_input << endl;
+
+    STokenizer tokenizer(c_input);
     Token* token = nullptr;
-
+    _tokens.clear();
     //---------------------------------------
+   // cout << "Tokens in vector: " << endl;
     while (tokenizer.more()) {
         tokenizer >> token;
-        if (token) {
-            cout << "Token: " << token->getType() << " - " << token->getValue() << endl;
-            if (token->getType() != Token::SPACE_TK) {
-                infix.push(token);
-                cout << "Token pushed to infix queue." << endl;
-                }
-            else {
-                delete token; // Clean up space tokens
-                cout << "Space token ignored and deleted." << endl;
-                }
+        if (token && token->type() != TOKEN_SPACE) {
+            //cout << "Processing token: " << token->value() << " [Type: " << token->type() << "]" << endl;
+
+            _tokens.push_back(token);
+            //infix.push(token);
+           // cout << *token << endl;
             }
         }
     //---------------------------------------
-    cout << "generate basic tokens:\n " << endl;
-    cout << infix << endl;
-    _tokens.clear();
-    while (!infix.empty()) {
-        Token* token = infix.front();
-        infix.pop();
-        if (token->getType() != Token::SPACE_TK) {
-            _tokens.push_back(token);
+    vector <Token*> new_tokens;
+    string combined = "";
+    bool is_combining = false;
+
+    for (size_t i = 0; i < _tokens.size(); ++i) {
+        string current_value = _tokens[i]->value();
+
+        // Case 1: Detect "values" keyword to start combining
+        if (current_value == "values") {
+            // Push the "values" token and start combining
+            new_tokens.push_back(_tokens[i]);
+            is_combining = true;
+            combined = "";
+            }
+        // Case 2: Detect operator and combine following ALFA tokens
+
+        else if (_tokens[i]->type() == TOKEN_RELATIONAL_OPERATOR) {
+            new_tokens.push_back(_tokens[i]); // Push the operator
+            size_t j = i + 1;
+            combined = "";
+            cout << "Combining tokens after RELATIONAL_OPERATOR at index " << i << endl;
+
+            // Combine consecutive ALFA tokens
+            while (j < _tokens.size() && _tokens[j]->type() == TOKEN_ALFA) {
+                cout << "Adding token: " << _tokens[j]->value() << " to combined string." << endl;
+
+                if (!combined.empty()) {
+                    combined += " "; // Add space between words
+                    }
+                combined += _tokens[j]->value();
+                j++;
+                }
+
+            // Push combined token if any
+            if (!combined.empty()) {
+                cout << "Pushing combined token: " << combined << endl;
+
+                new_tokens.push_back(new ALFAToken(combined));
+                }
+
+            i = j - 1; // Update the index
+            continue;
+            }
+
+        // Case 3: Combine ALFA tokens after "values" until a comma
+        else if (is_combining) {
+            // Combine ALFA tokens until a comma is found
+            if (_tokens[i]->value() == ",") {
+                if (!combined.empty()) {
+                    new_tokens.push_back(new ALFAToken(combined)); // push the combined token before the comma
+                    combined = "";
+                    is_combining = false; // Stop combining
+                    }
+                new_tokens.push_back(_tokens[i]); // Push the comma
+                is_combining = true;           // Start combining again
+                }
+            else {
+                if (!combined.empty()) {
+                    combined += " ";
+                    }
+                combined += current_value; // Append current value
+                }
             }
         else {
-            delete token; // Clean up space tokens
-            cout << "Space token ignored and deleted." << endl;
+            // Push non-combined tokens directly
+            new_tokens.push_back(_tokens[i]);
             }
         }
-    cout << "Tokens after removing spaces: " << endl;
-    for (Token* token : _tokens) {
-        cout << *token << "->";
-        }
-    cout << "-[1]-Tokenization done!" << endl;
 
+    // Push the final combined token if it exists
+    if (is_combining && !combined.empty()) {
+        new_tokens.push_back(new ALFAToken(combined));
+        }
+
+    // Step 3: Push refined tokens into the infix queue
+    for (Token* refined_token : new_tokens) {
+        infix.push(refined_token);
+        }
+
+    //---------------------------------------
+    cout << "Tokens: " << endl;
+    _tokens.clear();
+    _tokens = new_tokens;
+    for (Token* token : _tokens) {
+        cout << *token << endl;
+        }
+
+    cout << "Tokenization done!" << endl;
     }
 
 void Parser::init_adjacency_table() {
-    cout << "-[0]--Init Adjacency Table Function Fired------" << endl;
+    cout << "Init Adjacency Table Function Fired!" << endl;
     init_table(_adjacency_table);
 
     if (_tokens.empty()) {
@@ -120,7 +192,9 @@ void Parser::init_adjacency_table() {
         return;
         }
 
-    string token_str = _tokens[0]->getValue();
+    // Token* token = _tokens[0];
+    // string token_str = token->value();
+    string token_str = _tokens[0]->value();
     cout << "First token: " << token_str << endl;
     if (token_str == "select") {
         init_select_table(_adjacency_table);
@@ -142,11 +216,10 @@ void Parser::init_adjacency_table() {
 
 bool Parser::get_parse_tree() {
     cout << "Get Parse Tree Function Fired!" << endl;
-    cout << "[---- 65 Debug]Print Tokens first in get_parse_tree function: " << endl;
-    for (Token* token : _tokens) {
-        cout << *token << "->";
-        }
-    cout << endl;
+    // cout << "[Debug]Print Tokens first in get_parse_tree function: " << endl;
+    // for (Token* token : _tokens) {
+    //     cout << *token << endl;
+    //     }
 
     if (_tokens.empty()) {
         _fail = true;
@@ -157,19 +230,19 @@ bool Parser::get_parse_tree() {
     int state = 0;
     int last_success_state = -1;
     _ptree.clear();
-    // init_adjacency_table();
+    init_adjacency_table();
     map_sl token_columns = get_column(_tokens);
-    cout << "-- 65 ---after get_column" << endl;
+
     for (Token* token : _tokens) {
-        string token_str = token->getValue();
-        int token_type = token->getType();
+        string token_str = token->value();
+        int token_type = token->type();
         int last_state = state;
         cout << "This token is: " << token_str << endl;
         cout << "State = " << state << endl;
         cout << "last_state = :" << last_state << endl;
 
 
-        if (token_type == Token::SPACE_TK || token_type == Token::COMMA_TK) {
+        if (token_type == TOKEN_SPACE || token_type == TOKEN_COMMA) {
             continue;
             }
 
@@ -178,7 +251,7 @@ bool Parser::get_parse_tree() {
         state = _adjacency_table[last_state][column_no];
         cout << "State from table: " << state << endl;
 
-        string first_token = _tokens[0]->getValue();
+        string first_token = _tokens[0]->value();
         if (first_token == "insert") {
             cout << "command is insert!" << endl;
             process_insert_state(state, _ptree, token_str);
@@ -218,44 +291,52 @@ bool Parser::get_parse_tree() {
         _ptree.clear();
         return false;
         }
-
-    cout << "Get Parse Tree Function Done!" << endl;
     }
 
 map_sl Parser::get_column(vector<Token*> tokens) {
-    cout << "-[0]-Get Column Function Fired!" << endl;
+    cout << "Get Column Function Fired!" << endl;
     map_sl token_columns;
 
     for (Token* token : tokens) {
-        string token_str = token->getValue();
-        int token_type = token->getType();
+        string token_str = token->value();
+        int token_type = token->type();
         cout << "current token is " << token_str << endl;
         int column = -1;
 
         switch (token_type) {
-                case Token::ALPHA_TK:
-                case Token::NUMBER_TK:
-                case Token::STRING_TK:
+                case TOKEN_ALFA:
+                    if (_keywords.contains(token_str)) {
+                        cout << "get_column: " << token_str << " is a keyword." << endl;
+                        column = _keywords.get(token_str);
+                        }
+                    else {
+                        column = SYM;
+                        }
+                    break;
+                case TOKEN_NUMBER:
+                case TOKEN_STRING:
                     column = SYM;
                     break;
-                case Token::STAR_TK:
+
+                case TOKEN_ASTERISK:
                     column = STAR;
                     break;
-                case Token::COMMA_TK:
+
+                case TOKEN_COMMA:
                     column = COMMA;
                     break;
-                case Token::RELATIONAL_OP_TK:
+                case TOKEN_RELATIONAL_OPERATOR:
                     column = REL_OP;
                     break;
-                case Token::LOGICAL_OP_TK:
+                case TOKEN_LOGICAL_OPERATOR:
                     column = LOG_OP;
                     break;
 
-                case Token::LEFT_PAREN_TK:
+                case TOKEN_LEFT_PAREN:
                     column = LP;
                     break;
 
-                case Token::RIGHT_PAREN_TK:
+                case TOKEN_RIGHT_PAREN:
                     column = RP;
                     break;
 
@@ -268,15 +349,16 @@ map_sl Parser::get_column(vector<Token*> tokens) {
             token_columns.insert(token_str, column);
             }
         }
-    cout << "\n\nreturning from get_column\n\n";
+
     return token_columns;
     }
 
 void Parser::build_keyword_list(map_sl & list) {
-    cout << "-[0]---Parser::Build Keyword List Function Fired!------" << endl;
+    cout << "Build Keyword List Function Fired!" << endl;
     list["make"] = MAKE;
     list["table"] = TABLE;
     list["command"] = SELECT;
+    list["col"] = TABLE;
     list["fields"] = FIELDS;
     list["insert"] = INSERT;
     list["into"] = INTO;
@@ -286,9 +368,20 @@ void Parser::build_keyword_list(map_sl & list) {
     list["*"] = STAR;
     list["from"] = FROM;
     list["where"] = WHERE;
-    list[","] = COMMA;
+    list["sym"] = SYM;
+    list["and"] = LOG_OP;
+    list["or"] = LOG_OP;
+    list["not"] = LOG_OP;
 
-    cout << "Keyword list built done!" << endl;
+    list[","] = COMMA;
+    list["="] = REL_OP;
+    list["!="] = REL_OP;
+    list["<"] = REL_OP;
+    list[">"] = REL_OP;
+    list["<="] = REL_OP;
+    list[">="] = REL_OP;
+
+    cout << "Keyword list built successfully!" << endl;
 
     }
 Queue<Token*> Parser::convert_to_postfix(Queue<Token*>& infix_queue) {
@@ -304,6 +397,7 @@ Queue<Token*> Parser::convert_to_postfix(Queue<Token*>& infix_queue) {
     while (!temp_queue.empty()) {
         Token* t = temp_queue.front();
         temp_queue.pop();
+        cout << t->value() << " ";
         }
     cout << endl;
 

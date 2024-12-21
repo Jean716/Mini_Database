@@ -10,7 +10,6 @@ using namespace std;
 #include "../../includes/parser/sql_parser_functions.h"
 #include "../../includes/parser/typedefs.h"
 #include "../../includes/tokenizer/stokenize.h"
-#include "../../includes/queue/MyQueue.h"
 class Parser
     {
     private:
@@ -24,7 +23,6 @@ class Parser
     public:
         Parser();
         Parser(const char* s);
-
         /*
         - copy str to internal buffer
         - initialize "make" adjacency table
@@ -38,15 +36,11 @@ class Parser
         calls get_parse_tree
         sets/resets fail flag
         Accessors and Mutators
-        */
+    */
 
         mmap_ss parse_tree() const;
         bool fail() const { return _fail; }
-        mmap_ss  get_ptree() const {
-            cout << "_parser's _ptree viriable: " << endl;
-            cout << _ptree << endl;
-            return _ptree;
-            }
+
         void init_adjacency_table();
         void tokenize(const string& input, Queue<Token*>& infix);
         bool get_parse_tree();
@@ -59,18 +53,6 @@ class Parser
         map_sl get_column(vector<Token*> tokens);
         // maps tokens to keywords constants like SELECT, FROM, WHERE, etc
         Queue<Token*> convert_to_postfix(Queue<Token*>& infix_queue);
-
-        enum SyntaxType
-            {
-            KEYWORD,
-            FIELD,
-            TABLE_NAME,
-            CONDITION,
-            LOGICAL_OPERATOR,
-            RELATIONAL_OPERATOR,
-            VALUE,
-            ASTERISK,
-            };
 
     };
 
