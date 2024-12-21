@@ -237,6 +237,8 @@ template <class T>
 BPlusTree<T>::BPlusTree(const BPlusTree<T>& other) {
     BPlusTree<T>* last_node = nullptr;  // Initialize last_node to nullptr
     copy_tree(other, last_node);
+    cout << "-65----TOP bptree copy constructor" << *this << endl;
+    cout << "-- 65--- leaving bptree copy constructor" << *this << endl;
     }
 
 template <class T>
@@ -297,11 +299,12 @@ template <typename T>
 T& BPlusTree<T>::get(const T& entry) {
     //If entry is not in the tree, add it to the tree
     //assert(contains(entry));
-
+   // cout << "get() Fired!" << endl;
     if (!contains(entry))
         insert(entry);
-
+    // cout << "get() Done!" << endl;
     return get_existing(entry);
+
     }
 
 template <typename T>
@@ -818,6 +821,7 @@ void BPlusTree<T>::transfer_right(int i) {
 
 template <typename T>
 void BPlusTree<T>::clear_tree() {
+    cout << "-[0]- BplusTree<T>::Clear tree fired!" << endl;
     for (int i = 0; i < child_count; ++i) {
         if (subset[i] != nullptr) {
             subset[i]->clear_tree();
@@ -833,6 +837,7 @@ void BPlusTree<T>::clear_tree() {
 
 template <typename T>
 void BPlusTree<T>::copy_tree(const BPlusTree<T>&other) {
+    cout << "Copy tree fired!" << endl;
     assert(empty());
     data_count = other.data_count;
     child_count = other.child_count;
@@ -850,6 +855,7 @@ void BPlusTree<T>::copy_tree(const BPlusTree<T>&other) {
         }
 
     next = other.next ? new BPlusTree<T>(*other.next) : nullptr;
+    cout << "Copy tree completed!" << endl;
     }
 
 //ANCHOR - copy_tree

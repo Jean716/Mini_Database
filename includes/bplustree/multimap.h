@@ -99,6 +99,14 @@ class MMap
 
         MMap() : mmap(BPlusTree<MPair<K, V>>()) {}
 
+        // MMap<K, V>& operator =(const MMap<K, V>& other) {
+        //     cout << "MMap assignment operator fired!" << endl;
+        //     if (this != &other) {
+        //         copy_tree(other.mmap);
+        //         }
+        //     return *this;
+        //     }
+
         //  Iterators
         Iterator begin() { return Iterator(mmap.begin()); }
         Iterator end() { return Iterator(mmap.end()); }
@@ -140,6 +148,7 @@ class MMap
             mmap.remove(m_pair);
             }
         void clear() {
+            cout << "-[0]-MMap clear fired!" << endl;
             mmap.clear_tree();
             }
 

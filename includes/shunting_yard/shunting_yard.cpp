@@ -30,24 +30,24 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
         Token* token = input.front();
         input.pop();
 
-        cout << "Current Token:--------------> " << token->value() << endl;
+        cout << "Current Token:--------------> " << token->getValue() << endl;
 
-        if (token->type() == TOKEN_NUMBER || token->type() == TOKEN_STRING || token->type() == TOKEN_ALFA) {
+        if (token->getType() == Token::NUMBER_TK || token->getType() == Token::STRING_TK || token->getType() == Token::ALPHA_TK) {
             cout << "is string or number" << endl;
             output.push(token);
-            cout << "Pushing token: " << token->value() << " to output queue." << endl;
+            cout << "Pushing token: " << token->getValue() << " to output queue." << endl;
             }
         else if (is_operator(token) || is_relational_operator(token) || is_logical_operator(token)) {
             cout << "is operator" << endl;
             while (!operators.empty() &&
                 !is_left_paren(operators.top()) &&
                 precedence(operators.top()) >= precedence(token)) {
-                cout << "Popping operator: " << operators.top()->value() << " from stack." << endl;
+                cout << "Popping operator: " << operators.top()->getValue() << " from stack." << endl;
 
                 output.push(operators.top());
                 operators.pop();
                 }
-            cout << "Pushing operator: " << token->value() << " to stack." << endl;
+            cout << "Pushing operator: " << token->getValue() << " to stack." << endl;
             operators.push(token);
             }
         else if (is_left_paren(token)) {
@@ -70,7 +70,7 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
                 }
             }
         else {
-            cerr << "Error: Invalid token: " << token->value() << endl;
+            cerr << "Error: Invalid token: " << token->getValue() << endl;
             throw runtime_error("Invalid token in expression");
             }
 
@@ -89,16 +89,16 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
 
 
 int ShuntingYard::precedence(Token * token) {
-    if (token->type() == TOKEN_OPERATOR) {
-        string op = token->value();
+    if (token->getType() == Token::OPERATOR_TK) {
+        string op = token->getValue();
         if (op == "*" || op == "/") return 6;  // Highest priority
         if (op == "+" || op == "-") return 5;
         }
-    else if (token->type() == TOKEN_RELATIONAL_OPERATOR) {
+    else if (token->getType() == Token::RELATIONAL_OP_TK) {
         return 4; // Relational operators: <, <=, >, >=, ==, !=
         }
-    else if (token->type() == TOKEN_LOGICAL_OPERATOR) {
-        string op = token->value();
+    else if (token->getType() == Token::LOGICAL_OP_TK) {
+        string op = token->getValue();
         if (op == "not") return 3; // Highest priority
         if (op == "and") return 2; // Lowest priority
         if (op == "or") return 1; // Lower than &&
@@ -110,27 +110,27 @@ int ShuntingYard::precedence(Token * token) {
 
 
 bool ShuntingYard::is_left_paren(Token * token) {
-    return token->type() == TOKEN_LEFT_PAREN && token->value() == "(";
+    return token->getType() == Token::LEFT_PAREN_TK && token->getValue() == "(";
     }
 
 bool ShuntingYard::is_right_paren(Token * token) {
-    return token->type() == TOKEN_RIGHT_PAREN && token->value() == ")";
+    return token->getType() == Token::RIGHT_PAREN_TK && token->getValue() == ")";
     }
 
 bool ShuntingYard::is_operator(Token * token) {
-    string op = token->value();
-    return (token->type() == TOKEN_OPERATOR &&
+    string op = token->getValue();
+    return (token->getType() == Token::OPERATOR_TK &&
         (op == "+" || op == "-" || op == "*" || op == "/"));
     }
 
 bool ShuntingYard::is_relational_operator(Token * token) {
-    string op = token->value();
-    return token->type() == TOKEN_RELATIONAL_OPERATOR &&
+    string op = token->getValue();
+    return token->getType() == Token::RELATIONAL_OP_TK &&
         (op == "<" || op == "<=" || op == ">" || op == ">=" || op == "=" || op == "!=");
     }
 
 bool ShuntingYard::is_logical_operator(Token * token) {
-    string op = token->value();
-    return token->type() == TOKEN_LOGICAL_OPERATOR &&
+    string op = token->getValue();
+    return token->getType() == Token::LOGICAL_OP_TK &&
         (op == "and" || op == "or" || op == "not");
     }

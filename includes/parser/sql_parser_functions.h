@@ -5,7 +5,8 @@
 
 #include <string>
 #include <vector>
-
+using namespace std;
+using namespace Constants;
 
 // adjacency table column numbers
 enum Column
@@ -28,7 +29,6 @@ enum Column
     LP = 15, // "("
     RP = 16, // ")"
     COMMA,
-
     };
 
 

@@ -1,0 +1,56 @@
+是的，根据后续需要的操作，二次分类Token是必要且合理的。具体来说，以下步骤更符合实际需求：
+
+第一步：基础Token分类
+
+通过状态机将输入解析为基础Token，涵盖以下类型：
+	•	数字（NUMBER）：如 123, 45.67。
+	•	字符串（STRING）：如 "John Doe", 'CS'。
+	•	字母（ALPHA）：如 SELECT, student, lname。
+	•	标点符号（PUNC）：如 ,, .。
+	•	运算符（OPERATOR）：如 +, >=, =。
+	•	空格（SPACE）。
+
+此阶段主要关注字符级别的解析，不涉及语义。
+
+第二步：SQL语义分类
+
+对基础Token进行二次分类，将其归为SQL相关的语法类型：
+	•	命令（KEYWORD）：如 SELECT, FROM, WHERE, INSERT。
+	•	字段名（FIELD）：如 lname, fname, age。
+	•	表名（TABLE_NAME）：如 student。
+	•	值（VALUE）：如 'John', 25。
+	•	逻辑运算符（LOGICAL_OPERATOR）：如 AND, OR, NOT。
+	•	关系运算符（RELATIONAL_OPERATOR）：如 =, >=, <。
+
+此阶段通过上下文判断语义，例如：
+	•	SELECT 是 KEYWORD。
+	•	lname 是 FIELD。
+	•	"Yao" 是 VALUE。
+
+第三步：状态机解析与存储
+
+使用状态机解析Token序列，并将结果存储到 std::multimap 中。
+目标是实现：
+	•	键值对映射：如 {"command", "select"}, {"fields", "lname"}。
+	•	条件合并：如 {"condition", "lname = Yao AND fname = Flo"}。
+
+优势
+	1.	分层处理：
+	•	第一步关注字符解析，确保基础Token分类准确。
+	•	第二步关注SQL语义，确保分类符合上下文需求。
+	2.	灵活扩展：
+	•	支持新增SQL语法（如 JOIN, GROUP BY）。
+	•	便于调整解析逻辑，适配不同的SQL操作。
+
+tokenize 的设计思路
+	1.	接收输入字符串并解析为基础 Token：
+	•	使用 STokenizer 将输入字符串逐字符解析为基础 Token（如 STRING, NUMBER, PUNC 等）。
+	•	将解析后的 Token 按顺序存入队列。
+	2.	处理 Token 类型并存入队列：
+	•	每个解析出的 Token 都需要被处理并分类，例如：
+	•	关键词（SELECT, WHERE 等）
+	•	字段名、表名（student, lname 等）
+	•	条件（age > 20）
+	•	根据分类规则，将 Token 按顺序压入 Queue<Token*>。
+	3.	返回队列供后续解析使用：
+	•	将队列返回给调用者，用于构建 parse_tree 或其他语法分析操作。

@@ -1,7 +1,7 @@
 #ifndef STATE_MACHINE_FUNCTIONS_H
 #define STATE_MACHINE_FUNCTIONS_H
-
 #include "../../includes/tokenizer/constants.h"
+using namespace Constants;
 
 //Fill all cells of the array with -1
 void init_table(int _table[][MAX_COLUMNS]);
@@ -35,4 +35,15 @@ void print_table(int _table[][MAX_COLUMNS]);
 void show_string(char s[], int _pos);
 
 
+void setup_number_states(int _table[][MAX_COLUMNS]);
+void setup_relational_operator_states(int _table[][MAX_COLUMNS]);
+void setup_alpha_states(int _table[][MAX_COLUMNS]);
+void setup_parentheses_states(int _table[][MAX_COLUMNS]);
+void setup_asterisk_states(int _table[][MAX_COLUMNS]);
+void setup_space_states(int _table[][MAX_COLUMNS]);
+void setup_logical_operator_states(int _table[][MAX_COLUMNS]);
+void setup_punctuation_states(int _table[][MAX_COLUMNS]);
+void setup_comma_states(int _table[][MAX_COLUMNS]);
+void setup_alpha_states(int _table[][MAX_COLUMNS]);
+void setup_string_states(int _table[][MAX_COLUMNS]);
 #endif
