@@ -8,6 +8,7 @@ jwcomputer@Mac Final_Dec_20 % build/bin/basic_test
 [----------] Global test environment set-up.
 [----------] 1 test from SQL_BASIC
 [ RUN      ] SQL_BASIC.SQLBasic
+----- BEGIN TEST --------
 Build Keyword List Function Fired!
 Clearing the tree...
 Clearing the tree...
@@ -32,22 +33,21 @@ Keyword list built successfully!
 Parser Default Constructor Fired!
 SQL constructor fired!
 set_string Function Fired!
-set string : Input string: 
-Tokenize Function Fired!
-Input string: 
-STokenizer::set_string called with input: 
-Tokens: 
+Empty input, skipping set_string.
 
-Tokenization done!
-Init Adjacency Table Function Fired!
-Error: Token list is empty.
-Get Parse Tree Function Fired!
-Error: Token list is empty.
-Failed to parse the input string.
+----- SQL object initialized. -----
+
 Table default constructor fired!
+
+----- Table object initialized.-----
+
+
+
+------ SQL Tables I Manage: --------
 >make table employee fields  last,       first,         dep,      salary, year
 
-=====Command Function Fired!===== make table employee fields  last,       first,         dep,      salary, year
+=====Command Function Fired!=====
+ make table employee fields  last,       first,         dep,      salary, year
 set_string Function Fired!
 set string : Input string: make table employee fields  last,       first,         dep,      salary, year
 Tokenize Function Fired!
@@ -163,7 +163,8 @@ basic_test: table created.
 
 >make table employee fields  last,       first,         dep,      salary, year
 
-=====Command Function Fired!===== make table employee fields  last,       first,         dep,      salary, year
+=====Command Function Fired!=====
+ make table employee fields  last,       first,         dep,      salary, year
 set_string Function Fired!
 set string : Input string: make table employee fields  last,       first,         dep,      salary, year
 Tokenize Function Fired!
@@ -286,7 +287,8 @@ Clearing the tree...
 Clearing the tree...
 >insert into employee values Blow,       Joe,           CS,       100000, 2018
 
-=====Command Function Fired!===== insert into employee values Blow,       Joe,           CS,       100000, 2018
+=====Command Function Fired!=====
+ insert into employee values Blow,       Joe,           CS,       100000, 2018
 set_string Function Fired!
 set string : Input string: insert into employee values Blow,       Joe,           CS,       100000, 2018
 Tokenize Function Fired!
@@ -395,7 +397,8 @@ Clearing the tree...
 Clearing the tree...
 >insert into employee values Blow,       JoAnn,         Physics,  200000, 2016
 
-=====Command Function Fired!===== insert into employee values Blow,       JoAnn,         Physics,  200000, 2016
+=====Command Function Fired!=====
+ insert into employee values Blow,       JoAnn,         Physics,  200000, 2016
 set_string Function Fired!
 set string : Input string: insert into employee values Blow,       JoAnn,         Physics,  200000, 2016
 Tokenize Function Fired!
@@ -513,7 +516,8 @@ Clearing the tree...
 Clearing the tree...
 >insert into employee values Johnson,    Jack,          HR,       150000, 2014
 
-=====Command Function Fired!===== insert into employee values Johnson,    Jack,          HR,       150000, 2014
+=====Command Function Fired!=====
+ insert into employee values Johnson,    Jack,          HR,       150000, 2014
 set_string Function Fired!
 set string : Input string: insert into employee values Johnson,    Jack,          HR,       150000, 2014
 Tokenize Function Fired!
@@ -622,7 +626,8 @@ Clearing the tree...
 Clearing the tree...
 >insert into employee values Johnson,    "Jimmy",     Chemistry,140000, 2018
 
-=====Command Function Fired!===== insert into employee values Johnson,    "Jimmy",     Chemistry,140000, 2018
+=====Command Function Fired!=====
+ insert into employee values Johnson,    "Jimmy",     Chemistry,140000, 2018
 set_string Function Fired!
 set string : Input string: insert into employee values Johnson,    "Jimmy",     Chemistry,140000, 2018
 Tokenize Function Fired!
@@ -740,7 +745,8 @@ Clearing the tree...
 Clearing the tree...
 >make table student fields  fname,          lname,    major,    age
 
-=====Command Function Fired!===== make table student fields  fname,          lname,    major,    age
+=====Command Function Fired!=====
+ make table student fields  fname,          lname,    major,    age
 set_string Function Fired!
 set string : Input string: make table student fields  fname,          lname,    major,    age
 Tokenize Function Fired!
@@ -848,7 +854,8 @@ Clearing the tree...
 Clearing the tree...
 >insert into student values Flo,            Yao,        Art,    20
 
-=====Command Function Fired!===== insert into student values Flo,            Yao,       Art,    20
+=====Command Function Fired!=====
+ insert into student values Flo,            Yao,        Art,    20
 set_string Function Fired!
 set string : Input string: insert into student values Flo,            Yao,      Art,    20
 Tokenize Function Fired!
@@ -950,7 +957,8 @@ Clearing the tree...
 Clearing the tree...
 >insert into student values Bo,                      Yang,      CS,             28
 
-=====Command Function Fired!===== insert into student values Bo,                     Yang,      CS,             28
+=====Command Function Fired!=====
+ insert into student values Bo,                      Yang,      CS,             28
 set_string Function Fired!
 set string : Input string: insert into student values Bo,                    Yang,      CS,             28
 Tokenize Function Fired!
@@ -1058,7 +1066,8 @@ Clearing the tree...
 Clearing the tree...
 >insert into student values "Sammuel L.", Jackson,      CS,             40
 
-=====Command Function Fired!===== insert into student values "Sammuel L.", Jackson,     CS,             40
+=====Command Function Fired!=====
+ insert into student values "Sammuel L.", Jackson,      CS,             40
 set_string Function Fired!
 set string : Input string: insert into student values "Sammuel L.", Jackson,    CS,             40
 Tokenize Function Fired!
@@ -1160,7 +1169,8 @@ Clearing the tree...
 Clearing the tree...
 >insert into student values "Billy",         Jackson,   Math,   27
 
-=====Command Function Fired!===== insert into student values "Billy",        Jackson,   Math,   27
+=====Command Function Fired!=====
+ insert into student values "Billy",         Jackson,   Math,   27
 set_string Function Fired!
 set string : Input string: insert into student values "Billy",       Jackson,   Math,   27
 Tokenize Function Fired!
@@ -1268,7 +1278,8 @@ Clearing the tree...
 Clearing the tree...
 >insert into student values "Mary Ann",   Davis,        Math,   30
 
-=====Command Function Fired!===== insert into student values "Mary Ann",   Davis,       Math,   30
+=====Command Function Fired!=====
+ insert into student values "Mary Ann",   Davis,        Math,   30
 set_string Function Fired!
 set string : Input string: insert into student values "Mary Ann",   Davis,      Math,   30
 Tokenize Function Fired!
@@ -1379,7 +1390,8 @@ Clearing the tree...
 
 >select * from employee
 
-=====Command Function Fired!===== select * from employee
+=====Command Function Fired!=====
+ select * from employee
 set_string Function Fired!
 set string : Input string: select * from employee
 Tokenize Function Fired!
@@ -1435,6 +1447,8 @@ Table default constructor fired!
 select_all()::recnos: 0 1 2 3 
 -------Table::vector_to_table fired!-------
 vector_to_table :: check vector_of_recnos: 0 1 2 3 '*' detected. Expanding to all fields.
+
+----------------------------------------DEBUG HERE!
 Clearing the tree...
 Clearing the tree...
 -------------------Table ctor 3 Done!----------------------------
@@ -1649,7 +1663,8 @@ basic_test: records selected: 0 1 2 3
 
 >select last, first, age from employee
 
-=====Command Function Fired!===== select last, first, age from employee
+=====Command Function Fired!=====
+ select last, first, age from employee
 set_string Function Fired!
 set string : Input string: select last, first, age from employee
 Tokenize Function Fired!
@@ -1723,7 +1738,9 @@ Table default constructor fired!
 -------Table::select_all fired!-------
 select_all()::recnos: 0 1 2 3 
 -------Table::vector_to_table fired!-------
-vector_to_table :: check vector_of_recnos: 0 1 2 3 Clearing the tree...
+vector_to_table :: check vector_of_recnos: 0 1 2 3 
+----------------------------------------DEBUG HERE!
+Clearing the tree...
 Clearing the tree...
 -------------------Table ctor 3 Done!----------------------------
 Current state of _indices:
@@ -1889,7 +1906,8 @@ basic_test: records selected: 0 1 2 3
 
 >select last from employee
 
-=====Command Function Fired!===== select last from employee
+=====Command Function Fired!=====
+ select last from employee
 set_string Function Fired!
 set string : Input string: select last from employee
 Tokenize Function Fired!
@@ -1944,7 +1962,9 @@ Table default constructor fired!
 -------Table::select_all fired!-------
 select_all()::recnos: 0 1 2 3 
 -------Table::vector_to_table fired!-------
-vector_to_table :: check vector_of_recnos: 0 1 2 3 Clearing the tree...
+vector_to_table :: check vector_of_recnos: 0 1 2 3 
+----------------------------------------DEBUG HERE!
+Clearing the tree...
 -------------------Table ctor 3 Done!----------------------------
 Current state of _indices:
 _indices size: 1
@@ -2049,7 +2069,8 @@ basic_test: records selected: 0 1 2 3
 
 >select * from employee where last = Johnson
 
-=====Command Function Fired!===== select * from employee where last = Johnson
+=====Command Function Fired!=====
+ select * from employee where last = Johnson
 set_string Function Fired!
 set string : Input string: select * from employee where last = Johnson
 Tokenize Function Fired!
@@ -2173,6 +2194,8 @@ Matching record numbers:
 
 -------Table::vector_to_table fired!-------
 vector_to_table :: check vector_of_recnos: '*' detected. Expanding to all fields.
+
+----------------------------------------DEBUG HERE!
 Clearing the tree...
 Clearing the tree...
 -------------------Table ctor 3 Done!----------------------------
@@ -2221,7 +2244,8 @@ basic_test: records selected:
 
 >select * from employee where last=Blow and major="JoAnn"
 
-=====Command Function Fired!===== select * from employee where last=Blow and major="JoAnn"
+=====Command Function Fired!=====
+ select * from employee where last=Blow and major="JoAnn"
 set_string Function Fired!
 set string : Input string: select * from employee where last=Blow and major="JoAnn"
 Tokenize Function Fired!
@@ -2372,6 +2396,8 @@ Matching record numbers:
 
 -------Table::vector_to_table fired!-------
 vector_to_table :: check vector_of_recnos: '*' detected. Expanding to all fields.
+
+----------------------------------------DEBUG HERE!
 Clearing the tree...
 Clearing the tree...
 -------------------Table ctor 3 Done!----------------------------
@@ -2426,7 +2452,8 @@ basic_test: records selected:
 
 >select * from student
 
-=====Command Function Fired!===== select * from student
+=====Command Function Fired!=====
+ select * from student
 set_string Function Fired!
 set string : Input string: select * from student
 Tokenize Function Fired!
@@ -2482,6 +2509,8 @@ Table default constructor fired!
 select_all()::recnos: 0 1 2 3 4 
 -------Table::vector_to_table fired!-------
 vector_to_table :: check vector_of_recnos: 0 1 2 3 4 '*' detected. Expanding to all fields.
+
+----------------------------------------DEBUG HERE!
 Clearing the tree...
 Clearing the tree...
 -------------------Table ctor 3 Done!----------------------------
@@ -2710,7 +2739,8 @@ basic_test: records selected: 0 1 2 3 4
 
 >select * from student where (major=CS or major=Art)
 
-=====Command Function Fired!===== select * from student where (major=CS or major=Art)
+=====Command Function Fired!=====
+ select * from student where (major=CS or major=Art)
 set_string Function Fired!
 set string : Input string: select * from student where (major=CS or major=Art)
 Tokenize Function Fired!
@@ -2872,6 +2902,8 @@ Matching record numbers:
 
 -------Table::vector_to_table fired!-------
 vector_to_table :: check vector_of_recnos: '*' detected. Expanding to all fields.
+
+----------------------------------------DEBUG HERE!
 Clearing the tree...
 Clearing the tree...
 -------------------Table ctor 3 Done!----------------------------
@@ -2919,7 +2951,8 @@ basic_test: records selected:
 
 >select * from student where lname>J
 
-=====Command Function Fired!===== select * from student where lname>J
+=====Command Function Fired!=====
+ select * from student where lname>J
 set_string Function Fired!
 set string : Input string: select * from student where lname>J
 Tokenize Function Fired!
@@ -3043,6 +3076,8 @@ Matching record numbers:
 
 -------Table::vector_to_table fired!-------
 vector_to_table :: check vector_of_recnos: '*' detected. Expanding to all fields.
+
+----------------------------------------DEBUG HERE!
 Clearing the tree...
 Clearing the tree...
 -------------------Table ctor 3 Done!----------------------------
@@ -3090,7 +3125,8 @@ basic_test: records selected:
 
 >select * from student where lname>J and (major=CS or major=Art)
 
-=====Command Function Fired!===== select * from student where lname>J and (major=CS or major=Art)
+=====Command Function Fired!=====
+ select * from student where lname>J and (major=CS or major=Art)
 set_string Function Fired!
 set string : Input string: select * from student where lname>J and (major=CS or major=Art)
 Tokenize Function Fired!
@@ -3283,6 +3319,8 @@ Matching record numbers:
 
 -------Table::vector_to_table fired!-------
 vector_to_table :: check vector_of_recnos: '*' detected. Expanding to all fields.
+
+----------------------------------------DEBUG HERE!
 Clearing the tree...
 Clearing the tree...
 -------------------Table ctor 3 Done!----------------------------
@@ -3348,11 +3386,11 @@ Clearing the tree...
 Clearing the tree...
 Clearing the tree...
 Clearing the tree...
-[       OK ] SQL_BASIC.SQLBasic (31 ms)
-[----------] 1 test from SQL_BASIC (31 ms total)
+[       OK ] SQL_BASIC.SQLBasic (34 ms)
+[----------] 1 test from SQL_BASIC (34 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (31 ms total)
+[==========] 1 test from 1 test suite ran. (34 ms total)
 [  PASSED  ] 1 test.
 Clearing the tree...
 Clearing the tree...

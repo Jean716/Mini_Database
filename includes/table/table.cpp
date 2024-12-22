@@ -111,17 +111,17 @@ Table::Table(const string& name, const vector<string> &fields_names) {
     cout << "-----------------------------------------------" << endl;
     }
 
-void Table::clear_data() {
-    ofstream ofs(_file_name, ios::trunc | ios::binary);
-    ofs.close();
+// void Table::clear_data() {
+//     ofstream ofs(_file_name, ios::trunc | ios::binary);
+//     ofs.close();
 
-    _last_record = -1;
-    _select_recnos.clear();
-    _empty = true;
-    _indices.clear();
+//     _last_record = -1;
+//     _select_recnos.clear();
+//     _empty = true;
+//     _indices.clear();
 
-    reindex();
-    }
+//     reindex();
+//     }
 
 void Table::delete_table() {
     if (remove(_file_name.c_str()) != 0) {
@@ -283,7 +283,7 @@ Table Table::vector_to_table(const vector<string>& fields, const vector<long>& v
     else {
         actual_fields = fields;
         }
-
+    cout << "\n----------------------------------------DEBUG HERE!" << endl;
     // 2. Initialize new table,use the constructor3
     string new_table_name = "_selected_table_" + to_string(serial);
     Table new_table(new_table_name, actual_fields);
@@ -356,6 +356,8 @@ void Table::set_fields(vector<string>& fld_names) {
 
     DEBUG_PRINT("-------set_fields done!-------");
     }
+
+
 vectorstr Table::get_fields() const { return _field_names; }
 
 

@@ -56,7 +56,7 @@ class Table
         Table select_all(vector<string> fields);
         Table select(const vector<string>& fields, const Queue<Token *>& postfix); // Combined with the RPN module, it is used to parse conditional expressions
 
-        void clear_data();
+        //void clear_data();
         void reindex(); // call this from ctor!
 
         vector<long> cond(const Queue<Token*> &post);

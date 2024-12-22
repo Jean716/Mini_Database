@@ -283,7 +283,11 @@ void BTree<T>::remove(const T & entry) {
 //ANCHOR - clear
 template <class T>
 void BTree<T>::clear_tree() {
-    cout << "Clearing the tree..." << endl;
+    static bool is_root_call = true;
+    if (is_root_call) {
+        cout << "Clearing the tree from root: " << this << std::endl;
+        is_root_call = false;
+        }
     for (int i = 0; i < child_count; ++i) {
         if (subset[i] != nullptr) { // if the child node is not empty
             subset[i]->clear_tree(); // recursively clear the child node
@@ -294,6 +298,7 @@ void BTree<T>::clear_tree() {
 
     child_count = 0;
     data_count = 0;
+
     }
 
 //ANCHOR - copy_tree

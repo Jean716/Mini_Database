@@ -54,6 +54,10 @@ mmap_ss Parser::parse_tree() const {
 
 void Parser::set_string(const string & input) {
     cout << "set_string Function Fired!" << endl;
+    if (input.empty()) {
+        cout << "Empty input, skipping set_string." << endl;
+        return;
+        }
     _ptree.clear();
     _tokens.clear();
     Queue<Token*> postfix;
@@ -187,7 +191,7 @@ void Parser::init_adjacency_table() {
     init_table(_adjacency_table);
 
     if (_tokens.empty()) {
-        cout << "Error: Token list is empty." << endl;
+        cout << "Token list is empty." << endl;
         _fail = true;
         return;
         }

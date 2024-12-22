@@ -46,8 +46,14 @@ const int MAKE_TABLE_COMMANDS = 11;
 const int SELECT_COMMANDS = 20;
 
 bool sql_basic(bool debug = false) {
+     cout << "----- BEGIN TEST --------" << endl;
      SQL sql;
+     cout << "\n----- SQL object initialized. -----\n" << endl;
+
      Table t;
+     cout << "\n----- Table object initialized.-----\n" << endl;
+
+     cout << "\n\n------ SQL Tables I Manage: --------" << endl;
      cout << ">" << command_list[0] << endl;
      sql.command(command_list[0]);
      cout << "basic_test: table created." << endl << endl;

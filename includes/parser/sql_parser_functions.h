@@ -2,7 +2,6 @@
 #define SQL_PARSER_FUNCTIONS_H
 #include "../../includes/parser/typedefs.h"
 #include "../../includes/tokenizer/constants.h"
-
 #include <string>
 #include <vector>
 

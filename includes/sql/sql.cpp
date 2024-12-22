@@ -21,7 +21,7 @@ SQL::SQL() {
     }
 
 Table SQL::command(const string& cmd) {
-    cout << "\n=====Command Function Fired!===== " << cmd << endl;
+    cout << "\n=====Command Function Fired!=====\n " << cmd << endl;
 
     _parser.set_string(cmd);
 
