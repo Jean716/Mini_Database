@@ -25,13 +25,13 @@ using namespace std;
 class Table
     {
     private:
-        vector<multimap<string, long>> _indices; // vector<multimap> for restore the indices， 
+        vector<MMap<string, long>> _indices; // vector<multimap> for restore the indices， 
         string _name; // table name
         string _file_name; // file name
         vector<string> _field_names; // field names , e.g ["fname", "lname", "age"]
         vector<long> _select_recnos; // the result of the select operation
-        map<string, long> _field_map;
-        map<string, long>  _keyword;
+        Map<string, long> _field_map;
+        Map<string, long>  _keyword;
 
         bool _empty;
         long _last_record; // the last record number
@@ -90,8 +90,6 @@ class Table
             return outs;
 
             }
-
-
 
         vector<string> get_field_names() const { return _field_names; }
         vector<long> get_select_recnos() const { return _select_recnos; }

@@ -5,7 +5,7 @@
 #include <cassert>
 #include "../../includes/bplustree/btree_array_functions.h"
 #include "../../includes/bplustree/bplustree.h"
-
+using namespace std;
 template <class T>
 class BPlusTree
     {
@@ -16,15 +16,27 @@ class BPlusTree
             public:
                 friend class BPlusTree;
                 Iterator(BPlusTree<T>* _it = NULL, int _key_ptr = 0) : it(_it), key_ptr(_key_ptr) {
-                    DEBUG_PRINT("\nIterator Constructor Fired!\n");
+                    cout << "\nIterator Constructor Fired!\n" << endl;
                     }
-                T operator *() // dereference operator
+
+                Iterator(const BPlusTree<T>* _it, int _key_ptr = 0) : it(const_cast<BPlusTree<T>*>(_it)), key_ptr(_key_ptr) {}
+
+                Iterator(nullptr_t) : it(nullptr), key_ptr(0) {}
+
+
+                T& operator *() // dereference operator
                     {
                     assert(it != nullptr && "iterator points to NULL");
                     return it->data[key_ptr];
                     }
+
+                T* operator->() {
+                    assert(it != nullptr && "iterator points to NULL");
+                    return &(it->data[key_ptr]);
+                    }
+
                 Iterator operator++(int un_used) {
-                    DEBUG_PRINT("Iterator operator++(int un_used) Fired!");
+                    DEBUG_PRINT("Iterator op·erator++(int un_used) Fired!");
                     Iterator temp = *this;
                     if (it) {
                         if (key_ptr < it->data_count - 1) {
@@ -66,15 +78,15 @@ class BPlusTree
                     int pos = key_ptr;
 
                     while (current) {
-                        std::cout << "Node at address: " << current << ", Data: ";
+                        cout << "Node at address: " << current << ", Data: ";
 
                         print_array(current->data, current->data_count, pos);
 
                         if (current->next) {
-                            std::cout << " -> Next node at address: " << current->next << ", First data: " << current->next->data[0] << std::endl;
+                            cout << " -> Next node at address: " << current->next << ", First data: " << current->next->data[0] << std::endl;
                             }
                         else {
-                            std::cout << " -> Next node: nullptr" << std::endl;
+                            cout << " -> Next node: nullptr" << endl;
                             }
 
                         current = current->next;
@@ -82,16 +94,16 @@ class BPlusTree
                         }
 
                     if (!it) {
-                        std::cout << "iterator: NULL, key_ptr: " << key_ptr << std::endl;
+                        cout << "iterator: NULL, key_ptr: " << key_ptr << endl;
                         }
                     }
 
 
                 bool is_null() { return !it; }
                 void info() {
-                    std::cout << std::endl << "Iterator info:" << std::endl;
-                    std::cout << "key_ptr: " << key_ptr << std::endl;
-                    std::cout << "it: " << *it << std::endl;
+                    cout << endl << "Iterator info:" << endl;
+                    cout << "key_ptr: " << key_ptr << endl;
+                    cout << "it: " << *it << endl;
                     }
             private:
                 BPlusTree<T>* it;
@@ -102,6 +114,7 @@ class BPlusTree
         BPlusTree(T *a, int size, bool dups = false);
         void verify_leaf_chain();
         BPlusTree<T>* get_smallest_node();
+        const BPlusTree<T>* get_smallest_node() const;
 
         //big three:
         BPlusTree(const BPlusTree<T>& other);
@@ -126,15 +139,16 @@ class BPlusTree
         // exist: >= entry
         Iterator upper_bound(const T& entry);  //return first that goes AFTER key
         //exist or not, the next entry  >entry
-
+        Iterator lower_bound(const T& entry) const;
+        Iterator upper_bound(const T& entry) const;
         int size() const;                    //count the number of elements
 
         bool empty() const;                  //true if the tree is empty
 
-        void print_tree(int level = 0, std::ostream &outs = std::cout) const;
+        void print_tree(int level = 0, ostream &outs = cout) const;
         void update_parent_keys();
 
-        friend std::ostream& operator<<(std::ostream& outs,
+        friend ostream& operator<<(ostream& outs,
             const BPlusTree<T>& print_me) {
             print_me.print_tree(0, outs);
             return outs;
@@ -147,12 +161,15 @@ class BPlusTree
 
         Iterator begin();
         Iterator end();
+        Iterator begin() const;
+        Iterator end() const;
+
         ostream& list_keys(Iterator from = NULL, Iterator to = NULL) {
             if (from == NULL) from = begin();
             if (to == NULL) to = end();
             for (Iterator it = from; it != to; it++)
-                std::cout << *it << " ";
-            return std::cout;
+                cout << *it << " ";
+            return cout;
             }
 
 
@@ -204,7 +221,7 @@ class BPlusTree
         void loose_remove(const T& entry);  //allows MINIMUM-1 data elements in the root
 
         BPlusTree<T>* fix_shortage(int i);  //fix shortage in child i and return the smallest key in this subtree
-
+        // void get_smallest_node(T& entry);
         void get_smallest(T& entry)const;      //entry := leftmost leaf
         void get_biggest(T& entry);       //entry := rightmost leaf
         void remove_biggest(T& entry);    //remove the biggest child of tree->entry
@@ -259,17 +276,43 @@ BPlusTree<T>& BPlusTree<T>::operator=(const BPlusTree<T>& RHS) {
 //---------------------------------------------------------------------
 //            B E G I N ( )   &   E N D ( )
 //---------------------------------------------------------------------
+template <typename T>
+BPlusTree<T>* BPlusTree<T>::get_smallest_node() {
+    if (is_leaf()) {
+        return this;
+        }
+    return subset[0]->get_smallest_node();
+    }
 
+template <typename T>
+const BPlusTree<T>* BPlusTree<T>::get_smallest_node() const {
+    if (is_leaf()) {
+        return this;
+        }
+    return subset[0]->get_smallest_node();
+    }
 template <typename T>
 typename BPlusTree<T>::Iterator BPlusTree<T>::begin() {
     DEBUG_PRINT("begin() Fired!");
-
     return Iterator(get_smallest_node());
     }
+
 template <typename T>
 typename BPlusTree<T>::Iterator BPlusTree<T>::end() {
     DEBUG_PRINT("end() Fired!");
-    return Iterator(NULL);
+    return Iterator(nullptr);
+    }
+
+template <typename T>
+typename BPlusTree<T>::Iterator BPlusTree<T>::begin() const {
+    DEBUG_PRINT("begin() const Fired!");
+    return Iterator(this->get_smallest_node());
+    }
+
+template <typename T>
+typename BPlusTree<T>::Iterator BPlusTree<T>::end() const {
+    DEBUG_PRINT("end() const Fired!");
+    return Iterator(nullptr);
     }
 
 
@@ -691,6 +734,7 @@ void BPlusTree<T>::get_smallest(T & entry) const {
         subset[0]->get_smallest(entry);
         }
     }
+
 
 //ANCHOR - merge_with_next_subset
 template <typename T>
@@ -1115,14 +1159,9 @@ void BPlusTree<T>::verify_leaf_chain() {
     cout << std::endl;
     }
 
-//ANCHOR - get_smallest_node
-template <typename T>
-BPlusTree<T>* BPlusTree<T>::get_smallest_node() {
-    if (is_leaf()) {
-        return this;
-        }
-    return subset[0]->get_smallest_node();
-    }
+
+
+
 
 template <typename T>
 typename BPlusTree<T>::Iterator BPlusTree<T>::lower_bound(const T & entry) {
@@ -1172,7 +1211,43 @@ typename BPlusTree<T>::Iterator BPlusTree<T>::upper_bound(const T & entry) {
         return subset[i]->upper_bound(entry);
         }
     }
+template <typename T>
+typename BPlusTree<T>::Iterator BPlusTree<T>::lower_bound(const T& entry) const {
+    int i = first_ge(data, data_count, entry);
+    bool found = (i < data_count && data[i] == entry);
 
+    if (is_leaf()) {
+        if (found) {
+            return Iterator(const_cast<BPlusTree<T>*>(this), i);
+            }
+        return (i < data_count) ? Iterator(const_cast<BPlusTree<T>*>(this), i)
+            : (next ? Iterator(const_cast<BPlusTree<T>*>(next), 0) : end());
+        }
+
+    if (found) {
+        return subset[i + 1]->lower_bound(entry);
+        }
+    return subset[i]->lower_bound(entry);
+    }
+
+template <typename T>
+typename BPlusTree<T>::Iterator BPlusTree<T>::upper_bound(const T& entry) const {
+    int i = first_gt(data, data_count, entry);
+    bool found = (i < data_count && data[i] == entry);
+
+    if (is_leaf()) {
+        if (found && i + 1 < data_count) {
+            return Iterator(const_cast<BPlusTree<T>*>(this), i + 1);
+            }
+        return (i < data_count) ? Iterator(const_cast<BPlusTree<T>*>(this), i)
+            : (next ? Iterator(const_cast<BPlusTree<T>*>(next), 0) : end());
+        }
+
+    if (found) {
+        return subset[i + 1]->upper_bound(entry);
+        }
+    return subset[i]->upper_bound(entry);
+    }
 template <typename T>
 const T& BPlusTree<T>::get(const T & entry) const {
     int i = first_ge(data, data_count, entry);

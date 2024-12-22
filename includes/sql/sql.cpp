@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <filesystem>
 #include "../../includes/bplustree/multimap.h"
 #include "../../includes/bplustree/bplustree.h"
 #include "../../includes/binary_files/file_record.h"
@@ -20,7 +21,7 @@ SQL::SQL() {
     }
 
 Table SQL::command(const string& cmd) {
-    cout << "Command Function Fired! " << cmd << endl;
+    cout << "\n=====Command Function Fired!===== " << cmd << endl;
 
     _parser.set_string(cmd);
 
@@ -46,6 +47,7 @@ Table SQL::command(const string& cmd) {
             }
         cout << endl;
         _tables[table_name] = Table(table_name, fields);  // create a new table
+
         }
     else if (command == "insert") {
         cout << ">>> ------>> cmd[0] = insert----------------" << endl;
@@ -103,12 +105,13 @@ Table SQL::command(const string& cmd) {
          //Update SQL::_select_recnos with the selected record numbers from the result table
         _select_recnos = result.get_select_recnos();
         // Store the result table
-        _table = result;
         return result;
-
         }
 
 
     return Table();  // Return an empty table by default
     }
+
+
+
 

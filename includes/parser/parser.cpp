@@ -5,7 +5,6 @@
 #include <iomanip>
 #include <cassert>
 #include <queue>
-#include <map>
 using namespace std;
 
 #include "../../includes/tokenizer/state_machine_functions.h"
@@ -176,8 +175,9 @@ void Parser::tokenize(const string& input, Queue<Token*>& infix) {
     _tokens.clear();
     _tokens = new_tokens;
     for (Token* token : _tokens) {
-        cout << *token << endl;
+        cout << *token << "->";
         }
+    cout << endl;
 
     cout << "Tokenization done!" << endl;
     }
@@ -237,9 +237,9 @@ bool Parser::get_parse_tree() {
         string token_str = token->value();
         int token_type = token->type();
         int last_state = state;
-        cout << "This token is: " << token_str << endl;
-        cout << "State = " << state << endl;
-        cout << "last_state = :" << last_state << endl;
+        // cout << "This token is: " << token_str << endl;
+        // cout << "State = " << state << endl;
+        // cout << "last_state = :" << last_state << endl;
 
 
         if (token_type == TOKEN_SPACE || token_type == TOKEN_COMMA) {
@@ -247,9 +247,9 @@ bool Parser::get_parse_tree() {
             }
 
         int column_no = token_columns.get(token_str);
-        cout << "Column Number: " << column_no << endl;
+        // cout << "Column Number: " << column_no << endl;
         state = _adjacency_table[last_state][column_no];
-        cout << "State from table: " << state << endl;
+        //cout << "State from table: " << state << endl;
 
         string first_token = _tokens[0]->value();
         if (first_token == "insert") {

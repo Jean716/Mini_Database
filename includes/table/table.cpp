@@ -96,7 +96,7 @@ Table::Table(const string& name, const vector<string> &fields_names) {
     for (size_t i = 0; i < _field_names.size(); ++i) {
         field_file << _field_names[i] << endl;
         _field_map[_field_names[i]] = i;
-        _indices.push_back(multimap<string, long>());
+        _indices.push_back(MMap<string, long>());
         DEBUG_PRINT("Field added: " << _field_names[i]);
         }
     field_file.close();
@@ -160,7 +160,7 @@ bool Table::record_exists(const vector<string>& fields) {
 
     auto range = _indices[field_index].equal_range(val);
     for (auto it = range.first; it != range.second; ++it) {
-        intersection.push_back(it->second);
+        intersection.insert(intersection.end(), it->second().begin(), it->second().end());
         }
 
     if (intersection.empty()) {
@@ -176,7 +176,7 @@ bool Table::record_exists(const vector<string>& fields) {
         {
         auto range = _indices[field_index].equal_range(val);
         for (auto it = range.first; it != range.second; ++it) {
-            current_recnos.push_back(it->second);
+            current_recnos.insert(current_recnos.end(), it->second().begin(), it->second().end());
             }
         }
 
@@ -253,7 +253,7 @@ int Table::insert_into(vector<string>& fields) {
         cout << "Inserting field value: " << field_value << " for field: " << field_name << " at index: " << field_index;
 
         // insert into the corresponding index
-        _indices[field_index].insert(make_pair(fields[i], record_number));
+        _indices[field_index].insert(fields[i], record_number);
 
         cout << "Inserted into _indices[" << field_index << "]: (" << field_value << ", " << record_number << ")";
         }
@@ -350,7 +350,7 @@ void Table::set_fields(vector<string>& fld_names) {
 
     for (size_t i = 0; i < fld_names.size(); ++i) {
         _field_map[fld_names[i]] = i;
-        _indices.push_back(multimap<string, long>());
+        _indices.push_back(MMap<string, long>());
         DEBUG_PRINT("Field added: " << fld_names[i] << " at index " << i);
         }
 
@@ -376,16 +376,16 @@ int Table::field_col_no(string field_name) {
         return -2;   // -2 indicates all fields
         }
 
-    cout << "Field map contents:" << endl;
-    for (const auto& pair : _field_map) {
-        cout << pair.first << " -> " << pair.second << endl;
-        }
+    // cout << "Field map contents:" << endl;
+    // for (const auto& pair : _field_map) {
+    //     cout << pair.key << " -> " << pair.value << endl;
+    //     }
 
-    if (_field_map.find(field_name) != _field_map.end()) {
-        cout << "Field found: " << field_name << " at index "
-            << _field_map.at(field_name) << endl;
-        return _field_map.at(field_name);
-        }
+    // if (_field_map.find(field_name) != _field_map.end()) {
+    //     cout << "Field found: " << field_name << " at index "
+    //         << _field_map.at(field_name) << endl;
+    //     return _field_map.at(field_name);
+    //     }
 
     cout << "Field not found: " << field_name << ". Returning -3." << endl;
     return -3;
@@ -393,16 +393,16 @@ int Table::field_col_no(string field_name) {
 
 //LINK - get_matching_recnos
 vectorlong Table::get_matching_recnos(const string& field_name, const string& field_value) {
-    vectorlong recnos;
+    vector<long> recnos;
 
     int field_index = field_col_no(field_name);
-    if (field_index == -1) {
+    if (field_index < 0) {
         throw runtime_error("Field not found: " + field_name);
         }
 
     auto range = _indices[field_index].equal_range(field_value);
     for (auto it = range.first; it != range.second; ++it) {
-        recnos.push_back(it->second);
+        recnos.insert(recnos.end(), it->second().begin(), it->second().end());
         }
 
     return recnos;
@@ -504,7 +504,7 @@ void Table::reindex() {
     //_select_recnos.clear();
 
     for (size_t i = 0; i < _field_names.size(); ++i) {
-        _indices.push_back(multimap<string, long>()); // push an empty multimap for each field
+        _indices.push_back(MMap<string, long>()); // push an empty multimap for each field
         }
 
     fstream file;
@@ -514,7 +514,7 @@ void Table::reindex() {
         record.read(file, recno);
         for (size_t i = 0; i < _field_names.size(); ++i) {
             string field_value(record._record[i]);
-            _indices[i].insert(make_pair(field_value, recno));
+            _indices[i].insert(field_value, recno);
             }
         }
     file.close();
@@ -563,29 +563,30 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
             const auto& field_index_map = _indices[field_index];
             cout << "Debug cond(): printing _indices: ";
             for (const auto& pair : field_index_map) {
-                cout << pair.first << " -> " << pair.second << endl;
+                cout << pair.first() << " -> " << pair.second() << endl;
                 }
+
             vector<long> matching_recnos;
 
             if (token->value() == "=") {
                 cout << "Processing '=': field_value = " << field_value << endl;
                 auto range = field_index_map.equal_range(field_value);
                 for (auto it = range.first; it != range.second; ++it) {
-                    matching_recnos.push_back(it->second);
+                    matching_recnos.insert(matching_recnos.end(), it->second().begin(), it->second().end());
 
                     }
                 }
             else if (token->value() == "!=") {
                 for (auto it = field_index_map.begin(); it != field_index_map.end(); ++it) {
-                    if (it->first != field_value) {
-                        matching_recnos.push_back(it->second);
+                    if (it->first() != field_value) {
+                        matching_recnos.insert(matching_recnos.end(), it->second().begin(), it->second().end());
                         }
                     }
                 }
             else if (token->value() == "<") {
                 auto end = field_index_map.lower_bound(field_value);
                 for (auto it = field_index_map.begin(); it != end; ++it) {
-                    matching_recnos.push_back(it->second);
+                    matching_recnos.insert(matching_recnos.end(), it->second().begin(), it->second().end());
                     }
                 }
             else if (token->value() == ">") {
@@ -593,20 +594,20 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
 
                 auto start = field_index_map.upper_bound(field_value);
                 for (auto it = start; it != field_index_map.end(); ++it) {
-                    cout << "Matching record: Key = " << it->first << ", Record = " << it->second << endl;
-                    matching_recnos.push_back(it->second);
+                    cout << "Matching record: Key = " << it->first() << ", Record = " << it->second() << endl;
+                    matching_recnos.insert(matching_recnos.end(), it->second().begin(), it->second().end());
                     }
                 }
             else if (token->value() == "<=") {
                 auto end = field_index_map.lower_bound(field_value);
                 for (auto it = field_index_map.begin(); it != end; ++it) {
-                    matching_recnos.push_back(it->second);
+                    matching_recnos.insert(matching_recnos.end(), it->second().begin(), it->second().end());
                     }
                 }
             else if (token->value() == ">=") {
                 auto start = field_index_map.lower_bound(field_value);
                 for (auto it = start; it != field_index_map.end(); ++it) {
-                    matching_recnos.push_back(it->second);
+                    matching_recnos.insert(matching_recnos.end(), it->second().begin(), it->second().end());
                     }
                 }
             else {
@@ -620,9 +621,9 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
                 throw runtime_error("Invalid RPN expression: Insufficient operands for logical operation");
                 }
 
-            vectorlong right_set = logical_stack.pop();
-            vectorlong left_set = logical_stack.pop();
-            vectorlong result;
+            vector<long> right_set = logical_stack.pop();
+            vector<long>  left_set = logical_stack.pop();
+            vector<long>  result;
 
             if (token->value() == "AND" || token->value() == "&&" || token->value() == "and") {
                 ResultSet result_set(left_set);
