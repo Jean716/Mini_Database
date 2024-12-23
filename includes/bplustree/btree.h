@@ -97,6 +97,11 @@ class BTree
 
 
         bool is_leaf() const {
+            for (int i = 0; i < child_count; ++i) {
+                if (subset[i] != nullptr) {
+                    return false;
+                    }
+                }
             return child_count == 0;
             } // True if this is a leaf node
 
@@ -151,7 +156,7 @@ BTree<T>::BTree(const BTree<T>& other) {
 
 template <typename T>
 BTree<T>::~BTree() {
-    cout << "Calling destructor for BTree at address: " << this << endl;
+    // cout << "Calling destructor for BTree at address: " << this << endl;
     clear_tree();
     }
 
@@ -351,7 +356,7 @@ void BTree<T>::clear_tree() {
         }
     data_count = 0;
     child_count = 0;
-    cout << "Cleared BTree node at address: " << this << endl;
+    //cout << "Cleared BTree node at address: " << this << endl;
     }
 
 //ANCHOR - copy_tree

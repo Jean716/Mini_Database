@@ -46,25 +46,15 @@ const int MAKE_TABLE_COMMANDS = 11;
 const int SELECT_COMMANDS = 20;
 
 bool sql_basic(bool debug = false) {
-     cout << "----- BEGIN TEST --------" << endl;
      SQL sql;
-     cout << "\n----- SQL object initialized. -----\n" << endl;
-
      Table t;
-     cout << "\n----- Table object initialized.-----\n" << endl;
-
-     cout << "\n\n------ SQL Tables I Manage: --------" << endl;
      cout << ">" << command_list[0] << endl;
      sql.command(command_list[0]);
      cout << "basic_test: table created." << endl << endl;
-     cout << "\n----- Table contents after table creation: -----\n" << t << endl;
 
      for (int i = 0; i < MAKE_TABLE_COMMANDS; i++) {
           cout << ">" << command_list[i] << endl;
           sql.command(command_list[i]);
-
-          cout << "\n----- Table contents after command [" << command_list[i] << "]: -----\n" << t << endl;
-
           }
 
      cout << endl
@@ -75,8 +65,6 @@ bool sql_basic(bool debug = false) {
                cout << sql.command(command_list[i]) << endl;
           else
                t = sql.command(command_list[i]);
-          cout << "\n----- Table contents after command [" << command_list[i] << "]: -----\n" << t << endl;
-
           cout << "basic_test: records selected: " << sql.select_recnos() << endl;
           }
 

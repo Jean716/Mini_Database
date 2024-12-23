@@ -260,7 +260,7 @@ BPlusTree<T>::BPlusTree(const BPlusTree<T>& other) {
 
 template <class T>
 BPlusTree<T>::~BPlusTree() {
-    cout << "Destroying BPlusTree at address: " << this << endl;
+    // cout << "Destroying BPlusTree at address: " << this << endl;
     clear_tree();
     }
 
