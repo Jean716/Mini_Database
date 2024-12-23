@@ -6,6 +6,7 @@
 #include <map>
 #include <filesystem>
 #include "../../includes/bplustree/multimap.h"
+#include "../../includes/bplustree/map.h"
 #include "../../includes/bplustree/bplustree.h"
 #include "../../includes/binary_files/file_record.h"
 #include "../../includes/binary_files/utilities.h"
@@ -15,39 +16,53 @@ using namespace std;
 
 SQL::SQL() {
     cout << "SQL constructor fired!" << endl;
-    _tables.clear();
-    _select_recnos.clear();
+    if (!_tables.empty()) {
+        _tables.clear();
+        }
+
+    if (!_select_recnos.empty()) {
+        _select_recnos.clear();
+        }
+
     _parser.set_string("");
+
     }
 
 Table SQL::command(const string& cmd) {
     cout << "\n=====Command Function Fired!=====\n " << cmd << endl;
 
+    // set the string in the parser
     _parser.set_string(cmd);
 
+    //get the parse tree 
     mmap_ss ptree = _parser.parse_tree();
+    cout << "SQL::command()| Parse tree contents: " << ptree << endl;
+
 
     string command = ptree["command"][0];
-
     cout << ">>> Parsed command: " << command << endl;
 
     if (command == "make") {
         cout << ">>> ------>> cmd[0] = Make----------------" << endl;
+
+        //get table name and fields
         string table_name = ptree["table_name"][0];
         vector<string> fields = ptree["col"];
 
-        if (_tables.find(table_name) != _tables.end()) {
-            cout << "Table already exists. Overwriting: " << table_name << endl;
+        if (_tables.contains(Pair<string, Table>(table_name, Table()))) {
+            cout << ">>> Table already exists. Overwriting: " << table_name << endl;
             _tables.erase(table_name);
             }
 
+        // Create a new table
         cout << ">>> Creating table: " << table_name << " with fields: ";
         for (const auto& field : fields) {
             cout << field << " ";
             }
         cout << endl;
-        _tables[table_name] = Table(table_name, fields);  // create a new table
-
+        _tables.insert(table_name, Table(table_name, fields));
+        cout << ">>> Table created successfully: " << table_name << endl;
+        return _tables[table_name];
         }
     else if (command == "insert") {
         cout << ">>> ------>> cmd[0] = insert----------------" << endl;
@@ -61,12 +76,21 @@ Table SQL::command(const string& cmd) {
             }
         cout << endl;
 
+        //debug - check if table exists
+        if (_tables.find(table_name) == _tables.end()) {
+            throw runtime_error("Table does not exist: " + table_name);
+            }
+
 
         _tables[table_name].insert_into(values);
+        cout << ">>> Insert completed for table: " << table_name << endl;
+
+        return _tables[table_name];
         }
 
     else if (command == "select") {
         cout << ">>> ------>> cmd[0] = select---------------" << endl;
+
         string table_name = ptree["table_name"][0];
         vector<string> fields = ptree.get("fields");
         Table result;
@@ -74,6 +98,7 @@ Table SQL::command(const string& cmd) {
         if (_tables.find(table_name) == _tables.end()) {
             throw runtime_error("Table does not exist: " + table_name);
             }
+
 
         // Check if there's a 'where' condition
         if (ptree.find("where") != ptree.end()) {
@@ -107,8 +132,6 @@ Table SQL::command(const string& cmd) {
         // Store the result table
         return result;
         }
-
-
     return Table();  // Return an empty table by default
     }
 

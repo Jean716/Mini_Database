@@ -28,7 +28,9 @@ Parser::Parser()
     _tokens(),
     _ptree(),
     _adjacency_table{} {
-    build_keyword_list(_keywords);
+    if (_keywords.empty()) {
+        build_keyword_list(_keywords);
+        }
     cout << "Parser Default Constructor Fired!" << endl;
 
     }
@@ -38,7 +40,9 @@ Parser::Parser()
 Parser::Parser(const char* s) : _input(s), _fail(false) {
     cout << "Parser Constructor Fired!" << endl;
     cout << "Input string: " << (s ? s : "null") << endl;
-    build_keyword_list(_keywords);
+    if (_keywords.empty()) {
+        build_keyword_list(_keywords);
+        }
     set_string(_input);
     }
 
@@ -54,7 +58,7 @@ mmap_ss Parser::parse_tree() const {
 
 void Parser::set_string(const string & input) {
     cout << "set_string Function Fired!" << endl;
-    if (input.empty()) {
+    if (input.empty() && _ptree.empty() && _tokens.empty()) {
         cout << "Empty input, skipping set_string." << endl;
         return;
         }
@@ -233,7 +237,7 @@ bool Parser::get_parse_tree() {
 
     int state = 0;
     int last_success_state = -1;
-    _ptree.clear();
+    //_ptree.clear();
     init_adjacency_table();
     map_sl token_columns = get_column(_tokens);
 
@@ -265,7 +269,9 @@ bool Parser::get_parse_tree() {
             process_select_state(state, _ptree, token_str);
             }
         else if (first_token == "make") {
-            cout << "command is make!" << endl;
+            if (state == 0) {
+                cout << "command is make!" << endl;
+                }
             process_make_state(state, _ptree, token_str);
             }
         else {

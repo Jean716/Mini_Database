@@ -111,11 +111,20 @@ class Map
         void clear() {
             map.clear_tree();
             }
+
         V get(const K& key);
 
         //  Operations:
         Iterator find(const K& key) {
-            return Iterator(map.find(Pair<K, V>(key)));
+            cout << "Finding key: " << key << endl;
+            auto it = map.find(Pair<K, V>(key));
+            if (it) {
+                cout << "Found Pair: " << (*it).key << " -> " << (*it).value << endl;
+                }
+            else {
+                cout << "Key not found in Map." << endl;
+                }
+            return Iterator(it);
             }
 
 

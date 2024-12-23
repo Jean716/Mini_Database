@@ -238,9 +238,11 @@ class BPlusTree
 //---------------------------------------------------------------------
 template <class T>
 BPlusTree<T>::BPlusTree(bool dups) : dups_ok(dups), data_count(0), child_count(0), next(nullptr) {
-    for (int i = 0; i < MAXIMUM + 1; ++i) {
+    for (int i = 0; i < MAXIMUM + 2; ++i) {
         subset[i] = nullptr;
         }
+    success_flag = false;
+
     }
 
 template <class T>
@@ -258,6 +260,7 @@ BPlusTree<T>::BPlusTree(const BPlusTree<T>& other) {
 
 template <class T>
 BPlusTree<T>::~BPlusTree() {
+    cout << "Destroying BPlusTree at address: " << this << endl;
     clear_tree();
     }
 
@@ -861,9 +864,11 @@ void BPlusTree<T>::transfer_right(int i) {
 
 template <typename T>
 void BPlusTree<T>::clear_tree() {
+
     if (data_count == 0 && child_count == 0) {
         return;
         }
+
     for (int i = 0; i < child_count; ++i) {
         if (subset[i] != nullptr) {
             subset[i]->clear_tree();

@@ -10,14 +10,49 @@ using namespace std;
 #define DEBUG_PRINT(x)
 #endif
 
-
-
 #include "../../includes/bplustree/btree_array_functions.h"
 
-template <class T>
+template <typename T>
 class BTree
     {
     public:
+        class Iterator
+            {
+            public:
+                Iterator(T* ptr = nullptr) : _ptr(ptr) {}
+                T& operator*() { return *_ptr; }
+                Iterator& operator++() {
+                    return *this;
+                    }
+
+                friend bool operator==(const Iterator& lhs, const Iterator& rhs) {
+                    return lhs._ptr == rhs._ptr;
+                    }
+
+                friend bool operator!=(const Iterator& lhs, const Iterator& rhs) {
+                    return !(lhs == rhs);
+                    }
+            private:
+                T* _ptr;
+            };
+
+        Iterator begin() {
+            return Iterator(&data[0]);
+            }
+
+        Iterator end() {
+            return Iterator(&data[data_count]);
+            }
+
+        // Iterator find(const T& value) {
+        //     for (int i = 0; i < data_count; ++i) {
+        //         if (data[i] == value) {
+        //             return Iterator(&data[i]);
+        //             }
+        //         }
+        //     return end();
+        //     }
+
         BTree(bool dups = false);
         BTree(T *a, int size, bool dups = false);
 
@@ -78,13 +113,14 @@ class BTree
         void merge_with_next_subset(int i);         // Merge subset i with subset i+1
     };
 
-template <class T>
+template <typename T>
 BTree<T>::BTree(bool dups) : data_count(0), child_count(0), dups_ok(dups) {
-    fill(begin(subset), end(subset), nullptr);
-
+    for (int i = 0; i < MAXIMUM + 2; ++i) {
+        subset[i] = nullptr;
+        }
     }
 
-template <class T>
+template <typename T>
 BTree<T>::BTree(T *a, int size, bool dups) : data_count(0), child_count(0), dups_ok(dups) {
     for (int i = 0; i < MAXIMUM + 2; ++i) {
         subset[i] = nullptr;
@@ -94,7 +130,7 @@ BTree<T>::BTree(T *a, int size, bool dups) : data_count(0), child_count(0), dups
         }
     }
 
-template <class T>
+template <typename T>
 BTree<T>::BTree(const BTree<T>& other) {
 
     data_count = other.data_count;
@@ -113,12 +149,13 @@ BTree<T>::BTree(const BTree<T>& other) {
         }
     }
 
-template <class T>
+template <typename T>
 BTree<T>::~BTree() {
+    cout << "Calling destructor for BTree at address: " << this << endl;
     clear_tree();
     }
 
-template <class T>
+template <typename T>
 BTree<T>& BTree<T>::operator=(const BTree<T>& RHS) {
     if (this != &RHS) {
         clear_tree();
@@ -143,9 +180,9 @@ BTree<T>& BTree<T>::operator=(const BTree<T>& RHS) {
     }
 
 //ANCHOR - Insert
-template <class T>
+template <typename T>
 void BTree<T>::insert(const T& entry) {
-    //* in order for this class to be able to keep track of the number of the keys, this function (and the functions
+    //* in order for this typename To be able to keep track of the number of the keys, this function (and the functions
     //* it calls ) must return a success code.
     //* If we are to keep track of the number the keys (as opposed to key/values) then the success 
     //*  code must distinguish between inserting a new key, or adding a new key to the existing key. 
@@ -174,7 +211,7 @@ void BTree<T>::insert(const T& entry) {
 
 
 //ANCHOR - grow_tree
-template <class T>
+template <typename T>
 void BTree<T>::grow_tree() {
     DEBUG_PRINT("\nCalling grow_tree by creating new root");
 
@@ -225,7 +262,7 @@ void BTree<T>::grow_tree() {
 
 
 //ANCHOR - remove
-template <class T>
+template <typename T>
 void BTree<T>::remove(const T & entry) {
     //Loose_remove the entry from this tree.
    //once you return from loose_remove, the root (this object) may have no data and only a single subset
@@ -280,29 +317,45 @@ void BTree<T>::remove(const T & entry) {
         }
     }
 
-//ANCHOR - clear
-template <class T>
+// //ANCHOR - clear
+// template <typename T>
+// void BTree<T>::clear_tree() {
+//     static bool is_root_call = true;
+//     if (is_root_call) {
+//         cout << "Clearing the tree from root: " << this << std::endl;
+//         is_root_call = false;
+//         }
+//     for (int i = 0; i < child_count; ++i) {
+//         if (subset[i] != nullptr) { // if the child node is not empty
+//             subset[i]->clear_tree(); // recursively clear the child node
+//             delete subset[i]; // delete the child node
+//             subset[i] = nullptr; // avoid memory leak
+//             }
+//         }
+
+//     child_count = 0;
+//     data_count = 0;
+
+//     }
+
+template <typename T>
 void BTree<T>::clear_tree() {
-    static bool is_root_call = true;
-    if (is_root_call) {
-        cout << "Clearing the tree from root: " << this << std::endl;
-        is_root_call = false;
-        }
-    for (int i = 0; i < child_count; ++i) {
-        if (subset[i] != nullptr) { // if the child node is not empty
-            subset[i]->clear_tree(); // recursively clear the child node
-            delete subset[i]; // delete the child node
-            subset[i] = nullptr; // avoid memory leak
+    if (!is_leaf()) {
+        for (int i = 0; i < child_count; i++) {
+            if (subset[i] != nullptr) {
+                subset[i]->clear_tree();
+                delete subset[i];
+                subset[i] = nullptr;
+                }
             }
         }
-
-    child_count = 0;
     data_count = 0;
-
+    child_count = 0;
+    cout << "Cleared BTree node at address: " << this << endl;
     }
 
 //ANCHOR - copy_tree
-template <class T>
+template <typename T>
 void BTree<T>::copy_tree(const BTree<T>&other) {
     if (this == &other) {
         DEBUG_PRINT("Warning: Self-reference detected in copy_tree().");
@@ -330,7 +383,7 @@ void BTree<T>::copy_tree(const BTree<T>&other) {
 //---------------------------------------------------------------------
 //            C O N T A I N S / F I N D / G E T / E T C .
 //---------------------------------------------------------------------
-template <class T>
+template <typename T>
 bool BTree<T>::contains(const T & entry) {
     int i = first_ge(data, data_count, entry);
 
@@ -363,21 +416,24 @@ T &BTree<T>::get(const T & entry) {
     }
 
 // Find
-template <class T>
+template <typename T>
 T* BTree<T>::find(const T & entry) {
     int i = first_ge(data, data_count, entry); // first_ge tells you in which branch the entry can be found
     if (i < data_count && data[i] == entry) {
+        // cout << "Found at index " << i << ": " << data[i] << endl;
         return &data[i]; // find the entry, return the pointer to the entry
         }
     else if (is_leaf()) {
+        //cout << "Not found in leaf node." << endl;
         return nullptr; // entry not found, return nullptr
         }
     else {
+        // cout << "Recursively searching in subset[" << i << "]" << endl;
         return subset[i]->find(entry); // recursively find the entry in the child node
         }
     }
 
-template <class T>
+template <typename T>
 int BTree<T>::size() const {
     int total_size = data_count;
 
@@ -391,12 +447,12 @@ int BTree<T>::size() const {
 
     }
 
-template <class T>
+template <typename T>
 bool BTree<T>::empty() const {
     return (data_count == 0 && child_count == 0);
     }
 
-template <class T>
+template <typename T>
 bool BTree<T>::is_valid() { // Check if the tree is valid
     // Root is empty 
     if (data_count == 0 && child_count == 0) {
@@ -423,7 +479,7 @@ bool BTree<T>::is_valid() { // Check if the tree is valid
 //---------------------------------------------------------------
 //      P R I N T  E T C.
 //---------------------------------------------------------------
-template <class T>
+template <typename T>
 void BTree<T>::print_tree(int level, ostream & outs) const {
     if (child_count > 0 && subset[child_count - 1] != nullptr) {
         subset[child_count - 1]->print_tree(level + 1, outs);
@@ -447,13 +503,13 @@ void BTree<T>::print_tree(int level, ostream & outs) const {
     }
 
 
-template <class T>
+template <typename T>
 ostream& operator<<(ostream & outs, const BTree<T>&print_me) {
     print_me.print_tree(0, outs);
     return outs;
     }
 
-template <class T>
+template <typename T>
 string BTree<T>::in_order() {
     string result;
 
@@ -472,7 +528,7 @@ string BTree<T>::in_order() {
     }
 
 //ANCHOR - loose_insert
-template <class T>
+template <typename T>
 void BTree<T>::loose_insert(const T & entry) {
     /*
        int i = first_ge(data, data_count, entry);
@@ -575,7 +631,7 @@ void BTree<T>::loose_insert(const T & entry) {
 
 
 //ANCHOR - fix_excess
-template <class T>
+template <typename T>
 void BTree<T>::fix_excess(int i) {
     //* this node's child i has one too many items: 3 steps: 
     //* 1. add a new subset at location i+1 of this node 
@@ -685,7 +741,7 @@ void BTree<T>::fix_excess(int i) {
     }
 
 //ANCHOR - loose_remove
-template <class T>
+template <typename T>
 void BTree<T>::loose_remove(const T & entry) {
     /* four cases:
           a. leaf && not found target: there is nothing to do
@@ -796,7 +852,7 @@ void BTree<T>::loose_remove(const T & entry) {
 
 
 //ANCHOR - fix_shortage
-template <class T>
+template <typename T>
 void BTree<T>::fix_shortage(int i) {
     /*
      * fix shortage in subtree i:
@@ -830,7 +886,7 @@ void BTree<T>::fix_shortage(int i) {
     }
 
 //ANCHOR - remove_biggest
-template <class T>
+template <typename T>
 void BTree<T>::remove_biggest(T & entry) {
     // Keep looking in the last subtree (recursive)
     // until you get to a leaf.
@@ -879,7 +935,7 @@ void BTree<T>::remove_biggest(T & entry) {
     }
 
 //ANCHOR - rotate_left
-template <class T>
+template <typename T>
 void BTree<T>::rotate_left(int i) {
     /*
      * (0 < i < child_count) and (subset[i]->data_count > MINIMUM)
@@ -953,7 +1009,7 @@ void BTree<T>::rotate_left(int i) {
     //     }
     }
 //ANCHOR - rotate_right
-template <class T>
+template <typename T>
 void BTree<T>::rotate_right(int i) {
     /* (i < child_count - 1) and (subset[i]->data_count > MINIMUM)
      * subset[i+ 1] has only MINIMUM - 1 entries.
@@ -1020,7 +1076,7 @@ void BTree<T>::rotate_right(int i) {
     //     }
     }
 //ANCHOR - merge_with_next_subset
-template <class T>
+template <typename T>
 void BTree<T>::merge_with_next_subset(int i) {
     /*
      *  Merge subset[i] with subset [i+1] with data[i] in the middle

@@ -16,9 +16,25 @@
 #include "../../includes/rpn/rpn.h"
 #include "../../includes/rpn/rpn.h"
 int Table::serial = 0;
+// Table::Table()
+//     : _name(""), _file_name(""), _empty(true), _last_record(-1) {
+//     cout << "Table default constructor fired!" << endl;
+//     }
 Table::Table()
-    : _name(""), _file_name(""), _empty(true), _last_record(-1) {
+    : _name("default_table"),
+    _file_name("default_table.tbl"),
+    _empty(true),
+    _last_record(-1) {
     cout << "Table default constructor fired!" << endl;
+
+    ofstream file(_file_name, ios::app | ios::binary);
+    if (!file.is_open()) {
+        cerr << "Error: Could not create default table file: " << _file_name << endl;
+        }
+    else {
+        cout << "Default table file created: " << _file_name << endl;
+        }
+    file.close();
     }
 
 
@@ -76,15 +92,15 @@ Table::Table(const string& name) {
 
 //LINK - Table ctor 3
 Table::Table(const string& name, const vector<string> &fields_names) {
-    DEBUG_PRINT("-------Table ctor 3 fired!-------");
+    cout << "\n-------Table ctor 3 fired!-------\n" << endl;
     serial++;
     _name = name;
     _field_names = fields_names;
     _empty = true;
     _last_record = -1;
     _file_name = _name + ".tbl";
-    _field_map.clear();
-    _indices.clear();
+    // _field_map.clear();
+    // _indices.clear();
     // ofstream ofs(_file_name, ios::trunc | ios::binary);
     // ofs.close();
 
@@ -283,10 +299,19 @@ Table Table::vector_to_table(const vector<string>& fields, const vector<long>& v
     else {
         actual_fields = fields;
         }
-    cout << "\n----------------------------------------DEBUG HERE!" << endl;
+
     // 2. Initialize new table,use the constructor3
     string new_table_name = "_selected_table_" + to_string(serial);
+    cout << "\n-[01]----------------------------------------DEBUG HERE!" << endl;
+
+    cout << "Creating new table with name: " << new_table_name << " and fields: ";
+    for (const auto& field : actual_fields) {
+        cout << field << " ";
+        }
+    cout << endl;
+
     Table new_table(new_table_name, actual_fields);
+    cout << "\n-[02]--------------------------------------DEBUG HERE!" << endl;
 
     // 3. Open original file for reading
     fstream file;
@@ -363,14 +388,14 @@ vectorstr Table::get_fields() const { return _field_names; }
 
 bool Table::is_empty() { return _empty; }
 
-//LINK - field_col_no
+// LINK - field_col_no
 int Table::field_col_no(string field_name) {
     cout << "-------Table::field_col_no fired!-------" << endl;
     cout << "Field name: " << field_name << endl;
-    cout << "Field map size:" << _field_map.size() << endl;
+    cout << "Field map size: " << _field_map.size() << endl;
+    cout << _field_map << endl;
 
-    cout << endl;
-
+    // Remove extra spaces from field_name
     field_name.erase(remove_if(field_name.begin(), field_name.end(), ::isspace), field_name.end());
 
     if (field_name == "*") {
@@ -378,19 +403,16 @@ int Table::field_col_no(string field_name) {
         return -2;   // -2 indicates all fields
         }
 
-    // cout << "Field map contents:" << endl;
-    // for (const auto& pair : _field_map) {
-    //     cout << pair.key << " -> " << pair.value << endl;
-    //     }
-
-    // if (_field_map.find(field_name) != _field_map.end()) {
-    //     cout << "Field found: " << field_name << " at index "
-    //         << _field_map.at(field_name) << endl;
-    //     return _field_map.at(field_name);
-    //     }
+    // Search in the field map
+    auto it = _field_map.find(field_name);
+    if (it != _field_map.end()) {
+        int index = (*it).value;
+        cout << "Field found: " << field_name << " at index " << index << endl;
+        return index;
+        }
 
     cout << "Field not found: " << field_name << ". Returning -3." << endl;
-    return -3;
+    return -3;  // -3 indicates field not found
     }
 
 //LINK - get_matching_recnos
@@ -398,7 +420,7 @@ vectorlong Table::get_matching_recnos(const string& field_name, const string& fi
     vector<long> recnos;
 
     int field_index = field_col_no(field_name);
-    if (field_index < 0) {
+    if (field_index == -3) {
         throw runtime_error("Field not found: " + field_name);
         }
 
