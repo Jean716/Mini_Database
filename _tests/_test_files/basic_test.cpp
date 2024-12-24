@@ -9,7 +9,6 @@
 //Files we are testing:
 #include "../../includes/sql/sql.h"
 
-
 //------------------------------------------------------------------------------------------
 
 using namespace std;

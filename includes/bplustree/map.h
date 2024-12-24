@@ -122,7 +122,7 @@ class Map
         Iterator find(const K& key) {
             cout << "Finding key: " << key << endl;
             auto it = map.find(Pair<K, V>(key));
-            if (it != typename map_base::Iterator()) {
+            if (it != typename map_base::Iterator(nullptr)) {
                 cout << "Found Pair: " << (*it).key << " -> " << (*it).value << endl;
                 }
             else {

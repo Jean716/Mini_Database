@@ -53,7 +53,11 @@ Table SQL::command(const string& cmd) {
         //     cout << ">>> Table already exists. Overwriting: " << table_name << endl;
         //     _tables.erase(table_name);
         //     }
-
+        string table_file = table_name + ".tbl";
+        if (file_exists(table_file.c_str())) {
+            cout << "Removing existing table file: " << table_file << endl;
+            remove(table_file.c_str());
+            }
         // Create a new table
         cout << ">>> Creating table: " << table_name << " with fields: ";
         for (const auto& field : fields) {
@@ -78,9 +82,9 @@ Table SQL::command(const string& cmd) {
         cout << endl;
 
         //debug - check if table exists
-        // if (_tables.find(table_name) == _tables.end()) {
-        //     throw runtime_error("Table does not exist: " + table_name);
-        //     }
+        if (_tables.find(table_name) == _tables.end()) {
+            throw runtime_error("Table does not exist: " + table_name);
+            }
 
 
         _tables[table_name].insert_into(values);

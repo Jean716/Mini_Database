@@ -35,7 +35,6 @@ FileRecord::FileRecord() {
 
 FileRecord::FileRecord(const vector<string>& v) {
     cout << "FileRecord::FileRecord fired!" << endl;
-
     _record.resize(MAX_ROWS, nullptr);
     for (int i = 0; i < MAX_ROWS; ++i) {
         _record[i] = new char[MAX_COLS]();
@@ -46,23 +45,29 @@ FileRecord::FileRecord(const vector<string>& v) {
         }
     }
 
-
 long FileRecord::write(fstream& outs) {
     cout << "FileRecord::write fired!" << endl;
     outs.seekg(0, outs.end);
     long pos = outs.tellp();
+
     for (int i = 0; i < MAX_ROWS; ++i) {
         outs.write(_record[i], MAX_COLS);
         }
     return pos / (MAX_ROWS * MAX_COLS);
     }
 
-long FileRecord::read(std::fstream& ins, long recno) {
+long FileRecord::read(fstream& ins, long recno) {
     long pos = recno * MAX_ROWS * MAX_COLS;
-    ins.seekg(pos, std::ios_base::beg);
+
+    ins.seekg(pos, ios_base::beg);
+
     for (int i = 0; i < MAX_ROWS; ++i) {
         ins.read(_record[i], MAX_COLS);
         _record[i][MAX_COLS - 1] = '\0';
+
+        if (ins.gcount() < MAX_COLS) {
+            cerr << "Warning: Row " << i << " has incomplete data. Read only " << ins.gcount() << " bytes." << endl;
+            }
         }
     return ins.gcount();
     }

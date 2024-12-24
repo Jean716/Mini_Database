@@ -244,13 +244,18 @@ int Table::insert_into(vector<string>& fields) {
     cout << "Fields to insert : " << fields << endl;
     cout << "_field_names " << _field_names << endl;
     cout << "_field_names size: " << _field_names.size() << endl;
-    cout << "_field_map.size() " << _field_map.size() << endl;
+    cout << "_field_map.size() " << fields.size() << endl;
 
+    cout << "Fields to insert: ";
+    for (const auto& field : fields) {
+        cout << "[" << field << "] ";
+        }
+    cout << endl;
 
-    // 1. check if the number of fields matches the table definition
-    // if (_field_map.size() != _field_names.size()) {
-    //     throw runtime_error("The number of fields does not match the table definition.");
-    //     }
+    // check if the number of fields matches the table definition
+    if (fields.size() != _field_names.size()) {
+        throw runtime_error("The number of fields in the input does not match the table definition.");
+        }
     //---------------------------------------------------------
     if (record_exists(fields)) {
         cout << "Duplicate record found, skipping insertion." << endl;
@@ -279,12 +284,6 @@ int Table::insert_into(vector<string>& fields) {
     for (size_t i = 0; i < fields.size(); ++i) {
         string field_value = fields[i];
         string field_name = _field_names[i];
-        //---------------------------------------------------------
-        // cout << "Field map contents:" << endl;
-        // for (const auto& pair : _field_map) {
-        //     cout << pair.first << " -> " << pair.second << endl;
-        //     }
-        //---------------------------------------------------------
 
         cout << "Field name: " << _field_names[i] << endl;
         int field_index = _field_map.at(_field_names[i]);
@@ -353,6 +352,7 @@ Table Table::vector_to_table(const vector<string>& fields, const vector<long>& v
         FileRecord record;
         record.read(file, recno);
         vector<string> record_fields;
+
         for (const auto& field : actual_fields) {
             int field_index = field_col_no(field);
             if (field_index == -2) {
@@ -478,28 +478,6 @@ Table Table::select_all(vector<string> fields) {
     return t;
     }
 
-// cout << "Before assignment, _select_recnos: ";
-// for (const auto& recno : _select_recnos) {
-//     cout << recno << " ";
-//     }
-// cout << endl;
-// Table new_table;
-// new_table._field_names = fields;
-// new_table._field_map = _field_map;
-
-// new_table._select_recnos = _select_recnos;
-
-// cout << "Records selected in select_all:";
-// for (const auto& recno : _select_recnos) {
-//     cout << recno << " ";
-//     }
-// cout << endl;
-// for (const auto& index : _indices) {
-//     new_table._indices.push_back(index);
-//     }
-
-
-// //LINK - select (RPN)
 
 Table Table::select(const vector<string>&  fields, const Queue<Token*>& postfix) {
     cout << "-------Table::select fired!-------" << endl;

@@ -247,7 +247,7 @@ BPlusTree<T>::BPlusTree(bool dups) : dups_ok(dups), data_count(0), child_count(0
         subset[i] = nullptr;
         }
     success_flag = false;
-    cout << "BPlusTree default constructor called!" << endl;
+    cout << "\nBPlusTree default constructor called!\n" << endl;
     }
 
 template <class T>
@@ -1162,7 +1162,7 @@ void BPlusTree<T>::verify_leaf_chain() {
                 }
             }
         else {
-            cout << "Next pointer is nullptr" << endl;
+            cout << " Next pointer is nullptr" << endl;
             }
 
         current = current->next;
