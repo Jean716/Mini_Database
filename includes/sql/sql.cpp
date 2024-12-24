@@ -49,10 +49,10 @@ Table SQL::command(const string& cmd) {
         string table_name = ptree["table_name"][0];
         vector<string> fields = ptree["col"];
 
-        if (_tables.contains(Pair<string, Table>(table_name, Table()))) {
-            cout << ">>> Table already exists. Overwriting: " << table_name << endl;
-            _tables.erase(table_name);
-            }
+        // if (_tables.contains(Pair<string, Table>(table_name, Table()))) {
+        //     cout << ">>> Table already exists. Overwriting: " << table_name << endl;
+        //     _tables.erase(table_name);
+        //     }
 
         // Create a new table
         cout << ">>> Creating table: " << table_name << " with fields: ";
@@ -60,6 +60,7 @@ Table SQL::command(const string& cmd) {
             cout << field << " ";
             }
         cout << endl;
+
         _tables.insert(table_name, Table(table_name, fields));
         cout << ">>> Table created successfully: " << table_name << endl;
         return _tables[table_name];
@@ -77,9 +78,9 @@ Table SQL::command(const string& cmd) {
         cout << endl;
 
         //debug - check if table exists
-        if (_tables.find(table_name) == _tables.end()) {
-            throw runtime_error("Table does not exist: " + table_name);
-            }
+        // if (_tables.find(table_name) == _tables.end()) {
+        //     throw runtime_error("Table does not exist: " + table_name);
+        //     }
 
 
         _tables[table_name].insert_into(values);

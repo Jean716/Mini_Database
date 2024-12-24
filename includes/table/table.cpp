@@ -16,86 +16,77 @@
 #include "../../includes/rpn/rpn.h"
 #include "../../includes/rpn/rpn.h"
 int Table::serial = 0;
-// Table::Table()
-//     : _name(""), _file_name(""), _empty(true), _last_record(-1) {
-//     cout << "Table default constructor fired!" << endl;
-//     }
+
 Table::Table()
     : _name("default_table"),
     _file_name("default_table.tbl"),
     _empty(true),
     _last_record(-1) {
-    cout << "Table default constructor fired!" << endl;
+    cout << "Table default constructor called at address: " << this << endl;
 
-    // ofstream file(_file_name, ios::app | ios::binary);
-    // if (!file.is_open()) {
-    //     cerr << "Error: Could not create default table file: " << _file_name << endl;
-    //     }
-    // else {
-    //     cout << "Default table file created: " << _file_name << endl;
-    //     }
-    // file.close();
+    ofstream file(_file_name, ios::app | ios::binary);
+    if (!file.is_open()) {
+        cerr << "Error: Could not create default table file: " << _file_name << endl;
+        }
+    else {
+        cout << "Default table file created: " << _file_name << endl;
+        }
+    file.close();
     }
 
-Table::Table(const string& name)
-    : _name(name),
-    _file_name(name + ".tbl"),
-    _empty(true),
-    _last_record(-1) {
-    cout << "Table constructor for existing table: " << name << endl;
+
+
+Table::Table(const string& name) {
+    DEBUG_PRINT("-------Table ctor 2 fired!-------");
+    //serial++;
+    _name = name;
+    _file_name = name + ".tbl";
+
+    // 1. open
+    string fields_file = name + "_fields.txt";
+    ifstream field_file(fields_file);
+    if (!field_file.is_open()) {
+        throw runtime_error("Fields file not found: " + fields_file);
+        }
+    vector<string> field_names;
+    string field;
+    while (getline(field_file, field)) {
+        field_names.push_back(field);
+        }
+    field_file.close();
+
+    set_fields(field_names);
+
+
+    // 4. read the table file and build the indices
+    fstream table_file;
+    open_fileRW(table_file, _file_name.c_str());
+    table_file.seekg(0, ios::beg);
+
+    long record_size = FileRecord::MAX_ROWS * FileRecord::MAX_COLS;
+    // long total_records =filesystem::file_size(_file_name) / record_size;
+    long total_records = get_file_size(_file_name) / record_size;
+
+    // 5. filter out the empty records
+   // filter_unique_records(table_file, total_records, valid_records);
+    table_file.close();
+
+    // update the table state
+    _select_recnos.clear();
+    for (long i = 0; i <= _last_record; ++i) {
+        _select_recnos.push_back(i);
+        }
+    cout << "Table(name)::_select_recnos: ";
+    for (const auto& recno : _select_recnos) {
+        cout << to_string(recno);
+        }
+
+    // 6. reindex the table
+    reindex();
+
+
+    DEBUG_PRINT("-------------------Table ctor 2 Done!----------------------------");
     }
-
-// Table::Table(const string& name) {
-//     DEBUG_PRINT("-------Table ctor 2 fired!-------");
-//     //serial++;
-//     _name = name;
-//     _file_name = name + ".tbl";
-
-//     // 1. open
-//     string fields_file = name + "_fields.txt";
-//     ifstream field_file(fields_file);
-//     if (!field_file.is_open()) {
-//         throw runtime_error("Fields file not found: " + fields_file);
-//         }
-//     vector<string> field_names;
-//     string field;
-//     while (getline(field_file, field)) {
-//         field_names.push_back(field);
-//         }
-//     field_file.close();
-
-//     set_fields(field_names);
-
-
-//     // 4. read the table file and build the indices
-//     fstream table_file;
-//     open_fileRW(table_file, _file_name.c_str());
-//     table_file.seekg(0, ios::beg);
-
-//     long record_size = FileRecord::MAX_ROWS * FileRecord::MAX_COLS;
-//     // long total_records =filesystem::file_size(_file_name) / record_size;
-//     long total_records = get_file_size(_file_name) / record_size;
-
-//     // 5. filter out the empty records
-//    // filter_unique_records(table_file, total_records, valid_records);
-//     table_file.close();
-
-//     // update the table state
-//     _select_recnos.clear();
-//     for (long i = 0; i <= _last_record; ++i) {
-//         _select_recnos.push_back(i);
-//         }
-//     cout << "Table(name)::_select_recnos: ";
-//     for (const auto& recno : _select_recnos) {
-//         cout << to_string(recno);
-//         }
-
-//     // 6. reindex the table
-//     reindex();
-
-
-//     DEBUG_PRINT("-------------------Table ctor 2 Done!----------------------------");
-//     }
 
 //LINK - Table ctor 3
 Table::Table(const string& name, const vector<string> &fields_names) {
@@ -111,16 +102,36 @@ Table::Table(const string& name, const vector<string> &fields_names) {
     // ofstream ofs(_file_name, ios::trunc | ios::binary);
     // ofs.close();
 
-    DEBUG_PRINT("Table serial number: " << serial);
+    // 检查 fields_names 是否为空
+    if (_field_names.empty()) {
+        cerr << "Error: Field names vector is empty!" << endl;
+        throw runtime_error("Field names vector is empty");
+        }
+
 
     // create a file for the table
     ofstream field_file(_name + "_fields.txt");
+    if (!field_file.is_open()) {
+        cerr << "Error: Unable to create fields file: " << _name + "_fields.txt" << endl;
+        throw runtime_error("Field file creation failed");
+        }
 
     for (size_t i = 0; i < _field_names.size(); ++i) {
+        // 检查字段名称是否为空
+        if (_field_names[i].empty()) {
+            cerr << "Error: Field name at index " << i << " is empty!" << endl;
+            throw runtime_error("Empty field name detected");
+            }
         field_file << _field_names[i] << endl;
+        cout << " Adding to _field_map: " << _field_names[i] << " -> " << i << endl;
+
         _field_map[_field_names[i]] = i;
+        cout << "Initializing index for field: " << _field_names[i] << endl;
+
+        cout << "\n ---[0]---[DEBUG] Preparing to push_back MMap<string, long> to _indices.---\n" << endl;
         _indices.push_back(MMap<string, long>());
-        DEBUG_PRINT("Field added: " << _field_names[i]);
+        cout << "\n ---[1]---[DEBUG] Successfully pushed_back. _indices size: " << _indices.size() << endl;
+
         }
     field_file.close();
 
@@ -128,6 +139,14 @@ Table::Table(const string& name, const vector<string> &fields_names) {
 
     cout << "Current state of _indices:" << endl;
     cout << "_indices size: " << _indices.size() << endl;
+
+    if (_indices.size() != _field_names.size()) {
+        cerr << "Error: _indices size (" << _indices.size()
+            << ") does not match _field_names size (" << _field_names.size() << ")" << endl;
+        throw runtime_error("_indices size mismatch");
+        }
+
+
     for (size_t i = 0; i < _indices.size(); ++i) {
         cout << "Index " << i << " initialized for field: " << _field_names[i] << endl;
         }
@@ -309,13 +328,13 @@ Table Table::vector_to_table(const vector<string>& fields, const vector<long>& v
 
     // 2. Initialize new table,use the constructor3
     string new_table_name = "_selected_table_" + to_string(serial);
-    cout << "\n-[01]----------------------------------------DEBUG HERE!" << endl;
 
     cout << "Creating new table with name: " << new_table_name << " and fields: ";
     for (const auto& field : actual_fields) {
         cout << field << " ";
         }
     cout << endl;
+    cout << "\n-[01]----------------------------------------DEBUG HERE!" << endl;
 
     Table new_table(new_table_name, actual_fields);
     cout << "\n-[02]--------------------------------------DEBUG HERE!" << endl;

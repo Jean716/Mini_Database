@@ -4,7 +4,6 @@
 #include "../../includes/bplustree/bplustree.h"
 #include "../../includes/bplustree/map.h"
 
-
 template <typename K, typename V>
 struct MPair
     {
@@ -19,11 +18,17 @@ struct MPair
      *  _ CTOR with a key and a vector of values (to replace value_list)
      */
      //--------------------------------------------------------------------------------
-    MPair(const K& k = K()) : key(k) {}
+    MPair(const K& k = K()) : key(k) {
+        cout << "MPair default constructor called with key: " << key << endl;
+        }
     MPair(const K& k, const V& v) : key(k) {
         value_list.push_back(v);
+        cout << "MPair(key, value) constructor called with key: " << key << ", value: " << v << endl;
         }
-    MPair(const K& k, const vector<V>& vlist) : key(k), value_list(vlist) {}
+    MPair(const K& k, const vector<V>& vlist) : key(k), value_list(vlist) {
+        cout << "MPair(key, vector) constructor called with key: " << key << endl;
+
+        }
 
     K& first() { return key; }
     const K& first() const { return key; }
@@ -113,7 +118,9 @@ class MMap
             };
 
 
-        MMap() : mmap(BPlusTree<MPair<K, V>>()) {}
+        MMap() : mmap(BPlusTree<MPair<K, V>>()) {
+            cout << "MMap constructor called!" << endl;
+            }
 
         //  Iterators
 
@@ -146,19 +153,16 @@ class MMap
         vector<V>& operator[](const K& key) { return mmap.get(MPair<K, V>(key)).value_list; }
 
 
-
-
-
-
-
-
         //  Modifiers
         void insert(const K& k, const V& v) {
+            cout << "MMap::insert called with key: " << k << ", value: " << v << endl;
             MPair<K, V> m_pair(k, v);
             if (mmap.contains(m_pair)) {
+                cout << "Key already exists, appending value to key: " << k << endl;
                 mmap.get(m_pair).value_list.push_back(v);  // Append if key exists
                 }
             else {
+                cout << "Key does not exist, inserting new MPair." << endl;
                 mmap.insert(m_pair);  // Insert new MPair
                 }
             }

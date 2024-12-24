@@ -83,7 +83,7 @@ class BPlusTree
                         print_array(current->data, current->data_count, pos);
 
                         if (current->next) {
-                            cout << " -> Next node at address: " << current->next << ", First data: " << current->next->data[0] << std::endl;
+                            cout << " -> Next node at address: " << current->next << ", First data: " << current->next->data[0] << endl;
                             }
                         else {
                             cout << " -> Next node: nullptr" << endl;
@@ -177,18 +177,20 @@ class BPlusTree
         void check_node_consistency() const {
             if (!is_leaf()) {
                 if (child_count != data_count + 1) {
-                    std::cerr << "Consistency error: child_count = " << child_count
-                        << ", but should be data_count + 1 = " << (data_count + 1) << std::endl;
+                    cerr << "Consistency error: child_count = " << child_count
+                        << ", but should be data_count + 1 = " << (data_count + 1) << endl;
                     }
                 }
 
             if (is_leaf() && child_count != 0) {
-                std::cerr << "Consistency error in leaf node: child_count should be 0, but is " << child_count << std::endl;
+                cerr << "Consistency error in leaf node: child_count should be 0, but is " << child_count << endl;
                 }
 
-            std::cout << "Node consistency check passed: data_count = " << data_count
-                << ", child_count = " << child_count << std::endl;
+            cout << "Node consistency check passed: data_count = " << data_count
+                << ", child_count = " << child_count << endl;
             }
+
+
 
 
     private:
@@ -238,23 +240,35 @@ class BPlusTree
 //---------------------------------------------------------------------
 template <class T>
 BPlusTree<T>::BPlusTree(bool dups) : dups_ok(dups), data_count(0), child_count(0), next(nullptr) {
+    for (int i = 0; i < MAXIMUM + 1; ++i) {
+        data[i] = T();
+        }
     for (int i = 0; i < MAXIMUM + 2; ++i) {
         subset[i] = nullptr;
         }
     success_flag = false;
-
+    cout << "BPlusTree default constructor called!" << endl;
     }
 
 template <class T>
 BPlusTree<T>::BPlusTree(T *a, int size, bool dups) : dups_ok(dups), data_count(0), child_count(0), next(nullptr) {
+    assert(a != nullptr && size >= 0 && "Invalid array or size");
     for (int i = 0; i < size; ++i) {
         insert(a[i]);
         }
+    cout << "BPlusTree constructor called!" << endl;
+
     }
 //big three:
+// template <class T>
+// BPlusTree<T>::BPlusTree(const BPlusTree<T>& other) {
+//     BPlusTree<T>* last_node = nullptr;  // Initialize last_node to nullptr
+//     copy_tree(other, last_node);
+//     }
 template <class T>
-BPlusTree<T>::BPlusTree(const BPlusTree<T>& other) {
-    BPlusTree<T>* last_node = nullptr;  // Initialize last_node to nullptr
+BPlusTree<T>::BPlusTree(const BPlusTree<T>& other)
+    : dups_ok(other.dups_ok), data_count(0), child_count(0), next(nullptr) {
+    BPlusTree<T>* last_node = nullptr;
     copy_tree(other, last_node);
     }
 
@@ -406,18 +420,18 @@ void BPlusTree<T>::print_tree(int level, ostream &outs) const {
 
         }
     if (next == nullptr && level == 0) {
-        outs << setw(4 * level) << "" << "^" << std::endl;
+        outs << setw(4 * level) << "" << "^" << endl;
         }
     if (next != nullptr) {
-        outs << setw(4 * level) << "" << "^" << std::endl;
+        outs << setw(4 * level) << "" << "^" << endl;
         }
-    outs << setw(4 * level) << "" << "⎴" << std::endl;
+    outs << setw(4 * level) << "" << "⎴" << endl;
 
     for (int i = data_count - 1; i >= 0; --i) {
-        outs << setw(4 * level) << "" << left << setw(4) << data[i] << std::endl;
+        outs << setw(4 * level) << "" << left << setw(4) << data[i] << endl;
 
         if (i == 0) {
-            outs << setw(4 * level) << "" << "⎵" << std::endl;
+            outs << setw(4 * level) << "" << "⎵" << endl;
             }
 
 
@@ -435,7 +449,7 @@ void BPlusTree<T>::print_tree(int level, ostream &outs) const {
 template <typename T>
 void BPlusTree<T>::insert(const T& entry) {
 
-    DEBUG_PRINT("Insert Function Fired! Inserting: " << entry);
+    cout << "Insert Function Fired! Inserting: " << entry;
     // call loose_insert
     loose_insert(entry);
 
@@ -458,6 +472,7 @@ void BPlusTree<T>::insert(const T& entry) {
             fix_excess(0);
             }
         }
+    verify_leaf_chain();
 
     }
 
@@ -582,7 +597,7 @@ void BPlusTree<T>::remove(const T & entry) {
     cout << "Child count: " << child_count << endl;
 
 
-    // verify_leaf_chain();
+    verify_leaf_chain();
     }
 
 
@@ -662,7 +677,7 @@ void BPlusTree<T>::loose_remove(const T & entry) {
         }
 
     if (!is_valid()) {
-        std::cerr << "Tree is NOT valid after remove operation!" << std::endl;
+        cerr << "Tree is NOT valid after remove operation!" << endl;
         update_parent_keys();
 
         }
@@ -767,10 +782,10 @@ BPlusTree<T>* BPlusTree<T>::merge_with_next_subset(int i) {
 
         }
 
-    std::cout << "Merge completed" << std::endl;
+    cout << "Merge completed" << endl;
     update_parent_keys();
     if (!is_valid()) {
-        std::cerr << "Tree is NOT valid after remove operation!" << std::endl;
+        cerr << "Tree is NOT valid after remove operation!" << endl;
         }
     return left;
 
@@ -781,39 +796,39 @@ BPlusTree<T>* BPlusTree<T>::merge_with_next_subset(int i) {
 //ANCHOR - transfer_left
 template <class T>
 void BPlusTree<T>::transfer_left(int i) {
-    std::cout << "Transfering left from subset[" << i << "] to subset[" << (i - 1) << "]" << std::endl;
+    cout << "Transfering left from subset[" << i << "] to subset[" << (i - 1) << "]" << endl;
 
     BPlusTree<T>* shortNode = subset[i - 1];
     BPlusTree<T>* rightSibling = subset[i];
-    std::cout << "shortNode address: " << shortNode << ", rightSibling address: " << rightSibling << std::endl;
+    cout << "shortNode address: " << shortNode << ", rightSibling address: " << rightSibling << endl;
 
     // Move the first item from rightSibling to shortNode
     T borrowed_item;
     delete_item(rightSibling->data, 0, rightSibling->data_count, borrowed_item);
     attach_item(shortNode->data, shortNode->data_count, borrowed_item);
-    std::cout << "Moved item from rightSibling to shortNode: " << borrowed_item << std::endl;
+    cout << "Moved item from rightSibling to shortNode: " << borrowed_item << endl;
 
     // Update the parent's data
     data[i - 1] = rightSibling->data[0];
-    std::cout << "Updated parent data[" << (i - 1) << "] to: " << data[i - 1] << std::endl;
+    cout << "Updated parent data[" << (i - 1) << "] to: " << data[i - 1] << endl;
 
     // Move the first child from rightSibling to shortNode if not a leaf
     if (!shortNode->is_leaf()) {
         attach_item(shortNode->subset, shortNode->child_count, rightSibling->subset[0]);
         delete_item(rightSibling->subset, 0, rightSibling->child_count, rightSibling->subset[0]);
-        std::cout << "Moved child from rightSibling to shortNode" << std::endl;
+        cout << "Moved child from rightSibling to shortNode" << endl;
         }
 
     // Update the next pointer if shortNode is a leaf
     if (shortNode->is_leaf()) {
         shortNode->next = rightSibling->next;
-        std::cout << "Updated shortNode->next to: " << shortNode->next << std::endl;
+        cout << "Updated shortNode->next to: " << shortNode->next << endl;
         }
 
-    std::cout << "Transfer left completed" << std::endl;
+    cout << "Transfer left completed" << endl;
     update_parent_keys();
     if (!is_valid()) {
-        std::cerr << "Tree is NOT valid after remove operation!" << std::endl;
+        cerr << "Tree is NOT valid after remove operation!" << endl;
 
 
         }
@@ -823,14 +838,14 @@ void BPlusTree<T>::transfer_left(int i) {
 
 template <typename T>
 void BPlusTree<T>::transfer_right(int i) {
-    std::cout << "Transfering right from subset[" << i << "] to subset[" << (i + 1) << "]" << std::endl;
+    cout << "Transfering right from subset[" << i << "] to subset[" << (i + 1) << "]" << endl;
 
     T borrowed_item;
     BPlusTree<T>* leftSibling = subset[i];
     BPlusTree<T>* rightSibling = subset[i + 1];
 
     detach_item(leftSibling->data, leftSibling->data_count, borrowed_item);
-    std::cout << "After detach, leftSibling->data_count: " << leftSibling->data_count << std::endl;
+    cout << "After detach, leftSibling->data_count: " << leftSibling->data_count << endl;
 
     insert_item(rightSibling->data, 0, rightSibling->data_count, borrowed_item);
 
@@ -840,34 +855,33 @@ void BPlusTree<T>::transfer_right(int i) {
         BPlusTree<T>* borrowed_child;
         detach_item(leftSibling->subset, leftSibling->child_count, borrowed_child);
         insert_item(rightSibling->subset, 0, rightSibling->child_count, borrowed_child);
-        std::cout << "Moved child from leftSibling to rightSibling" << std::endl;
+        cout << "Moved child from leftSibling to rightSibling" << endl;
         }
 
 
 
-    std::cout << "Updated child_count: leftSibling = " << leftSibling->child_count
+    cout << "Updated child_count: leftSibling = " << leftSibling->child_count
         << ", rightSibling = " << rightSibling->child_count
-        << ", parent = " << child_count << std::endl;
+        << ", parent = " << child_count << endl;
 
-    std::cout << "Transfer right completed" << std::endl;
+    cout << "Transfer right completed" << endl;
 
     update_parent_keys();
     if (!is_valid()) {
-        std::cerr << "Tree is NOT valid after transfer_right operation!" << std::endl;
+        cerr << "Tree is NOT valid after transfer_right operation!" << endl;
         }
     }
 
 //---------------------------------------------------------------
 //      C L E A R   /  C O P Y
 //---------------------------------------------------------------
-
-
 template <typename T>
 void BPlusTree<T>::clear_tree() {
-
     if (data_count == 0 && child_count == 0) {
         return;
         }
+
+    cout << "Clearing tree node at address: " << this << endl;
 
     for (int i = 0; i < child_count; ++i) {
         if (subset[i] != nullptr) {
@@ -880,11 +894,16 @@ void BPlusTree<T>::clear_tree() {
     data_count = 0;
     child_count = 0;
     next = nullptr;
+
     }
+
+
+
 
 template <typename T>
 void BPlusTree<T>::copy_tree(const BPlusTree<T>&other) {
     assert(empty());
+
     data_count = other.data_count;
     child_count = other.child_count;
     dups_ok = other.dups_ok;
@@ -893,25 +912,29 @@ void BPlusTree<T>::copy_tree(const BPlusTree<T>&other) {
         data[i] = other.data[i];
         }
 
+    if (other.is_leaf()) {
+        next = other.next;
+        }
+    else {
+        next = nullptr;
+        }
+
     for (int i = 0; i < child_count; ++i) {
         if (other.subset[i]) {
             subset[i] = new BPlusTree<T>(dups_ok);
             subset[i]->copy_tree(*other.subset[i]);
             }
+        else {
+            subset[i] = nullptr;
+            }
         }
-
-    next = other.next ? new BPlusTree<T>(*other.next) : nullptr;
     }
-
 //ANCHOR - copy_tree
 template <class T>
 void BPlusTree<T>::copy_tree(const BPlusTree<T>&other, BPlusTree<T>*&last_node) {
     if (!empty()) {
         clear_tree();
         }
-
-    DEBUG_PRINT("\n--- Starting copy_tree ---\n");
-    DEBUG_PRINT("New node address: " << this << ", Other node address: " << &other);
 
     // Copy basic node properties
     data_count = other.data_count;
@@ -922,37 +945,26 @@ void BPlusTree<T>::copy_tree(const BPlusTree<T>&other, BPlusTree<T>*&last_node) 
     for (int i = 0; i < data_count; ++i) {
         data[i] = other.data[i];
         }
-    DEBUG_PRINT("Data in New node: ");
-    for (int i = 0; i < data_count; ++i) DEBUG_PRINT(data[i] << " ");
-    DEBUG_PRINT("\n");
 
     // Copy child nodes
 
     if (is_leaf()) { // if this is a leaf node
-        DEBUG_PRINT("Is Leaf Node");
         next = nullptr;
         if (last_node) {
-            DEBUG_PRINT("Last Node Exist,setting last node's next to this node");
-            DEBUG_PRINT("LAST NODE: " << last_node);
             last_node->next = this;
-            DEBUG_PRINT("Last Node's next is now: " << last_node->next);
             }
         last_node = this;  // update last_node to this node
         return;
         }
     else {
-        DEBUG_PRINT("Is Not Leaf Node");
-        DEBUG_PRINT("There are " << child_count << " children");
         // Copy child nodes
         for (int i = 0; i < child_count; ++i) {
-            DEBUG_PRINT("Copying child " << i);
             subset[i] = new BPlusTree<T>(dups_ok);  // create a new child node
             subset[i]->copy_tree(*other.subset[i], last_node);  //  copy the child node
             }
-        // next = nullptr; // make sure non-leaf nodes have no next pointer
-
-       // DEBUG_PRINT("--- Finished copy of node ---\n");
         }
+    verify_leaf_chain();
+
     }
 
 
@@ -986,7 +998,7 @@ bool BPlusTree<T>::is_valid() {
     // Check if the data in each node is sorted in ascending order
     for (int i = 0; i < data_count - 1; i++) {
         if (!(data[i] <= data[i + 1])) {
-            std::cout << "Data order violation: data[" << i << "] = " << data[i]
+            cout << "Data order violation: data[" << i << "] = " << data[i]
                 << " should be less than or equal data[" << i + 1 << "] = " << data[i + 1] << "\n";
             return false;
             }
@@ -996,7 +1008,7 @@ bool BPlusTree<T>::is_valid() {
     if (is_leaf()) {
         // 1.Check leaf node chaining
         if (next && !(data[data_count - 1] <= next->data[0])) {
-            std::cout << "Leaf node chaining error: current node max " << data[data_count - 1]
+            cout << "Leaf node chaining error: current node max " << data[data_count - 1]
                 << " should be less than next node min " << next->data[0] << "\n";
             return false;
             }
@@ -1009,7 +1021,7 @@ bool BPlusTree<T>::is_valid() {
         T biggest_in_left;
         subset[i]->get_biggest(biggest_in_left);
         if (!(biggest_in_left <= data[i])) {
-            std::cout << "Left subtree order violation: largest element in subset[" << i << "] = " << biggest_in_left
+            cout << "Left subtree order violation: largest element in subset[" << i << "] = " << biggest_in_left
                 << " should be <= data[" << i << "] = " << data[i] << "\n";
             return false;
             }
@@ -1018,19 +1030,19 @@ bool BPlusTree<T>::is_valid() {
         T smallest_in_right;
         subset[i + 1]->get_smallest(smallest_in_right);
         if (!(data[i] <= smallest_in_right)) {
-            std::cout << "Right subtree order violation: data[" << i << "] = " << data[i]
+            cout << "Right subtree order violation: data[" << i << "] = " << data[i]
                 << " should be <= smallest element in subset[" << (i + 1) << "] = " << smallest_in_right << "\n";
             return false;
             }
         }
 
     //4. Verify that the number of children is one more than the number of data elements
-    // std::cout << "Node type: " << (is_leaf() ? "Leaf" : "Internal")
+    // cout << "Node type: " << (is_leaf() ? "Leaf" : "Internal")
     //     << ", Data count: " << data_count
-    //     << ", Child count: " << child_count << std::endl;
+    //     << ", Child count: " << child_count << endl;
 
     if (child_count != data_count + 1) {
-        std::cout << "Child count error: child_count = " << child_count
+        cout << "Child count error: child_count = " << child_count
             << ", but should be data_count + 1 = " << (data_count + 1) << "\n";
         return false;
         }
@@ -1038,7 +1050,7 @@ bool BPlusTree<T>::is_valid() {
     // 5.Recursively check each subset
     for (int i = 0; i < child_count; i++) {
         if (!subset[i]->is_valid()) {
-            std::cout << "Subtree violation in subset[" << i << "]\n";
+            cout << "Subtree violation in subset[" << i << "]\n";
             return false;
             }
         }
@@ -1047,8 +1059,8 @@ bool BPlusTree<T>::is_valid() {
     }
 
 template <typename T>
-std::string BPlusTree<T>::in_order() {
-    std::string result;
+string BPlusTree<T>::in_order() {
+    string result;
     if (is_leaf()) {
         for (int i = 0; i < data_count; ++i) {
             result += to_string(data[i]) + "|";
@@ -1064,10 +1076,10 @@ std::string BPlusTree<T>::in_order() {
     return result;
     }
 template <typename T>
-std::string BPlusTree<T>::pre_order() {
-    std::string result;
+string BPlusTree<T>::pre_order() {
+    string result;
     for (int i = 0; i < data_count; ++i) {
-        result += std::to_string(data[i]) + "|";
+        result += to_string(data[i]) + "|";
         if (i < child_count) {
             result += subset[i]->pre_order();
             }
@@ -1083,8 +1095,8 @@ std::string BPlusTree<T>::pre_order() {
 
 //ANCHOR - post_order
 template <typename T>
-std::string BPlusTree<T>::post_order() {
-    std::string result;
+string BPlusTree<T>::post_order() {
+    string result;
 
     if (child_count > 0 && subset[0] != nullptr) {
         result += subset[0]->post_order();
@@ -1095,7 +1107,7 @@ std::string BPlusTree<T>::post_order() {
         }
 
     if (data_count > 0) {
-        result += std::to_string(data[0]) + "|";
+        result += to_string(data[0]) + "|";
         }
 
     if (child_count > 2 && subset[2] != nullptr) {
@@ -1103,7 +1115,7 @@ std::string BPlusTree<T>::post_order() {
         }
 
     if (data_count > 1) {
-        result += std::to_string(data[data_count - 1]) + "|";
+        result += to_string(data[data_count - 1]) + "|";
         }
     return result;
     }
@@ -1134,26 +1146,26 @@ void BPlusTree<T>::get_biggest(T & entry) {
 template <typename T>
 void BPlusTree<T>::verify_leaf_chain() {
     const BPlusTree<T>* current = get_smallest_node();
-    std::vector<T> all_data;  // for collecting all data in the leaf chain
+    vector<T> all_data;  // for collecting all data in the leaf chain
     while (current) {
-        // std::cout << "Current: " << current << ", Data: ";
+        // cout << "Current: " << current << ", Data: ";
         for (int i = 0; i < current->data_count; ++i) {
-            // std::cout << current->data[i] << (i < current->data_count - 1 ? ", " : "");
+            // cout << current->data[i] << (i < current->data_count - 1 ? ", " : "");
             all_data.push_back(current->data[i]);  // only for collecting all data
             }
-        //std::cout << std::endl;
+        //cout << endl;
 
 
         if (current->next) {
-            // std::cout << "Next: " << current->next
-               //  << ", Next first data: " << current->next->data[0] << std::endl;
+            // cout << "Next: " << current->next
+               //  << ", Next first data: " << current->next->data[0] << endl;
 
             if (current->data[current->data_count - 1] > current->next->data[0]) {
-                cout << "Warning: Leaf chain order violation at node " << current << std::endl;
+                cout << "Warning: Leaf chain order violation at node " << current << endl;
                 }
             }
         else {
-            cout << "Next pointer is nullptr" << std::endl;
+            cout << "Next pointer is nullptr" << endl;
             }
 
         current = current->next;
@@ -1163,7 +1175,7 @@ void BPlusTree<T>::verify_leaf_chain() {
     for (const T& data : all_data) {
         cout << data << " ";
         }
-    cout << std::endl;
+    cout << endl;
     }
 
 

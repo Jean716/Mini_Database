@@ -356,6 +356,7 @@ void BTree<T>::clear_tree() {
         }
     data_count = 0;
     child_count = 0;
+
     //cout << "Cleared BTree node at address: " << this << endl;
     }
 

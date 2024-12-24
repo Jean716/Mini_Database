@@ -155,6 +155,7 @@ Map<K, V>::Map() : key_count(0), map(BTree<Pair<K, V>>()) {}
 
 template <typename K, typename V>
 void Map<K, V>::insert(const K& k, const V& v) {
+    //cout << "----- Map:: insert() Fired! -----" << endl;
     Pair<K, V> pair(k, v);
     if (!map.contains(pair)) {
         map.insert(pair);

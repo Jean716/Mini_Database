@@ -19,7 +19,6 @@ class SQL
         Map<string, Table> _tables; //table name-> table
         vector<long> _select_recnos;
         Parser _parser;
-        // Table _table; // current table
     };
 
 

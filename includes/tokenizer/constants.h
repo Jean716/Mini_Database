@@ -13,7 +13,7 @@ const char DIGITS[] = "0123456789";
 const char OPERATORS[] = { '+', '-', '*', '/' };
 const char RELATIONAL_OPERATORS[] = { '=', '!', '<', '>' };
 const char SPACES[] = { ' ', '\t', '\n', '\0' };
-const char PUNC[] = { '.', ',', ';' };
+const char PUNC[] = { '.', ',', ';', '\0' };
 const char PARENS[] = { '(', ')' };
 
 // state in state machine
