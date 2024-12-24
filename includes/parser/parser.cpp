@@ -310,13 +310,13 @@ map_sl Parser::get_column(vector<Token*> tokens) {
     for (Token* token : tokens) {
         string token_str = token->value();
         int token_type = token->type();
-        cout << "current token is " << token_str << endl;
+        //cout << "current token is " << token_str << endl;
         int column = -1;
 
         switch (token_type) {
                 case TOKEN_ALFA:
                     if (_keywords.contains(token_str)) {
-                        cout << "get_column: " << token_str << " is a keyword." << endl;
+                        //cout << "get_column: " << token_str << " is a keyword." << endl;
                         column = _keywords.get(token_str);
                         }
                     else {

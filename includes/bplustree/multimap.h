@@ -4,6 +4,7 @@
 #include "../../includes/bplustree/bplustree.h"
 #include "../../includes/bplustree/map.h"
 
+
 template <typename K, typename V>
 struct MPair
     {
@@ -18,24 +19,11 @@ struct MPair
      *  _ CTOR with a key and a vector of values (to replace value_list)
      */
      //--------------------------------------------------------------------------------
-    MPair(const K& k = K()) : key(k) {
-        cout << "MPair default constructor called with key: " << key << endl;
-        }
+    MPair(const K& k = K()) : key(k) {}
     MPair(const K& k, const V& v) : key(k) {
         value_list.push_back(v);
-        cout << "MPair(key, value) constructor called with key: " << key << ", value: " << v << endl;
         }
-    MPair(const K& k, const vector<V>& vlist) : key(k), value_list(vlist) {
-        cout << "MPair(key, vector) constructor called with key: " << key << endl;
-
-        }
-
-    K& first() { return key; }
-    const K& first() const { return key; }
-
-    vector<V>& second() { return value_list; }
-    const vector<V>& second() const { return value_list; }
-
+    MPair(const K& k, const vector<V>& vlist) : key(k), value_list(vlist) {}
     //--------------------------------------------------------------------------------
     //You'll need to overlod << for your vector:
     friend ostream& operator <<(ostream& outs, const MPair<K, V>& print_me) {
@@ -47,6 +35,7 @@ struct MPair
         outs << "]";
         return outs;
         }
+
 
     friend bool operator ==(const MPair<K, V>& lhs, const MPair<K, V>& rhs) {
         return lhs.key == rhs.key;
@@ -71,11 +60,6 @@ struct MPair
     };
 
 
-
-
-
-
-
 template <typename K, typename V>
 class MMap
     {
@@ -97,13 +81,8 @@ class MMap
                     ++_it;
                     return *this;
                     }
-
-                MPair<K, V>& operator *() {
+                MPair<K, V> operator *() {
                     return *_it;
-                    }
-
-                MPair<K, V>* operator->() {
-                    return &(*_it);
                     }
 
                 friend bool operator ==(const Iterator& lhs, const Iterator& rhs) {
@@ -118,17 +97,11 @@ class MMap
             };
 
 
-        MMap() : mmap(BPlusTree<MPair<K, V>>()) {
-            cout << "MMap constructor called!" << endl;
-            }
+        MMap() : mmap(BPlusTree<MPair<K, V>>()) {}
 
         //  Iterators
-
         Iterator begin() { return Iterator(mmap.begin()); }
         Iterator end() { return Iterator(mmap.end()); }
-
-        Iterator begin() const { return Iterator(mmap.begin()); }
-        Iterator end() const { return Iterator(mmap.end()); }
 
         vector<V>& at(const K& key) {
             if (!contains(key)) {
@@ -152,21 +125,16 @@ class MMap
         const vector<V>& operator[](const K& key) const { return mmap.get(MPair<K, V>(key)).value_list; }
         vector<V>& operator[](const K& key) { return mmap.get(MPair<K, V>(key)).value_list; }
 
-
         //  Modifiers
         void insert(const K& k, const V& v) {
-            cout << "MMap::insert called with key: " << k << ", value: " << v << endl;
             MPair<K, V> m_pair(k, v);
             if (mmap.contains(m_pair)) {
-                cout << "Key already exists, appending value to key: " << k << endl;
                 mmap.get(m_pair).value_list.push_back(v);  // Append if key exists
                 }
             else {
-                cout << "Key does not exist, inserting new MPair." << endl;
                 mmap.insert(m_pair);  // Insert new MPair
                 }
             }
-
         void erase(const K& key) {
             MPair<K, V> m_pair(key);
             mmap.remove(m_pair);
@@ -189,18 +157,10 @@ class MMap
             return Iterator(mmap.find(MPair<K, V>(key)));
 
             }
-
         int count(const K& key) {
-            if (!contains(key)) return 0;
             return mmap.get(MPair<K, V>(key)).value_list.size();
             }
-
-
         Iterator    lower_bound(K const&  key) {
-            return Iterator(mmap.lower_bound(MPair<K, V>(key)));
-            }
-
-        Iterator    lower_bound(K const&  key) const {
             return Iterator(mmap.lower_bound(MPair<K, V>(key)));
             }
 
@@ -208,18 +168,7 @@ class MMap
             return Iterator(mmap.upper_bound(MPair<K, V>(key)));
 
             }
-        Iterator   upper_bound(K const&  key) const {
-            return Iterator(mmap.upper_bound(MPair<K, V>(key)));
-
-            }
-
         pair<Iterator, Iterator> equal_range(const K& key) {
-            auto start = lower_bound(key);
-            auto end = upper_bound(key);
-            return { start, end };
-            }
-
-        pair<Iterator, Iterator> equal_range(const K& key) const {
             auto start = lower_bound(key);
             auto end = upper_bound(key);
             return { start, end };
@@ -248,37 +197,6 @@ class MMap
             outs << print_me.mmap << endl;
             return outs;
             }
-
-
-        vector<V> range_query(const K& key, const string& op) {
-            vector<V> result;
-            if (op == "<") {
-                auto end = lower_bound(key);
-                for (auto it = begin(); it != end; ++it) {
-                    result.insert(result.end(), it->value_list.begin(), it->value_list.end());
-                    }
-                }
-            else if (op == "<=") {
-                auto end = upper_bound(key);
-                for (auto it = begin(); it != end; ++it) {
-                    result.insert(result.end(), it->value_list.begin(), it->value_list.end());
-                    }
-                }
-            else if (op == ">") {
-                auto start = upper_bound(key);
-                for (auto it = start; it != end(); ++it) {
-                    result.insert(result.end(), it->value_list.begin(), it->value_list.end());
-                    }
-                }
-            else if (op == ">=") {
-                auto start = lower_bound(key);
-                for (auto it = start; it != end(); ++it) {
-                    result.insert(result.end(), it->value_list.begin(), it->value_list.end());
-                    }
-                }
-            return result;
-            }
-
 
     private:
         BPlusTree<MPair<K, V> > mmap;

@@ -29,7 +29,6 @@ class Parser
         - build keyword list
         - set_string
         */
-
         void set_string(const string& input);
         /*
         tokenize input buffer into input

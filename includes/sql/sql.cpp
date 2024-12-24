@@ -2,72 +2,33 @@
 #include <iostream>
 #include <fstream> 
 #include <string>
-#include <vector>
-#include <map>
-#include <filesystem>
 #include "../../includes/bplustree/multimap.h"
-#include "../../includes/bplustree/map.h"
 #include "../../includes/bplustree/bplustree.h"
 #include "../../includes/binary_files/file_record.h"
 #include "../../includes/binary_files/utilities.h"
-#include "../../includes/parser/parser.h"
-#include "../../includes/parser/typedefs.h"
 using namespace std;
 
-SQL::SQL() {
-    cout << "SQL constructor fired!" << endl;
-    if (!_tables.empty()) {
-        _tables.clear();
-        }
-
-    if (!_select_recnos.empty()) {
-        _select_recnos.clear();
-        }
-
-    _parser.set_string("");
-
-    }
-
 Table SQL::command(const string& cmd) {
-    cout << "\n=====Command Function Fired!=====\n " << cmd << endl;
+    cout << "Command Function Fired! " << cmd << endl;
+    ofstream log("debug.log", ios::app);
+    log << "Command Function Fired! " << cmd << endl;
 
-    // set the string in the parser
     _parser.set_string(cmd);
-
-    //get the parse tree 
     mmap_ss ptree = _parser.parse_tree();
-    cout << "SQL::command()| Parse tree contents: " << ptree << endl;
-
-
     string command = ptree["command"][0];
     cout << ">>> Parsed command: " << command << endl;
 
     if (command == "make") {
-        cout << ">>> ------>> cmd[0] = Make----------------" << endl;
-
-        //get table name and fields
         string table_name = ptree["table_name"][0];
         vector<string> fields = ptree["col"];
-
-        // if (_tables.contains(Pair<string, Table>(table_name, Table()))) {
-        //     cout << ">>> Table already exists. Overwriting: " << table_name << endl;
-        //     _tables.erase(table_name);
-        //     }
-
-        // Create a new table
         cout << ">>> Creating table: " << table_name << " with fields: ";
         for (const auto& field : fields) {
             cout << field << " ";
             }
         cout << endl;
-
-        _tables.insert(table_name, Table(table_name, fields));
-        cout << ">>> Table created successfully: " << table_name << endl;
-        return _tables[table_name];
+        _tables[table_name] = Table(table_name, fields);  // create a new table
         }
     else if (command == "insert") {
-        cout << ">>> ------>> cmd[0] = insert----------------" << endl;
-
         string table_name = ptree["table_name"][0];
         vector<string> values = ptree["values"];
 
@@ -77,28 +38,21 @@ Table SQL::command(const string& cmd) {
             }
         cout << endl;
 
-        //debug - check if table exists
-        // if (_tables.find(table_name) == _tables.end()) {
-        //     throw runtime_error("Table does not exist: " + table_name);
-        //     }
-
 
         _tables[table_name].insert_into(values);
-        cout << ">>> Insert completed for table: " << table_name << endl;
-
-        return _tables[table_name];
         }
 
     else if (command == "select") {
-        cout << ">>> ------>> cmd[0] = select---------------" << endl;
-
+        cout << ">>> Select command detected." << endl;
         string table_name = ptree["table_name"][0];
         vector<string> fields = ptree.get("fields");
         Table result;
 
-        if (_tables.find(table_name) == _tables.end()) {
-            throw runtime_error("Table does not exist: " + table_name);
+        log << ">>> Selecting from table: " << table_name << " fields: ";
+        for (const auto& field : fields) {
+            cout << field << " ";
             }
+        cout << endl;
 
 
         // Check if there's a 'where' condition
@@ -113,6 +67,7 @@ Table SQL::command(const string& cmd) {
             for (size_t i = 0; i < infix.size(); ++i) {
                 cond += infix[i] + " ";
                 }
+            log << ">>> Condition string: " << cond << endl;
 
             _parser.tokenize(cond, infix_condition);
             //cout << ">>> Infix condition: " << infix_condition << endl;
@@ -130,12 +85,28 @@ Table SQL::command(const string& cmd) {
         //------------------------------Debug _select_recnos-------------------------------------------------
          //Update SQL::_select_recnos with the selected record numbers from the result table
         _select_recnos = result.get_select_recnos();
+
         // Store the result table
+        _table = result;
         return result;
         }
+    else {
+        throw runtime_error("Unsupported SQL command: " + command);
+        }
+
+
+    // Add Table Debugging 
+    // for (auto it = _tables.begin(); it != _tables.end(); ++it) {
+    //     const string& table_name = it->first;
+    //     const Table& table = it->second;
+    //     cout << "Current state of table: " << table_name << endl;
+    //     cout << table << endl;
+    //     }
+
+
+
+    log << ">>> Command executed successfully." << endl;
+    log.close();
+
     return Table();  // Return an empty table by default
     }
-
-
-
-
