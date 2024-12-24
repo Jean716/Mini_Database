@@ -224,10 +224,6 @@ void Parser::init_adjacency_table() {
 
 bool Parser::get_parse_tree() {
     cout << "Get Parse Tree Function Fired!" << endl;
-    // cout << "[Debug]Print Tokens first in get_parse_tree function: " << endl;
-    // for (Token* token : _tokens) {
-    //     cout << *token << endl;
-    //     }
 
     if (_tokens.empty()) {
         _fail = true;
@@ -365,6 +361,7 @@ map_sl Parser::get_column(vector<Token*> tokens) {
 
 void Parser::build_keyword_list(map_sl & list) {
     cout << "Build Keyword List Function Fired!" << endl;
+    list["create"] = CREATE;
     list["make"] = MAKE;
     list["table"] = TABLE;
     list["command"] = SELECT;

@@ -31,9 +31,12 @@ TEST(BasicTest, CreateAndInsert) {
 
   // 验证结果
   Table employee = sql.command("select * from employee");
-  ASSERT_EQ(employee.select_recnos(), 3);
+  vector<long> expected_employee_recnos = { 0, 1, 2 };
+  ASSERT_EQ(employee.get_select_recnos(), expected_employee_recnos);
+
   Table student = sql.command("select * from student");
-  ASSERT_EQ(student.select_recnos(), 2);
+  vector<long> expected_student_recnos = { 0, 1 };
+  ASSERT_EQ(student.get_select_recnos(), expected_student_recnos);
   }
 
 TEST(BasicTest, ConditionalSelect) {
@@ -46,14 +49,17 @@ TEST(BasicTest, ConditionalSelect) {
 
   // 简单条件查询
   Table result = sql.command("select * from student where lname = \"Del Rio\"");
-  ASSERT_EQ(result.select_recnos(), 1);
+  vector<long> expected_recnos = { 1 };
+  ASSERT_EQ(result.get_select_recnos(), expected_recnos);
 
   // 比较运算符
   result = sql.command("select * from student where age > 20");
-  ASSERT_EQ(result.select_recnos(), 1);
+  expected_recnos = { 1 };
+  ASSERT_EQ(result.get_select_recnos(), expected_recnos);
 
   result = sql.command("select * from student where age < 30 and major = CS");
-  ASSERT_EQ(result.select_recnos(), 2);
+  expected_recnos = { 0, 1 };
+  ASSERT_EQ(result.get_select_recnos(), expected_recnos);
   }
 
 TEST(BasicTest, LogicalOperators) {
@@ -66,15 +72,17 @@ TEST(BasicTest, LogicalOperators) {
 
   // 逻辑操作符
   Table result = sql.command("select * from student where fname = Flo or lname = Yao");
-  ASSERT_EQ(result.select_recnos(), 1);
+  vector<long> expected_recnos = { 0 };
+  ASSERT_EQ(result.get_select_recnos(), expected_recnos);
 
   result = sql.command("select * from student where fname = Flo and lname = Yao");
-  ASSERT_EQ(result.select_recnos(), 1);
+  expected_recnos = { 0 };
+  ASSERT_EQ(result.get_select_recnos(), expected_recnos);
 
   result = sql.command("select * from student where major = CS and age <= 22");
-  ASSERT_EQ(result.select_recnos(), 2);
+  expected_recnos = { 0, 1 };
+  ASSERT_EQ(result.get_select_recnos(), expected_recnos);
   }
-
 TEST(TEST_STUB, TestStub) {
 
   //EXPECT_EQ(0, <your individual test functions are called here>);

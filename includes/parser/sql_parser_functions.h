@@ -27,6 +27,7 @@ enum Column
     LP = 15, // "("
     RP = 16, // ")"
     COMMA,
+    CREATE
 
     };
 
