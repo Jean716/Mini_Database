@@ -43,7 +43,6 @@ void mark_cells(int row, int _table[][MAX_COLUMNS], int from, int to, int state)
 // use this to mark a single cell
 void mark_cell(int row, int _table[][MAX_COLUMNS], int column, int state) {
     _table[row][column] = state;
-    cout << endl;
     }
 
 //This can be used on a small table
@@ -53,7 +52,6 @@ void print_table(int _table[][MAX_COLUMNS]) {
         for (int col = 0; col < MAX_COLUMNS; ++col) {
             cout << _table[row][col] << " ";
             }
-        cout << endl;
         }
     }
 

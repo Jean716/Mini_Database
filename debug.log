@@ -74,3 +74,117 @@ Command Function Fired! select * from student where lname>J
 >>> Selecting from table: student fields: >>> Condition string: lname > J 
 Command Function Fired! select * from student where lname>J and (major=CS or major=Art)
 >>> Selecting from table: student fields: >>> Condition string: lname > J and ( major = CS or major = Art ) 
+Command Function Fired! make table employee fields  last,       first,         dep,      salary, year
+>>> Command executed successfully.
+Command Function Fired! make table employee fields  last,       first,         dep,      salary, year
+>>> Command executed successfully.
+Command Function Fired! insert into employee values Blow,       Joe,           CS,       100000, 2018
+>>> Command executed successfully.
+Command Function Fired! insert into employee values Blow,       JoAnn,         Physics,  200000, 2016
+>>> Command executed successfully.
+Command Function Fired! insert into employee values Johnson,    Jack,          HR,       150000, 2014
+>>> Command executed successfully.
+Command Function Fired! insert into employee values Johnson,    "Jimmy",     Chemistry,140000, 2018
+>>> Command executed successfully.
+Command Function Fired! make table student fields  fname,          lname,    major,    age
+>>> Command executed successfully.
+Command Function Fired! insert into student values Flo,            Yao, 	Art, 	20
+>>> Command executed successfully.
+Command Function Fired! insert into student values Bo, 		     Yang, 	CS, 		28
+>>> Command executed successfully.
+Command Function Fired! insert into student values "Sammuel L.", Jackson, 	CS, 		40
+>>> Command executed successfully.
+Command Function Fired! insert into student values "Billy",	     Jackson, 	Math,	27
+>>> Command executed successfully.
+Command Function Fired! insert into student values "Mary Ann",   Davis,	Math,	30
+>>> Command executed successfully.
+Command Function Fired! select * from employee
+>>> Selecting from table: employee fields: Command Function Fired! select last, first, age from employee
+>>> Selecting from table: employee fields: Command Function Fired! select last from employee
+>>> Selecting from table: employee fields: Command Function Fired! select * from employee where last = Johnson
+>>> Selecting from table: employee fields: >>> Condition string: last = Johnson 
+Command Function Fired! select * from employee where last=Blow and major="JoAnn"
+>>> Selecting from table: employee fields: >>> Condition string: last = Blow and major = JoAnn 
+Command Function Fired! select * from student
+>>> Selecting from table: student fields: Command Function Fired! select * from student where (major=CS or major=Art)
+>>> Selecting from table: student fields: >>> Condition string: ( major = CS or major = Art ) 
+Command Function Fired! select * from student where lname>J
+>>> Selecting from table: student fields: >>> Condition string: lname > J 
+Command Function Fired! select * from student where lname>J and (major=CS or major=Art)
+>>> Selecting from table: student fields: >>> Condition string: lname > J and ( major = CS or major = Art ) 
+Command Function Fired! make table employee fields  last,       first,         dep,      salary, year
+>>> Command executed successfully.
+Command Function Fired! make table employee fields  last,       first,         dep,      salary, year
+>>> Command executed successfully.
+Command Function Fired! insert into employee values Blow,       Joe,           CS,       100000, 2018
+>>> Command executed successfully.
+Command Function Fired! insert into employee values Blow,       JoAnn,         Physics,  200000, 2016
+>>> Command executed successfully.
+Command Function Fired! insert into employee values Johnson,    Jack,          HR,       150000, 2014
+>>> Command executed successfully.
+Command Function Fired! insert into employee values Johnson,    "Jimmy",     Chemistry,140000, 2018
+>>> Command executed successfully.
+Command Function Fired! make table student fields  fname,          lname,    major,    age
+>>> Command executed successfully.
+Command Function Fired! insert into student values Flo,            Yao, 	Art, 	20
+>>> Command executed successfully.
+Command Function Fired! insert into student values Bo, 		     Yang, 	CS, 		28
+>>> Command executed successfully.
+Command Function Fired! insert into student values "Sammuel L.", Jackson, 	CS, 		40
+>>> Command executed successfully.
+Command Function Fired! insert into student values "Billy",	     Jackson, 	Math,	27
+>>> Command executed successfully.
+Command Function Fired! insert into student values "Mary Ann",   Davis,	Math,	30
+>>> Command executed successfully.
+Command Function Fired! select * from employee
+>>> Selecting from table: employee fields: Command Function Fired! select last, first, age from employee
+>>> Selecting from table: employee fields: Command Function Fired! select last from employee
+>>> Selecting from table: employee fields: Command Function Fired! select * from employee where last = Johnson
+>>> Selecting from table: employee fields: >>> Condition string: last = Johnson 
+Command Function Fired! select * from employee where last=Blow and major="JoAnn"
+>>> Selecting from table: employee fields: >>> Condition string: last = Blow and major = JoAnn 
+Command Function Fired! select * from student
+>>> Selecting from table: student fields: Command Function Fired! select * from student where (major=CS or major=Art)
+>>> Selecting from table: student fields: >>> Condition string: ( major = CS or major = Art ) 
+Command Function Fired! select * from student where lname>J
+>>> Selecting from table: student fields: >>> Condition string: lname > J 
+Command Function Fired! select * from student where lname>J and (major=CS or major=Art)
+>>> Selecting from table: student fields: >>> Condition string: lname > J and ( major = CS or major = Art ) 
+Command Function Fired! make table employee fields  last,       first,         dep,      salary, year
+>>> Command executed successfully.
+Command Function Fired! make table employee fields  last,       first,         dep,      salary, year
+>>> Command executed successfully.
+Command Function Fired! insert into employee values Blow,       Joe,           CS,       100000, 2018
+>>> Command executed successfully.
+Command Function Fired! insert into employee values Blow,       JoAnn,         Physics,  200000, 2016
+>>> Command executed successfully.
+Command Function Fired! insert into employee values Johnson,    Jack,          HR,       150000, 2014
+>>> Command executed successfully.
+Command Function Fired! insert into employee values Johnson,    "Jimmy",     Chemistry,140000, 2018
+>>> Command executed successfully.
+Command Function Fired! make table student fields  fname,          lname,    major,    age
+>>> Command executed successfully.
+Command Function Fired! insert into student values Flo,            Yao, 	Art, 	20
+>>> Command executed successfully.
+Command Function Fired! insert into student values Bo, 		     Yang, 	CS, 		28
+>>> Command executed successfully.
+Command Function Fired! insert into student values "Sammuel L.", Jackson, 	CS, 		40
+>>> Command executed successfully.
+Command Function Fired! insert into student values "Billy",	     Jackson, 	Math,	27
+>>> Command executed successfully.
+Command Function Fired! insert into student values "Mary Ann",   Davis,	Math,	30
+>>> Command executed successfully.
+Command Function Fired! select * from employee
+>>> Selecting from table: employee fields: Command Function Fired! select last, first, age from employee
+>>> Selecting from table: employee fields: Command Function Fired! select last from employee
+>>> Selecting from table: employee fields: Command Function Fired! select * from employee where last = Johnson
+>>> Selecting from table: employee fields: >>> Condition string: last = Johnson 
+Command Function Fired! select * from employee where last=Blow and major="JoAnn"
+>>> Selecting from table: employee fields: >>> Condition string: last = Blow and major = JoAnn 
+Command Function Fired! select * from student
+>>> Selecting from table: student fields: Command Function Fired! select * from student where (major=CS or major=Art)
+>>> Selecting from table: student fields: >>> Condition string: ( major = CS or major = Art ) 
+Command Function Fired! select * from student where lname>J
+>>> Selecting from table: student fields: >>> Condition string: lname > J 
+Command Function Fired! select * from student where lname>J and (major=CS or major=Art)
+>>> Selecting from table: student fields: >>> Condition string: lname > J and ( major = CS or major = Art ) 

@@ -1,7 +1,7 @@
 #ifndef MAP_H
 #define MAP_H
 #include "../../includes/bplustree/btree_array_functions.h"
-#include "../../includes/bplustree/bplustree.h"
+#include "../../includes/bplustree/btree.h"
 #include <iostream>
 using namespace std;
 
@@ -40,13 +40,13 @@ template <typename K, typename V>
 class Map
     {
     public:
-        typedef BPlusTree<Pair<K, V>> map_base;
+        typedef BTree<Pair<K, V>> map_base;
         class Iterator
             {
             public:
                 friend class Map;
                 Iterator() : _it(typename map_base::Iterator()) {}
-                Iterator(typename map_base::Iterator it) : _it(it) {}
+                explicit Iterator(typename map_base::Iterator it) : _it(it) {}
                 Iterator operator ++(int unused) {
                     Iterator temp = *this;
                     ++_it;
@@ -78,6 +78,7 @@ class Map
         Iterator begin() {
             return Iterator(map.begin());
             }
+
         Iterator end() {
             return Iterator(map.end());
             }
@@ -86,6 +87,7 @@ class Map
         int size() const {
             return map.size();
             }
+
         bool empty() const {
             return map.empty();
             }
@@ -96,6 +98,8 @@ class Map
         V& at(const K& key) {
             return map.get(Pair<K, V>(key)).value;
             }
+
+
         const V& at(const K& key) const {
             return map.get(Pair<K, V>(key)).value;
             }
@@ -107,14 +111,24 @@ class Map
         void clear() {
             map.clear_tree();
             }
+
         V get(const K& key);
 
         //  Operations:
         Iterator find(const K& key) {
-            return Iterator(map.find(Pair<K, V>(key)));
+            cout << "Finding key: " << key << endl;
+            auto it = map.find(Pair<K, V>(key));
+            if (it) {
+                cout << "Found Pair: " << (*it).key << " -> " << (*it).value << endl;
+                }
+            else {
+                cout << "Key not found in Map." << endl;
+                }
+            return Iterator(it);
             }
 
-        bool contains(const Pair<K, V>& target) const {
+
+        bool contains(const Pair<K, V>& target) {
             return map.contains(target);
             }
 
@@ -132,18 +146,21 @@ class Map
             }
     private:
         int key_count;
-        BPlusTree<Pair<K, V> > map;
+        BTree<Pair<K, V> > map;
     };
 
 
 template <typename K, typename V>
-Map<K, V>::Map() : key_count(0), map(BPlusTree<Pair<K, V>>()) {}
+Map<K, V>::Map() : key_count(0), map(BTree<Pair<K, V>>()) {}
 
 template <typename K, typename V>
 void Map<K, V>::insert(const K& k, const V& v) {
+    //cout << "----- Map:: insert() Fired! -----" << endl;
     Pair<K, V> pair(k, v);
-    map.insert(pair);
-    key_count++;
+    if (!map.contains(pair)) {
+        map.insert(pair);
+        key_count++;
+        }
     }
 
 template <typename K, typename V>

@@ -60,7 +60,6 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
                 }
 
             if (!operators.empty() && is_left_paren(operators.top())) {
-                cout << "右括号情况" << endl;
 
                 operators.pop();
                 cout << "Popped left paren from stack." << endl;

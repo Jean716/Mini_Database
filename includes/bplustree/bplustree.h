@@ -881,7 +881,7 @@ void BPlusTree<T>::clear_tree() {
         return;
         }
 
-    //cout << "Clearing tree node at address: " << this << endl;
+    cout << "Clearing tree node at address: " << this << endl;
 
     for (int i = 0; i < child_count; ++i) {
         if (subset[i] != nullptr) {

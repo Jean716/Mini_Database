@@ -8,6 +8,7 @@
 #include "../../includes/bplustree/map.h"
 #include "../../includes/bplustree/multimap.h"
 #include "../../includes/table/table.h"
+#include <map>
 
 using namespace std;
 
