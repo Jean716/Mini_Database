@@ -29,7 +29,7 @@ Table::Table()
         cerr << "Error: Could not create default table file: " << _file_name << endl;
         }
     else {
-        cout << "Default table file created: " << _file_name << endl;
+        //cout << "Default table file created: " << _file_name << endl;
         }
     file.close();
     }
@@ -90,7 +90,7 @@ Table::Table(const string& name) {
 
 //LINK - Table ctor 3
 Table::Table(const string& name, const vector<string> &fields_names) {
-    cout << "\n-------Table ctor 3 fired!-------\n" << endl;
+    //cout << "\n-------Table ctor 3 fired!-------\n" << endl;
     serial++;
     _name = name;
     _field_names = fields_names;
@@ -117,26 +117,25 @@ Table::Table(const string& name, const vector<string> &fields_names) {
         }
 
     for (size_t i = 0; i < _field_names.size(); ++i) {
-        // 检查字段名称是否为空
         if (_field_names[i].empty()) {
             cerr << "Error: Field name at index " << i << " is empty!" << endl;
             throw runtime_error("Empty field name detected");
             }
         field_file << _field_names[i] << endl;
-        cout << " Adding to _field_map: " << _field_names[i] << " -> " << i << endl;
+        //cout << " Adding to _field_map: " << _field_names[i] << " -> " << i << endl;
 
         _field_map[_field_names[i]] = i;
-        cout << "Initializing index for field: " << _field_names[i] << endl;
+        //cout << "Initializing index for field: " << _field_names[i] << endl;
 
         _indices.push_back(MMap<string, long>());
 
         }
     field_file.close();
 
-    cout << "-------------------Table ctor 3 Done!----------------------------" << endl;
+    //-------------------Table ctor 3 Done!----------------------------cout << "-------------------Table ctor 3 Done!----------------------------" << endl;
 
-    cout << "Current state of _indices:" << endl;
-    cout << "_indices size: " << _indices.size() << endl;
+    // cout << "Current state of _indices:" << endl;
+    // cout << "_indices size: " << _indices.size() << endl;
 
     if (_indices.size() != _field_names.size()) {
         cerr << "Error: _indices size (" << _indices.size()
@@ -145,9 +144,9 @@ Table::Table(const string& name, const vector<string> &fields_names) {
         }
 
 
-    for (size_t i = 0; i < _indices.size(); ++i) {
-        cout << "Index " << i << " initialized for field: " << _field_names[i] << endl;
-        }
+    // for (size_t i = 0; i < _indices.size(); ++i) {
+    //     cout << "Index " << i << " initialized for field: " << _field_names[i] << endl;
+    //     }
     cout << "-----------------------------------------------" << endl;
     }
 
@@ -240,17 +239,17 @@ bool Table::record_exists(const vector<string>& fields) {
     }
 //LINK - insert_into
 int Table::insert_into(vector<string>& fields) {
-    cout << "\n-------Table::insert_into fired!-------" << endl;
-    cout << "Fields to insert : " << fields << endl;
-    cout << "_field_names " << _field_names << endl;
-    cout << "_field_names size: " << _field_names.size() << endl;
-    cout << "_field_map.size() " << fields.size() << endl;
+    // cout << "\n-------Table::insert_into fired!-------" << endl;
+    // cout << "Fields to insert : " << fields << endl;
+    // cout << "_field_names " << _field_names << endl;
+    // cout << "_field_names size: " << _field_names.size() << endl;
+    // cout << "_field_map.size() " << fields.size() << endl;
 
-    cout << "Fields to insert: ";
-    for (const auto& field : fields) {
-        cout << "[" << field << "] ";
-        }
-    cout << endl;
+    // cout << "Fields to insert: ";
+    // for (const auto& field : fields) {
+    //     cout << "[" << field << "] ";
+    //     }
+    // cout << endl;
 
     // check if the number of fields matches the table definition
     if (fields.size() != _field_names.size()) {
@@ -272,29 +271,29 @@ int Table::insert_into(vector<string>& fields) {
     long record_number = _last_record + 1;
     record.write(file);
 
-    cout << "Record written successfully with record number: " << record_number << endl;
+    //cout << "Record written successfully with record number: " << record_number << endl;
 
     // update _last_record and _select_recnos
     _last_record = record_number;
     _select_recnos.push_back(record_number);
 
     // update the indices
-    cout << "\nUpdating _indices with field values:" << endl;
+    //cout << "\nUpdating _indices with field values:" << endl;
     //------------------------for loop  -----------------------------------------
     for (size_t i = 0; i < fields.size(); ++i) {
         string field_value = fields[i];
         string field_name = _field_names[i];
 
-        cout << "Field name: " << _field_names[i] << endl;
+        //cout << "Field name: " << _field_names[i] << endl;
         int field_index = _field_map.at(_field_names[i]);
-        cout << "Field index for " << field_name << ": " << field_index << endl;
+        //cout << "Field index for " << field_name << ": " << field_index << endl;
 
-        cout << "Inserting field value: " << field_value << " for field: " << field_name << " at index: " << field_index;
+       // cout << "Inserting field value: " << field_value << " for field: " << field_name << " at index: " << field_index;
 
         // insert into the corresponding index
         _indices[field_index].insert(fields[i], record_number);
 
-        cout << "Inserted into _indices[" << field_index << "]: (" << field_value << ", " << record_number << ")";
+        //cout << "Inserted into _indices[" << field_index << "]: (" << field_value << ", " << record_number << ")";
         }
 
     //------------------------for loop  done-------------------------
@@ -306,17 +305,17 @@ int Table::insert_into(vector<string>& fields) {
 
 //LINK - vector_to_table
 Table Table::vector_to_table(const vector<string>& fields, const vector<long>& vector_of_recnos) {
-    cout << "-------Table::vector_to_table fired!-------" << endl;
+    //cout << "-------Table::vector_to_table fired!-------" << endl;
 
-    cout << "vector_to_table :: check vector_of_recnos: ";
-    for (const auto& recno : vector_of_recnos) {
-        cout << recno << " ";
-        }
+    // cout << "vector_to_table :: check vector_of_recnos: ";
+    // for (const auto& recno : vector_of_recnos) {
+    //     cout << recno << " ";
+    //     }
 
     // 1. Handle '*' case
     vector<string> actual_fields;
     if (fields.size() == 1 && fields[0] == "*") {
-        cout << "'*' detected. Expanding to all fields." << endl;
+        // cout << "'*' detected. Expanding to all fields." << endl;
         actual_fields = _field_names;
         }
     else {
@@ -326,11 +325,11 @@ Table Table::vector_to_table(const vector<string>& fields, const vector<long>& v
     // 2. Initialize new table,use the constructor3
     string new_table_name = "_selected_table_" + to_string(serial);
 
-    cout << "Creating new table with name: " << new_table_name << " and fields: ";
-    for (const auto& field : actual_fields) {
-        cout << field << " ";
-        }
-    cout << endl;
+    // cout << "Creating new table with name: " << new_table_name << " and fields: ";
+    // for (const auto& field : actual_fields) {
+    //     cout << field << " ";
+    //     }
+    // cout << endl;
     //cout << "\n-[01]----------------------------------------DEBUG HERE!" << endl;
 
     Table new_table(new_table_name, actual_fields);
@@ -339,12 +338,12 @@ Table Table::vector_to_table(const vector<string>& fields, const vector<long>& v
      // 3. Open original file for reading
     fstream file;
     open_fileRW(file, _file_name.c_str());
-    cout << "File opened for reading: " << _file_name << endl;
+    //cout << "File opened for reading: " << _file_name << endl;
 
     // 4. Open new file for writing
     fstream new_file;
     open_fileW(new_file, new_table.get_file_name().c_str());
-    cout << "File opened for writing: " << new_table.get_file_name() << endl;
+    //cout << "File opened for writing: " << new_table.get_file_name() << endl;
 
 
     // 5. Process each record in vector_of_recnos
@@ -379,14 +378,14 @@ Table Table::vector_to_table(const vector<string>& fields, const vector<long>& v
     file.close();
     new_file.close();
 
-    cout << "Vector_to_table :: record numbers: ";
-    for (const auto& recno : new_table.get_select_recnos()) {
-        cout << recno << " ";
-        }
-    cout << endl;
+    // cout << "Vector_to_table :: record numbers: ";
+    // for (const auto& recno : new_table.get_select_recnos()) {
+    //     cout << recno << " ";
+    //     }
+    // cout << endl;
 
-    cout << "Vector_to_table :: table name: " << new_table.get_name() << endl;
-    cout << "-------------------Table::vector_to_table done!----------------------------" << endl;
+    //cout << "Vector_to_table :: table name: " << new_table.get_name() << endl;
+    //cout << "-------------------Table::vector_to_table done!----------------------------\n" << endl;
 
     return new_table;
     }
@@ -414,10 +413,10 @@ bool Table::is_empty() { return _empty; }
 
 // LINK - field_col_no
 int Table::field_col_no(string field_name) {
-    cout << "-------Table::field_col_no fired!-------" << endl;
-    cout << "Field name: " << field_name << endl;
-    cout << "Field map size: " << _field_map.size() << endl;
-    cout << _field_map << endl;
+    //cout << "-------Table::field_col_no fired!-------" << endl;
+    // cout << "Field name: " << field_name << endl;
+    // cout << "Field map size: " << _field_map.size() << endl;
+    //cout << _field_map << endl;
 
     // Remove extra spaces from field_name
     field_name.erase(remove_if(field_name.begin(), field_name.end(), ::isspace), field_name.end());
@@ -431,11 +430,11 @@ int Table::field_col_no(string field_name) {
     auto it = _field_map.find(field_name);
     if (it != _field_map.end()) {
         int index = (*it).value;
-        cout << "Field found: " << field_name << " at index " << index << endl;
+        // cout << "Field found: " << field_name << " at index " << index << endl;
         return index;
         }
 
-    cout << "Field not found: " << field_name << ". Returning -3." << endl;
+    //cout << "Field not found: " << field_name << ". Returning -3." << endl;
     return -3;  // -3 indicates field not found
     }
 
@@ -464,11 +463,11 @@ Table Table::select_all(vector<string> fields) {
         recnos.push_back(i);
         }
     //---------------------------------------------------------
-    cout << "select_all()::recnos: ";
-    for (const auto& recno : recnos) {
-        cout << recno << " ";
-        }
-    cout << endl;
+    // cout << "select_all()::recnos: ";
+    // for (const auto& recno : recnos) {
+    //     cout << recno << " ";
+    //     }
+    // cout << endl;
     //---------------------------------------------------------
 
     // file.close();
@@ -492,9 +491,9 @@ Table Table::select(const vector<string>&  fields, const Queue<Token*>& postfix)
 
     Table result = vector_to_table(fields, matching_recnos);
 
-    cout << "vector_to_table() result->_name: " << result._name << endl;
+    //cout << "vector_to_table() result->_name: " << result._name << endl;
 
-    cout << result;
+    //cout << result;
     result._select_recnos = matching_recnos;
     // _select_recnos = matching_recnos;
     _select_recnos = result._select_recnos;
@@ -570,10 +569,10 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
                 }
 
             const auto& field_index_map = _indices[field_index];
-            cout << "Debug cond(): printing _indices: ";
-            for (const auto& pair : field_index_map) {
-                cout << pair.first() << " -> " << pair.second() << endl;
-                }
+            // cout << "Debug cond(): printing _indices: ";
+            // for (const auto& pair : field_index_map) {
+            //     cout << pair.first() << " -> " << pair.second() << endl;
+            //     }
 
             vector<long> matching_recnos;
 
@@ -665,7 +664,7 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
 
     vectorlong final_recnos = logical_stack.pop();
 
-    cout << "Final record numbers after cond evaluation:";
+    //cout << "Final record numbers after cond evaluation:";
     for (long recno : final_recnos) {
         cout << recno << " ";
         }
@@ -680,11 +679,11 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
 //LINK - operator<<
 ostream& operator<<(ostream & outs, const Table & t) {
     DEBUG_PRINT("-------Table operator<< fired!-------");
-    cout << "Table name: " << t._name << ", records: " << t._last_record + 1 << endl;
-    cout << "_last_record: " << t._last_record << endl;
+    // cout << "Table name: " << t._name << ", records: " << t._last_record + 1 << endl;
+    // cout << "_last_record: " << t._last_record << endl;
 
     outs << string(15 + 15 * t.get_field_names().size(), '-') << endl;
-    outs << setw(15) << "Record#";
+    outs << setw(10) << "Record#";
     for (const auto& field : t.get_field_names()) {
         outs << setw(15) << field;
         }
@@ -696,12 +695,14 @@ ostream& operator<<(ostream & outs, const Table & t) {
     for (const auto& recno : t.get_select_recnos()) {
         FileRecord record;
         record.read(file, recno);
-        outs << setw(15) << recno;
+        outs << setw(10) << recno;
         for (int i = 0; i < t.get_field_names().size(); ++i) {
             outs << setw(15) << record._record[i];
             }
         outs << endl;
         }
+    outs << string(15 + 15 * t.get_field_names().size(), '-') << endl;
+
     file.close();
     return outs;
     }

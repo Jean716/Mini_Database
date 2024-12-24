@@ -1,0 +1,4 @@
+customer_name
+item_name
+quantity
+sale_date

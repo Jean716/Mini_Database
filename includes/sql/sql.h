@@ -14,6 +14,7 @@ class SQL
     public:
         SQL();
         Table command(const string& cmd);
+        Table execute_command(const string& cmd);
         const vector<long> select_recnos() const { return _select_recnos; }
     private:
         Map<string, Table> _tables; //table name-> table

@@ -1,5 +1,5 @@
-fname
 lname
-major
-age
-company
+fname
+dep
+salary
+year

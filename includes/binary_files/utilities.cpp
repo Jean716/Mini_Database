@@ -22,7 +22,7 @@ void open_fileRW(fstream& f, const char filename[]) {
     try {
         // cout << "File name: " << filename << endl;
         if (!file_exists(filename)) {
-            cout << "File does not exist. Attempting to create: " << filename << endl;
+            //cout << "File does not exist. Attempting to create: " << filename << endl;
             f.open(filename, fstream::out | fstream::binary);
             if (f.fail()) {
                 throw runtime_error("Failed to create file: " + string(filename));
@@ -43,9 +43,9 @@ void open_fileRW(fstream& f, const char filename[]) {
 
 // only open file for writing，it will truncate the file if it exists
 void open_fileW(fstream & f, const char filename[]) {
-    cout << "Opening file for writing: " << filename << endl;
+    //cout << "Opening file for writing: " << filename << endl;
     try {
-        cout << "Opening file for writing (overwrite mode): " << filename << endl;
+        //cout << "Opening file for writing (overwrite mode): " << filename << endl;
         f.open(filename, ios::out | ios::binary | ios::trunc);
         if (!f.is_open()) {
             throw runtime_error("Failed to open file for writing: " + string(filename));

@@ -119,7 +119,7 @@ class MMap
 
 
         MMap() : mmap(BPlusTree<MPair<K, V>>()) {
-            cout << "MMap constructor called!" << endl;
+            //cout << "MMap constructor called!" << endl;
             }
 
         //  Iterators
@@ -155,14 +155,14 @@ class MMap
 
         //  Modifiers
         void insert(const K& k, const V& v) {
-            cout << "MMap::insert called with key: " << k << ", value: " << v << endl;
+            //cout << "MMap::insert called with key: " << k << ", value: " << v << endl;
             MPair<K, V> m_pair(k, v);
             if (mmap.contains(m_pair)) {
-                cout << "Key already exists, appending value to key: " << k << endl;
+                //cout << "Key already exists, appending value to key: " << k << endl;
                 mmap.get(m_pair).value_list.push_back(v);  // Append if key exists
                 }
             else {
-                cout << "Key does not exist, inserting new MPair." << endl;
+                //cout << "Key does not exist, inserting new MPair." << endl;
                 mmap.insert(m_pair);  // Insert new MPair
                 }
             }

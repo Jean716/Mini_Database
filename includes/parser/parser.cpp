@@ -47,25 +47,25 @@ Parser::Parser(const char* s) : _input(s), _fail(false) {
     }
 
 mmap_ss Parser::parse_tree() const {
-    cout << "Parse Tree Function Fired!" << endl;
-    cout << "command: " << _ptree["command"][0] << endl;
+    // cout << "Parse Tree Function Fired!" << endl;
+    // cout << "command: " << _ptree["command"][0] << endl;
 
-    cout << _ptree << endl;
-    cout << "Parse Tree Function Done!" << endl;
+    // cout << _ptree << endl;
+    // cout << "Parse Tree Function Done!" << endl;
 
     return _ptree;
     }
 
 void Parser::set_string(const string & input) {
-    cout << "set_string Function Fired!" << endl;
+    //cout << "set_string Function Fired!" << endl;
     if (input.empty() && _ptree.empty() && _tokens.empty()) {
-        cout << "Empty input, skipping set_string." << endl;
+        //cout << "Empty input, skipping set_string." << endl;
         return;
         }
     _ptree.clear();
     _tokens.clear();
     Queue<Token*> postfix;
-    cout << "set string : Input string: " << input << endl;
+    //cout << "set string : Input string: " << input << endl;
     tokenize(input, postfix);
     init_adjacency_table();
     if (!get_parse_tree()) {
@@ -75,8 +75,8 @@ void Parser::set_string(const string & input) {
     }
 
 void Parser::tokenize(const string& input, Queue<Token*>& infix) {
-    cout << "Tokenize Function Fired!" << endl;
-    cout << "Input string: " << input << endl;
+    // cout << "Tokenize Function Fired!" << endl;
+    // cout << "Input string: " << input << endl;
     char c_input[MAX_BUFFER];
     strncpy(c_input, input.c_str(), MAX_BUFFER - 1);
     c_input[MAX_BUFFER - 1] = '\0';
@@ -119,11 +119,11 @@ void Parser::tokenize(const string& input, Queue<Token*>& infix) {
             new_tokens.push_back(_tokens[i]); // Push the operator
             size_t j = i + 1;
             combined = "";
-            cout << "Combining tokens after RELATIONAL_OPERATOR at index " << i << endl;
+            //cout << "Combining tokens after RELATIONAL_OPERATOR at index " << i << endl;
 
             // Combine consecutive ALFA tokens
             while (j < _tokens.size() && _tokens[j]->type() == TOKEN_ALFA) {
-                cout << "Adding token: " << _tokens[j]->value() << " to combined string." << endl;
+                //cout << "Adding token: " << _tokens[j]->value() << " to combined string." << endl;
 
                 if (!combined.empty()) {
                     combined += " "; // Add space between words
@@ -134,7 +134,7 @@ void Parser::tokenize(const string& input, Queue<Token*>& infix) {
 
             // Push combined token if any
             if (!combined.empty()) {
-                cout << "Pushing combined token: " << combined << endl;
+                //cout << "Pushing combined token: " << combined << endl;
 
                 new_tokens.push_back(new ALFAToken(combined));
                 }
@@ -179,19 +179,19 @@ void Parser::tokenize(const string& input, Queue<Token*>& infix) {
         }
 
     //---------------------------------------
-    cout << "Tokens: " << endl;
+    //cout << "Tokens: " << endl;
     _tokens.clear();
     _tokens = new_tokens;
-    for (Token* token : _tokens) {
-        cout << *token << "->";
-        }
-    cout << endl;
+    // for (Token* token : _tokens) {
+    //     cout << *token << "->";
+    //     }
+    // cout << endl;
 
-    cout << "Tokenization done!" << endl;
+    // cout << "Tokenization done!" << endl;
     }
 
 void Parser::init_adjacency_table() {
-    cout << "Init Adjacency Table Function Fired!" << endl;
+    //cout << "Init Adjacency Table Function Fired!" << endl;
     init_table(_adjacency_table);
 
     if (_tokens.empty()) {
@@ -203,12 +203,12 @@ void Parser::init_adjacency_table() {
     // Token* token = _tokens[0];
     // string token_str = token->value();
     string token_str = _tokens[0]->value();
-    cout << "First token: " << token_str << endl;
+    //cout << "First token: " << token_str << endl;
     if (token_str == "select") {
         init_select_table(_adjacency_table);
         }
     else if (token_str == "make") {
-        cout << "This is make table!" << endl;
+        //cout << "This is make table!" << endl;
         init_make_table(_adjacency_table);
         }
     else if (token_str == "insert") {
@@ -223,7 +223,7 @@ void Parser::init_adjacency_table() {
     }
 
 bool Parser::get_parse_tree() {
-    cout << "Get Parse Tree Function Fired!" << endl;
+    //cout << "Get Parse Tree Function Fired!" << endl;
 
     if (_tokens.empty()) {
         _fail = true;
@@ -257,16 +257,16 @@ bool Parser::get_parse_tree() {
 
         string first_token = _tokens[0]->value();
         if (first_token == "insert") {
-            cout << "command is insert!" << endl;
+            //cout << "command is insert!" << endl;
             process_insert_state(state, _ptree, token_str);
             }
         else if (first_token == "select") {
-            cout << "command is select!" << endl;
+            //cout << "command is select!" << endl;
             process_select_state(state, _ptree, token_str);
             }
         else if (first_token == "make") {
             if (state == 0) {
-                cout << "command is make!" << endl;
+                //cout << "command is make!" << endl;
                 }
             process_make_state(state, _ptree, token_str);
             }
@@ -300,7 +300,7 @@ bool Parser::get_parse_tree() {
     }
 
 map_sl Parser::get_column(vector<Token*> tokens) {
-    cout << "Get Column Function Fired!" << endl;
+    //cout << "Get Column Function Fired!" << endl;
     map_sl token_columns;
 
     for (Token* token : tokens) {
@@ -312,7 +312,7 @@ map_sl Parser::get_column(vector<Token*> tokens) {
         switch (token_type) {
                 case TOKEN_ALFA:
                     if (_keywords.contains(token_str)) {
-                        cout << "get_column: " << token_str << " is a keyword." << endl;
+                        //cout << "get_column: " << token_str << " is a keyword." << endl;
                         column = _keywords.get(token_str);
                         }
                     else {

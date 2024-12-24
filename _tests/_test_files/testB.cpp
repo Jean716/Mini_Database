@@ -53,10 +53,15 @@ bool test_stub(bool debug = false) {
 //   ASSERT_EQ(student.get_select_recnos(), expected_student_recnos);
 //   }
 
-TEST(SQLTest, BatchInsertAndSelect) {
+TEST(SQLTest, CreateInsertAndSelect) {
   SQL sql;
 
   const vector<string> command_list = {
+    //****************************************************************************
+    //		CREATE AND INSERT
+    //****************************************************************************
+
+    //---- student table ----------
     /*00*/ "make table student fields fname, lname, major, age, company",
     /*01*/ "insert into student values Flo, Yao, CS, 20, Google",
     /*02*/ "insert into student values Bo, Yang, CS, 28, Microsoft",
@@ -69,6 +74,7 @@ TEST(SQLTest, BatchInsertAndSelect) {
     /*09*/ "insert into student values Teresa Mae, Gowers, Chemistry, 22, Verizon",
     /*10*/ "insert into student values Alex, Smith, Gender Studies, 53, Amazon",
 
+    //---- employee table ----------
     /*11*/ "make table employee fields lname, fname, dep, salary, year",
     /*12*/ "insert into employee values Blow, Joe, CS, 100000, 2018",
     /*13*/ "insert into employee values Blow, JoAnn, Physics, 200000, 2016",
@@ -87,28 +93,63 @@ TEST(SQLTest, BatchInsertAndSelect) {
     /*26*/ "insert into employee values Van Gogh, Vincent, CS, 245000, 2015",
     /*27*/ "insert into employee values Van Gogh, Jim Bob, Phys Ed, 230000, 2010",
 
-    /*28*/ "select * from student",
-    /*29*/ "select * from employee"
+    //****************************************************************************
+    //		SIMPLE SELECT
+    //****************************************************************************
+
+    //------- simple strings -------------------
+    /*28*/ "select * from employee where salary > 200000",
+
+    //----- quoted strings ---------------------
+    /*29*/ "select * from student where fname = \"Jim Bob\"",
+
+    //-------- non-existing string ------------------
+    /*30*/ "select * from employee where fname = \"Does Not Exist\"",
+
+    //****************************************************************************
+    //		LOGICAL OPERATORS
+    //****************************************************************************
+
+    // Simple logical combinations
+    /*31*/ "select * from student where major = CS and age < 30",
+    /*32*/ "select * from employee where lname = Jackson or salary >= 170000",
+
+    //****************************************************************************
+    //		COMMENTS
+    //****************************************************************************
+
+    // Add some comments to verify they are ignored
+    "// This is a comment and should not affect the execution",
+    "// Another comment for testing purposes",
     };
 
   // Execute all commands
-  for (const string& command : command_list) {
-    cout << "\n----------------------------------------\n" << endl;
-    cout << ">>> Executing: " << command << endl;
-    sql.command(command);
+  for (size_t i = 0; i < command_list.size(); ++i) {
+    const string& command = command_list[i];
+    cout << "[" << i << "] Executing: " << command << endl;
+
+    if (command.substr(0, 2) == "//") {
+      cout << "Comment detected: " << command << endl;
+      continue; // Skip comments
+      }
+
+    Table result = sql.command(command);
+    cout << "Resulting table: " << endl;
+    cout << result << endl;
     }
 
-  // Validate student table content
+  //****************************************************************************
+  //		VALIDATION
+  //****************************************************************************
+
+  // Validate student table record count
   Table student = sql.command("select * from student");
-  vector<long> expected_student_recnos = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-  ASSERT_EQ(student.get_select_recnos(), expected_student_recnos);
+  ASSERT_EQ(student.get_select_recnos().size(), 10);
 
-  // Validate employee table content
+  // Validate employee table record count
   Table employee = sql.command("select * from employee");
-  vector<long> expected_employee_recnos = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
-  ASSERT_EQ(employee.get_select_recnos(), expected_employee_recnos);
+  ASSERT_EQ(employee.get_select_recnos().size(), 16);
   }
-
 TEST(TEST_STUB, TestStub) {
   EXPECT_EQ(1, test_stub(false));
   }

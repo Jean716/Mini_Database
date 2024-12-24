@@ -38,7 +38,7 @@ bool STokenizer::more() {
 
 
 void STokenizer::set_string(const char str[]) {
-    cout << "STokenizer::set_string called with input: " << str << endl;
+    //cout << "STokenizer::set_string called with input: " << str << endl;
     strncpy(_buffer, str, MAX_BUFFER - 1);
     _pos = 0;
     _done = false;
@@ -47,7 +47,6 @@ void STokenizer::set_string(const char str[]) {
 void STokenizer::make_table(int _table[][MAX_COLUMNS]) {
     // cout << "STokenizer::make_table called." << endl;
     init_table(_table);
-    setup_number_state(_table);
     setup_number_state(_table);
     setup_alpha_state(_table);
     setup_space_state(_table);
@@ -238,10 +237,12 @@ void STokenizer::setup_number_state(int _table[][MAX_COLUMNS]) {
     mark_fail(_table, START_STATE);
     mark_success(_table, NUMBER_STATE);
     mark_success(_table, DECIMAL_STATE);
+
     mark_cells(START_STATE, _table, DIGITS, NUMBER_STATE);
     mark_cells(NUMBER_STATE, _table, DIGITS, NUMBER_STATE);
     mark_cell(NUMBER_STATE, _table, '.', DECIMAL_STATE);
     mark_cells(DECIMAL_STATE, _table, DIGITS, DECIMAL_STATE);
+
     }
 
 void STokenizer::setup_relational_state(int _table[][MAX_COLUMNS]) {
