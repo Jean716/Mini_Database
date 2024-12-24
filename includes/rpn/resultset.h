@@ -32,7 +32,6 @@ class ResultSet
         bool empty() const { return _recnos.empty(); }
 
         void clear() { _recnos.clear(); }
-
         friend ostream& operator<<(ostream& outs, const ResultSet& rs) {
             for (long recno : rs._recnos) {
                 outs << recno << " ";

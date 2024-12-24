@@ -16,7 +16,9 @@ class FileRecord
         static const int MAX_COLS = 256;
         FileRecord();
         FileRecord(const vector<string>& v);
-
+        // ~FileRecord();
+        // FileRecord(const FileRecord& other);
+        // FileRecord& operator=(const FileRecord& other);
         long write(fstream& outs);
         long read(fstream& ins, long recno);
         vector<string> get_record() const;

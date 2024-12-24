@@ -18,9 +18,9 @@ bool file_exists(const char filename[]) {
     }
 
 void open_fileRW(fstream& f, const char filename[]) {
-    // cout << "-----Open_fileRW Fired!-----:\n " << endl;
+    cout << "-----Open_fileRW Fired!-----:\n " << filename << endl;
     try {
-        // cout << "File name: " << filename << endl;
+        cout << "Checking file: " << filename << endl;
         if (!file_exists(filename)) {
             cout << "File does not exist. Attempting to create: " << filename << endl;
             f.open(filename, fstream::out | fstream::binary);
@@ -33,7 +33,7 @@ void open_fileRW(fstream& f, const char filename[]) {
         if (f.fail()) {
             throw runtime_error("Failed to open file for reading and writing: " + string(filename));
             }
-        // cout << "File successfully opened: " << filename << endl;
+        cout << "File successfully opened: " << filename << endl;
         }
     catch (const exception& e) {
         cerr << "Exception: " << e.what() << endl;
@@ -41,18 +41,48 @@ void open_fileRW(fstream& f, const char filename[]) {
         }
     }
 
-// only open file for writing，it will truncate the file if it exists
 void open_fileW(fstream & f, const char filename[]) {
     cout << "Opening file for writing: " << filename << endl;
-    try {
-        cout << "Opening file for writing (overwrite mode): " << filename << endl;
-        f.open(filename, ios::out | ios::binary | ios::trunc);
-        if (!f.is_open()) {
-            throw runtime_error("Failed to open file for writing: " + string(filename));
-            }
-        }
-    catch (const exception& e) {
-        cerr << "Exception in open_fileW: " << e.what() << endl;
-        throw;
+    f.open(filename, ios::out | ios::binary | ios::trunc);
+    if (!f) {
+        throw runtime_error("Failed to open file for writing: " + string(filename));
         }
     }
+
+// void write_info(const vector<string>& info, const char filename[]) {
+//     ofstream out(filename, ios::out | ios::binary | ios::trunc);
+//     if (!out) {
+//         throw runtime_error("Failed to open file for writing: " + string(filename));
+//         }
+
+//     try {
+//         for (const auto& line : info) {
+//             out << line << '\n';
+//             }
+//         out.close();
+//         }
+//     catch (const exception& e) {
+//         cerr << "Error writing to file: " << e.what() << endl;
+//         throw;
+//         }
+
+//     if (!out) {
+//         throw runtime_error("Failed to write all data to file: " + string(filename));
+//         }
+//     }
+
+// vector<string> read_info(const char filename[]) {
+//     ifstream in(filename);
+//     if (!in) {
+//         throw runtime_error("Failed to open file for reading: " + string(filename));
+//         }
+
+//     vector<string> info;
+//     string line;
+//     while (getline(in, line)) {
+//         info.push_back(line);
+//         }
+
+//     return info;
+//     }
+

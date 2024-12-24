@@ -7,7 +7,6 @@
 
 
 void init_make_table(int table[MAX_ROWS][MAX_COLUMNS]) {
-    cout << "Make table state machine Fired!" << endl;
     init_table(table);
     mark_fail(table, 1);
     mark_fail(table, 2);
@@ -23,8 +22,6 @@ void init_make_table(int table[MAX_ROWS][MAX_COLUMNS]) {
     mark_cell(5, table, SYM, 5);
     mark_cell(5, table, COMMA, 5);
     mark_cell(6, table, SYM, 5);
-
-    cout << "state = 0: " << table[0][1] << endl;
     }
 
 
@@ -46,8 +43,6 @@ void init_insert_table(int table[MAX_ROWS][MAX_COLUMNS]) {
     mark_cell(4, table, SYM, 5);
     mark_cell(5, table, SYM, 5);
     mark_cell(6, table, SYM, 5);
-
-
 
     }
 
@@ -116,7 +111,7 @@ void init_select_table(int table[MAX_ROWS][MAX_COLUMNS]) {
 void process_make_state(int state, mmap_ss& ptree, const string& token_str) {
     switch (state) {
             case 1:
-                ptree["command"].push_back(token_str);
+                ptree["command"].push_back("make");
                 break;
             case 3:
                 ptree["table_name"].push_back(token_str);
@@ -169,7 +164,7 @@ void process_select_state(int state, mmap_ss& ptree, const string& token_str) {
                     ptree["where"].push_back("yes");
                     }
                 else {
-                    ptree["where"].push_back(token_str);
+                    ptree["where"].push_back("no");
                     }
             default:
                 break;
