@@ -95,9 +95,6 @@ int index_of_maximal(T data[], int n) { // return index of the largest item in d
 template <class T>
 void ordered_insert(T data[], int& n, T entry) {  // insert entry into the sorted array data with length n
 
-    DEBUG_PRINT("Ordered_insert Function Fired!");
-    //cout << "\nCalling ordered_insert with entry: " << entry << endl;
-
     int index = first_ge(data, n, entry); // find the index of the first element in data that is not less than entry
 
     for (int i = n; i > index; --i) {

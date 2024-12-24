@@ -19,14 +19,14 @@ struct MPair
      */
      //--------------------------------------------------------------------------------
     MPair(const K& k = K()) : key(k) {
-        cout << "MPair default constructor called with key: " << key << endl;
+        //cout << "MPair default constructor called with key: " << key << endl;
         }
     MPair(const K& k, const V& v) : key(k) {
         value_list.push_back(v);
-        cout << "MPair(key, value) constructor called with key: " << key << ", value: " << v << endl;
+        // cout << "MPair(key, value) constructor called with key: " << key << ", value: " << v << endl;
         }
     MPair(const K& k, const vector<V>& vlist) : key(k), value_list(vlist) {
-        cout << "MPair(key, vector) constructor called with key: " << key << endl;
+        // cout << "MPair(key, vector) constructor called with key: " << key << endl;
 
         }
 

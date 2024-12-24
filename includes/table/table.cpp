@@ -22,7 +22,7 @@ Table::Table()
     _file_name("default_table.tbl"),
     _empty(true),
     _last_record(-1) {
-    cout << "Table default constructor called at address: " << this << endl;
+    //cout << "Table default constructor called at address: " << this << endl;
 
     ofstream file(_file_name, ios::app | ios::binary);
     if (!file.is_open()) {
@@ -128,9 +128,7 @@ Table::Table(const string& name, const vector<string> &fields_names) {
         _field_map[_field_names[i]] = i;
         cout << "Initializing index for field: " << _field_names[i] << endl;
 
-        cout << "\n ---[0]---[DEBUG] Preparing to push_back MMap<string, long> to _indices.---\n" << endl;
         _indices.push_back(MMap<string, long>());
-        cout << "\n ---[1]---[DEBUG] Successfully pushed_back. _indices size: " << _indices.size() << endl;
 
         }
     field_file.close();
@@ -250,9 +248,9 @@ int Table::insert_into(vector<string>& fields) {
 
 
     // 1. check if the number of fields matches the table definition
-    if (_field_map.size() != _field_names.size()) {
-        throw runtime_error("The number of fields does not match the table definition.");
-        }
+    // if (_field_map.size() != _field_names.size()) {
+    //     throw runtime_error("The number of fields does not match the table definition.");
+    //     }
     //---------------------------------------------------------
     if (record_exists(fields)) {
         cout << "Duplicate record found, skipping insertion." << endl;
@@ -334,12 +332,12 @@ Table Table::vector_to_table(const vector<string>& fields, const vector<long>& v
         cout << field << " ";
         }
     cout << endl;
-    cout << "\n-[01]----------------------------------------DEBUG HERE!" << endl;
+    //cout << "\n-[01]----------------------------------------DEBUG HERE!" << endl;
 
     Table new_table(new_table_name, actual_fields);
-    cout << "\n-[02]--------------------------------------DEBUG HERE!" << endl;
+    // cout << "\n-[02]--------------------------------------DEBUG HERE!" << endl;
 
-    // 3. Open original file for reading
+     // 3. Open original file for reading
     fstream file;
     open_fileRW(file, _file_name.c_str());
     cout << "File opened for reading: " << _file_name << endl;
@@ -472,23 +470,6 @@ Table Table::select_all(vector<string> fields) {
         }
     cout << endl;
     //---------------------------------------------------------
-// // Step 3: Iterate through each record and validate fields
-//     fstream file;
-//     open_fileRW(file, _file_name.c_str());
-//     for (long recno : recnos) {
-//         FileRecord record;
-//         if (record.read(file, recno)) {
-//             cout << "Read record at recno " << recno << ": ";
-//             vector<string> record_data = record.get_record();
-//             for (const auto& field : record_data) {
-//                 cout << field << " ";
-//                 }
-//             cout << endl;
-//             }
-//         else {
-//             cout << "Failed to read record at recno: " << recno << endl;
-//             }
-//         }
 
     // file.close();
     Table t = vector_to_table(fields, recnos);

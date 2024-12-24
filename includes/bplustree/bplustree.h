@@ -881,7 +881,7 @@ void BPlusTree<T>::clear_tree() {
         return;
         }
 
-    cout << "Clearing tree node at address: " << this << endl;
+    //cout << "Clearing tree node at address: " << this << endl;
 
     for (int i = 0; i < child_count; ++i) {
         if (subset[i] != nullptr) {
@@ -896,9 +896,6 @@ void BPlusTree<T>::clear_tree() {
     next = nullptr;
 
     }
-
-
-
 
 template <typename T>
 void BPlusTree<T>::copy_tree(const BPlusTree<T>&other) {
@@ -1171,11 +1168,11 @@ void BPlusTree<T>::verify_leaf_chain() {
         current = current->next;
         }
 
-    cout << "\nAll leaf data in sequence: ";
-    for (const T& data : all_data) {
-        cout << data << " ";
-        }
-    cout << endl;
+    // cout << "\nAll leaf data in sequence: ";
+    // for (const T& data : all_data) {
+    //     cout << data << " ";
+    //     }
+    // cout << endl;
     }
 
 

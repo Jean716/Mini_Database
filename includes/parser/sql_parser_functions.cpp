@@ -24,7 +24,7 @@ void init_make_table(int table[MAX_ROWS][MAX_COLUMNS]) {
     mark_cell(5, table, COMMA, 5);
     mark_cell(6, table, SYM, 5);
 
-    cout << "state = 0: " << table[0][1] << endl;
+    //cout << "state = 0: " << table[0][1] << endl;
     }
 
 

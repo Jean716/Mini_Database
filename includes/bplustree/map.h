@@ -1,7 +1,7 @@
 #ifndef MAP_H
 #define MAP_H
 #include "../../includes/bplustree/btree_array_functions.h"
-#include "../../includes/bplustree/btree.h"
+#include "../../includes/bplustree/bplustree.h"
 #include <iostream>
 using namespace std;
 
@@ -34,13 +34,14 @@ struct Pair
         assert(lhs.key == rhs.key);  // Ensure keys are the same
         return Pair(lhs.key, lhs.value + rhs.value);
         }
+
     };
 
 template <typename K, typename V>
 class Map
     {
     public:
-        typedef BTree<Pair<K, V>> map_base;
+        typedef BPlusTree<Pair<K, V>> map_base;
         class Iterator
             {
             public:
@@ -67,7 +68,10 @@ class Map
                     }
                 friend bool operator !=(const Iterator& lhs, const Iterator& rhs) {
                     return lhs._it != rhs._it;
+                    }
 
+                explicit operator bool() const {
+                    return _it != typename map_base::Iterator();
                     }
             private:
                 typename map_base::Iterator _it;
@@ -118,7 +122,7 @@ class Map
         Iterator find(const K& key) {
             cout << "Finding key: " << key << endl;
             auto it = map.find(Pair<K, V>(key));
-            if (it) {
+            if (it != typename map_base::Iterator()) {
                 cout << "Found Pair: " << (*it).key << " -> " << (*it).value << endl;
                 }
             else {
@@ -146,12 +150,12 @@ class Map
             }
     private:
         int key_count;
-        BTree<Pair<K, V> > map;
+        BPlusTree<Pair<K, V> > map;
     };
 
 
 template <typename K, typename V>
-Map<K, V>::Map() : key_count(0), map(BTree<Pair<K, V>>()) {}
+Map<K, V>::Map() : key_count(0), map(BPlusTree<Pair<K, V>>()) {}
 
 template <typename K, typename V>
 void Map<K, V>::insert(const K& k, const V& v) {

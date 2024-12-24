@@ -306,7 +306,7 @@ map_sl Parser::get_column(vector<Token*> tokens) {
     for (Token* token : tokens) {
         string token_str = token->value();
         int token_type = token->type();
-        cout << "current token is " << token_str << endl;
+        //cout << "current token is " << token_str << endl;
         int column = -1;
 
         switch (token_type) {
