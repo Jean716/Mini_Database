@@ -26,29 +26,34 @@ class FileRecord
         vector<char*> _record;
     };
 
-FileRecord::FileRecord() {
-    _record.resize(MAX_ROWS, nullptr);
-    for (int i = 0; i < MAX_ROWS; ++i) {
+    FileRecord::FileRecord() {
+      _record.resize(MAX_ROWS, nullptr);
+      for (int i = 0; i < MAX_ROWS; ++i) {
         _record[i] = new char[MAX_COLS]();
+        for (int j = 0; j < MAX_COLS; j++) {
+          _record[i][j] = '\0';
         }
+      }
     }
 
 FileRecord::FileRecord(const vector<string>& v) {
-    cout << "FileRecord::FileRecord fired!" << endl;
+  // cout << "FileRecord::FileRecord fired!" << endl;
 
-    _record.resize(MAX_ROWS, nullptr);
-    for (int i = 0; i < MAX_ROWS; ++i) {
-        _record[i] = new char[MAX_COLS]();
-        if (i < v.size()) {
-            strncpy(_record[i], v[i].c_str(), MAX_COLS - 1);
-            _record[i][MAX_COLS - 1] = '\0';
-            }
-        }
+  _record.resize(MAX_ROWS, nullptr);
+  for (int i = 0; i < MAX_ROWS; ++i) {
+    _record[i] = new char[MAX_COLS]();
+    for (int j = 0; j < MAX_COLS; j++) {
+      _record[i][j] = '\0';
     }
-
+    if (i < v.size()) {
+      strcpy(_record[i], v[i].c_str());
+      //_record[i][MAX_COLS - 1] = '\0';
+    }
+  }
+}
 
 long FileRecord::write(fstream& outs) {
-    cout << "FileRecord::write fired!" << endl;
+    //cout << "FileRecord::write fired!" << endl;
     outs.seekg(0, outs.end);
     long pos = outs.tellp();
     for (int i = 0; i < MAX_ROWS; ++i) {

@@ -76,10 +76,10 @@ Table::Table(const string& name) {
     for (long i = 0; i <= _last_record; ++i) {
         _select_recnos.push_back(i);
         }
-    cout << "Table(name)::_select_recnos: ";
-    for (const auto& recno : _select_recnos) {
-        cout << to_string(recno);
-        }
+    // cout << "Table(name)::_select_recnos: ";
+    // for (const auto& recno : _select_recnos) {
+    //     cout << to_string(recno);
+    //     }
 
     // 6. reindex the table
     reindex();
@@ -347,32 +347,32 @@ Table Table::vector_to_table(const vector<string>& fields, const vector<long>& v
 
 
     // 5. Process each record in vector_of_recnos
-    for (const auto& recno : vector_of_recnos) {
-        FileRecord record;
-        record.read(file, recno);
-        vector<string> record_fields;
+    for (const auto &recno : vector_of_recnos) {
+      FileRecord record;
+      record.read(file, recno);
+      vector<string> record_fields;
 
-        for (const auto& field : actual_fields) {
-            int field_index = field_col_no(field);
-            if (field_index == -2) {
-                // Handle '*': Add all fields
-                record_fields.insert(record_fields.end(), record.get_record().begin(), record.get_record().end());
-                break;
-                }
-            else if (field_index == -1 || field_index == -3) {
-                cout << "Field not found: " + field << endl;
-                continue;
-                }
-            else {
-                record_fields.push_back(record[field_index]);
-                }
-            }
-
-        FileRecord new_record(record_fields);
-        new_record.write(new_file);
-
-        new_table.insert_into(record_fields);
+      for (const auto &field : actual_fields) {
+        int field_index = field_col_no(field);
+        if (field_index == -2) {
+          // Handle '*': Add all fields
+          record_fields.insert(record_fields.end(), record.get_record().begin(),
+                               record.get_record().end());
+          break;
+        } else if (field_index == -1 || field_index == -3) {
+          cout << "Field not found: " + field << endl;
+          continue;
+        } else {
+          record_fields.push_back(record[field_index]);
         }
+      }
+    
+
+      FileRecord new_record(record_fields);
+      new_record.write(new_file);
+
+      new_table.insert_into(record_fields);
+   }
 
     // 6. Close files
     file.close();
@@ -483,11 +483,11 @@ Table Table::select(const vector<string>&  fields, const Queue<Token*>& postfix)
 
     vector<long> matching_recnos = cond(postfix);
 
-    cout << "Matching record numbers:" << endl;
-    for (long rec : matching_recnos) {
-        cout << "  " << rec << " ";
-        }
-    cout << endl;
+    // cout << "Matching record numbers:" << endl;
+    // for (long rec : matching_recnos) {
+    //     cout << "  " << rec << " ";
+    //     }
+    // cout << endl;
 
     Table result = vector_to_table(fields, matching_recnos);
 
@@ -534,9 +534,9 @@ void Table::reindex() {
 
 //LINK - cond
 vector<long> Table::cond(const Queue<Token*>& postfix) {
-    cout << "-------Table::cond fired!-------" << endl;
-    cout << "Postfix expression: ";
-    cout << postfix << endl;
+    //cout << "-------Table::cond fired!-------" << endl;
+    //cout << "Postfix expression: ";
+    //cout << postfix << endl;
 
     ResultSet result_set;
     Stack<vectorlong> logical_stack;
@@ -577,7 +577,7 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
             vector<long> matching_recnos;
 
             if (token->value() == "=") {
-                cout << "Processing '=': field_value = " << field_value << endl;
+                //cout << "Processing '=': field_value = " << field_value << endl;
                 auto range = field_index_map.equal_range(field_value);
                 for (auto it = range.first; it != range.second; ++it) {
                     matching_recnos.insert(matching_recnos.end(), it->second().begin(), it->second().end());
@@ -598,11 +598,11 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
                     }
                 }
             else if (token->value() == ">") {
-                cout << "Processing '>': field_value = " << field_value << endl;
+                //cout << "Processing '>': field_value = " << field_value << endl;
 
                 auto start = field_index_map.upper_bound(field_value);
                 for (auto it = start; it != field_index_map.end(); ++it) {
-                    cout << "Matching record: Key = " << it->first() << ", Record = " << it->second() << endl;
+                    //cout << "Matching record: Key = " << it->first() << ", Record = " << it->second() << endl;
                     matching_recnos.insert(matching_recnos.end(), it->second().begin(), it->second().end());
                     }
                 }
@@ -642,10 +642,10 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
                 ResultSet result_set(left_set);
                 result_set.or_with(right_set);
                 result = result_set.get_recnos();
-                cout << "Result set after OR operation: ";
-                for (long recno : result) {
-                    cout << recno << " ";
-                    }
+                // cout << "Result set after OR operation: ";
+                // for (long recno : result) {
+                //     cout << recno << " ";
+                //     }
                 }
             else {
                 throw runtime_error("Unknown logical operator: " + token->value());
@@ -692,15 +692,21 @@ ostream& operator<<(ostream & outs, const Table & t) {
 
     fstream file;
     open_fileRW(file, t.get_file_name().c_str());
-    for (const auto& recno : t.get_select_recnos()) {
+    auto recnos = t.get_select_recnos();
+    if (!recnos.empty()) {
+      long actual_recno = 0;
+      for (const auto &recno : t.get_select_recnos()) {
         FileRecord record;
-        record.read(file, recno);
+        record.read(file, actual_recno);
         outs << setw(10) << recno;
         for (int i = 0; i < t.get_field_names().size(); ++i) {
-            outs << setw(15) << record._record[i];
-            }
-        outs << endl;
+          outs << setw(15) << record._record[i];
         }
+        outs << endl;
+        actual_recno++;
+      }
+    }
+
     outs << string(15 + 15 * t.get_field_names().size(), '-') << endl;
 
     file.close();

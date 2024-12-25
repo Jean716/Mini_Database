@@ -16,7 +16,7 @@ class BPlusTree
             public:
                 friend class BPlusTree;
                 Iterator(BPlusTree<T>* _it = NULL, int _key_ptr = 0) : it(_it), key_ptr(_key_ptr) {
-                    cout << "\nIterator Constructor Fired!\n" << endl;
+                    //cout << "Iterator Constructor Fired!\n" << endl;
                     }
 
                 Iterator(const BPlusTree<T>* _it, int _key_ptr = 0) : it(const_cast<BPlusTree<T>*>(_it)), key_ptr(_key_ptr) {}
@@ -247,7 +247,7 @@ BPlusTree<T>::BPlusTree(bool dups) : dups_ok(dups), data_count(0), child_count(0
         subset[i] = nullptr;
         }
     success_flag = false;
-    cout << "BPlusTree default constructor called!" << endl;
+    //cout << "BPlusTree default constructor called!" << endl;
     }
 
 template <class T>
@@ -449,7 +449,7 @@ void BPlusTree<T>::print_tree(int level, ostream &outs) const {
 template <typename T>
 void BPlusTree<T>::insert(const T& entry) {
 
-    cout << "Insert Function Fired! Inserting: " << entry;
+    //cout << "Insert Function Fired! " << std::endl;
     // call loose_insert
     loose_insert(entry);
 
@@ -1162,7 +1162,7 @@ void BPlusTree<T>::verify_leaf_chain() {
                 }
             }
         else {
-            cout << "Next pointer is nullptr" << endl;
+            //cout << "Next pointer is nullptr" << endl;
             }
 
         current = current->next;

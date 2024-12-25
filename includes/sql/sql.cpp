@@ -29,9 +29,9 @@ SQL::SQL() {
     }
 
 Table SQL::command(const string& cmd) {
-    cout << "SQL::command() fired!" << endl;
+    //cout << "SQL::command() fired: " << cmd << endl;
     static int query_number = 0; // For numbering queries
-    cout << "\n[" << query_number++ << "] " << cmd << endl; // Print the query number and command
+    //cout << "\n[" << query_number++ << "] " << cmd << endl; // Print the query number and command
 
     try {
         Table result = execute_command(cmd); // Delegate execution to `execute_command`
@@ -86,22 +86,23 @@ Table SQL::execute_command(const string& cmd) {
         return _tables[table_name];
         }
     else if (command == "insert") {
-        // Insert into an existing table
+        cout << "SQL::run: inserted." << endl;
         string table_name = ptree["table_name"][0];
         vector<string> values = ptree["values"];
 
-        cout << ">>> Inserting into table: " << table_name << " values: ";
+        
+        std::cout << "insert into table: " << " values: ";
         for (const auto& value : values) {
             cout << value << " ";
             }
-        cout << endl;
+        cout << std::endl;
 
         if (_tables.find(table_name) == _tables.end()) {
             throw runtime_error("Table does not exist: " + table_name);
             }
 
         _tables[table_name].insert_into(values);
-        //cout << ">>> Insert completed for table: " << table_name << endl;
+        cout << "SQL::DONE." << endl;
 
         return _tables[table_name];
         }
@@ -142,115 +143,6 @@ Table SQL::execute_command(const string& cmd) {
 
     throw runtime_error("Unknown command: " + command); // Handle unsupported commands
     }
-
-// Table SQL::command(const string& cmd) {
-//     cout << "\n=====Command Function Fired!=====\n " << cmd << endl;
-
-//     // set the string in the parser
-//     _parser.set_string(cmd);
-
-//     //get the parse tree 
-//     mmap_ss ptree = _parser.parse_tree();
-//     cout << "SQL::command()| Parse tree contents: " << ptree << endl;
-
-
-//     string command = ptree["command"][0];
-//     cout << ">>> Parsed command: " << command << endl;
-
-//     if (command == "make" || command == "create") {
-//         cout << ">>> ------>> cmd[0] = Make----------------" << endl;
-
-//         //get table name and fields
-//         string table_name = ptree["table_name"][0];
-//         vector<string> fields = ptree["col"];
-
-//         string table_file = table_name + ".tbl";
-//         if (file_exists(table_file.c_str())) {
-//             cout << "Removing existing table file: " << table_file << endl;
-//             remove(table_file.c_str());
-//             }
-//         // Create a new table
-//         cout << ">>> Creating table: " << table_name << " with fields: ";
-//         for (const auto& field : fields) {
-//             cout << field << " ";
-//             }
-//         cout << endl;
-
-//         _tables.insert(table_name, Table(table_name, fields));
-//         cout << ">>> Table created successfully: " << table_name << endl;
-//         return _tables[table_name];
-//         }
-//     else if (command == "insert") {
-//         cout << ">>> ------>> cmd[0] = insert----------------" << endl;
-
-//         string table_name = ptree["table_name"][0];
-//         vector<string> values = ptree["values"];
-
-//         cout << ">>> Inserting into table: " << table_name << " values: ";
-//         for (const auto& value : values) {
-//             cout << value << " ";
-//             }
-//         cout << endl;
-
-//         //debug - check if table exists
-//         if (_tables.find(table_name) == _tables.end()) {
-//             throw runtime_error("Table does not exist: " + table_name);
-//             }
-
-
-//         _tables[table_name].insert_into(values);
-//         cout << ">>> Insert completed for table: " << table_name << endl;
-
-//         return _tables[table_name];
-//         }
-
-//     else if (command == "select") {
-//         cout << ">>> ------>> cmd[0] = select---------------" << endl;
-
-//         string table_name = ptree["table_name"][0];
-//         vector<string> fields = ptree.get("fields");
-//         Table result;
-
-//         if (_tables.find(table_name) == _tables.end()) {
-//             throw runtime_error("Table does not exist: " + table_name);
-//             }
-
-
-//         // Check if there's a 'where' condition
-//         if (ptree.find("where") != ptree.end()) {
-//             cout << ">>> Applying WHERE condition." << endl;
-
-//             Queue<Token*> infix_condition;
-//             cout << ">>> Condition from parse tree: " << ptree.get("condition") << endl;
-
-//             vector<string> infix = ptree.get("condition");
-//             string cond;
-//             for (size_t i = 0; i < infix.size(); ++i) {
-//                 cond += infix[i] + " ";
-//                 }
-
-//             _parser.tokenize(cond, infix_condition);
-//             //cout << ">>> Infix condition: " << infix_condition << endl;
-//             // Convert the condition to postfix expression using the Parser's function
-//             Queue<Token*> postfix_condition = _parser.convert_to_postfix(infix_condition);
-
-//             // Call Table's select function with fields and postfix condition
-//             result = _tables[table_name].select(fields, postfix_condition);
-//             }
-//         else {
-//             // Select all records
-//             cout << ">>> No WHERE condition found. Selecting all records." << endl;
-//             result = _tables[table_name].select_all(fields);
-//             }
-//         //------------------------------Debug _select_recnos-------------------------------------------------
-//          //Update SQL::_select_recnos with the selected record numbers from the result table
-//         _select_recnos = result.get_select_recnos();
-//         // Store the result table
-//         return result;
-//         }
-//     return Table();  // Return an empty table by default
-//     }
-
 
 
 

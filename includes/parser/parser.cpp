@@ -392,21 +392,21 @@ void Parser::build_keyword_list(map_sl & list) {
 
     }
 Queue<Token*> Parser::convert_to_postfix(Queue<Token*>& infix_queue) {
-    cout << "Converting Infix to Postfix..." << endl;
-    cout << "Infix Queue  " << infix_queue << endl;
+    // cout << "Converting Infix to Postfix..." << endl;
+    // cout << "Infix Queue  " << infix_queue << endl;
 
     ShuntingYard shunting_yard(infix_queue);
 
     Queue<Token*> postfix = shunting_yard.postfix(infix_queue);
 
-    cout << "Postfix Expression: ";
+    //cout << "Postfix Expression: ";
     Queue<Token*> temp_queue = postfix;
     while (!temp_queue.empty()) {
         Token* t = temp_queue.front();
         temp_queue.pop();
-        cout << t->value() << " ";
+        //cout << t->value() << " ";
         }
-    cout << endl;
+    //cout << endl;
 
     return postfix;
     }

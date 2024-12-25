@@ -5,7 +5,7 @@
 
 
 ShuntingYard::ShuntingYard(Queue<Token*>& input) : _infix(input) {
-    cout << "-------ShuntingYard constructor FIred!-------" << endl;
+    //cout << "-------ShuntingYard constructor FIred!-------" << endl;
     // Clear _infix to ensure it's empty before copying
     while (!_infix.empty()) {
         _infix.pop();
@@ -21,7 +21,7 @@ ShuntingYard::ShuntingYard(Queue<Token*>& input) : _infix(input) {
 
     }
 Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
-    cout << "-------ShuntingYard::to_postfix Fired!-------" << endl;
+    //cout << "-------ShuntingYard::to_postfix Fired!-------" << endl;
     // cout << "Input Queue: " << input << endl;
     Queue<Token*> output;
     Stack<Token*> operators;
@@ -30,24 +30,24 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
         Token* token = input.front();
         input.pop();
 
-        cout << "Current Token:--------------> " << token->value() << endl;
+        //cout << "Current Token:--------------> " << token->value() << endl;
 
         if (token->type() == TOKEN_NUMBER || token->type() == TOKEN_STRING || token->type() == TOKEN_ALFA) {
-            cout << "is string or number" << endl;
+            //cout << "is string or number" << endl;
             output.push(token);
-            cout << "Pushing token: " << token->value() << " to output queue." << endl;
+            //cout << "Pushing token: " << token->value() << " to output queue." << endl;
             }
         else if (is_operator(token) || is_relational_operator(token) || is_logical_operator(token)) {
-            cout << "is operator" << endl;
+            //cout << "is operator" << endl;
             while (!operators.empty() &&
                 !is_left_paren(operators.top()) &&
                 precedence(operators.top()) >= precedence(token)) {
-                cout << "Popping operator: " << operators.top()->value() << " from stack." << endl;
+                //cout << "Popping operator: " << operators.top()->value() << " from stack." << endl;
 
                 output.push(operators.top());
                 operators.pop();
                 }
-            cout << "Pushing operator: " << token->value() << " to stack." << endl;
+            //cout << "Pushing operator: " << token->value() << " to stack." << endl;
             operators.push(token);
             }
         else if (is_left_paren(token)) {
@@ -62,7 +62,7 @@ Queue<Token*> ShuntingYard::postfix(Queue<Token*>& input) {
             if (!operators.empty() && is_left_paren(operators.top())) {
 
                 operators.pop();
-                cout << "Popped left paren from stack." << endl;
+                //cout << "Popped left paren from stack." << endl;
                 }
             else {
                 cerr << "Error: Mismatched parentheses in expression" << endl;
@@ -106,8 +106,6 @@ int ShuntingYard::precedence(Token * token) {
 
     return -1; // Unknown token type
     }
-
-
 
 bool ShuntingYard::is_left_paren(Token * token) {
     return token->type() == TOKEN_LEFT_PAREN && token->value() == "(";

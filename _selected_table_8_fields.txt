@@ -1,5 +1,4 @@
-lname
 fname
-dep
-salary
-year
+lname
+major
+age
