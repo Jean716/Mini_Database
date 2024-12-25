@@ -1,3 +1,5 @@
-last
-first
+lname
+fname
 dep
+salary
+year

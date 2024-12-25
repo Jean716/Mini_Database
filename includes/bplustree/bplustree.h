@@ -78,15 +78,15 @@ class BPlusTree
                     int pos = key_ptr;
 
                     while (current) {
-                        cout << "Node at address: " << current << ", Data: ";
+                        //cout << "Node at address: " << current << ", Data: ";
 
                         print_array(current->data, current->data_count, pos);
 
                         if (current->next) {
-                            cout << " -> Next node at address: " << current->next << ", First data: " << current->next->data[0] << endl;
+                            // cout << " -> Next node at address: " << current->next << ", First data: " << current->next->data[0] << endl;
                             }
                         else {
-                            cout << " -> Next node: nullptr" << endl;
+                            // cout << " -> Next node: nullptr" << endl;
                             }
 
                         current = current->next;
@@ -94,7 +94,7 @@ class BPlusTree
                         }
 
                     if (!it) {
-                        cout << "iterator: NULL, key_ptr: " << key_ptr << endl;
+                        //cout << "iterator: NULL, key_ptr: " << key_ptr << endl;
                         }
                     }
 
@@ -186,8 +186,8 @@ class BPlusTree
                 cerr << "Consistency error in leaf node: child_count should be 0, but is " << child_count << endl;
                 }
 
-            cout << "Node consistency check passed: data_count = " << data_count
-                << ", child_count = " << child_count << endl;
+            // cout << "Node consistency check passed: data_count = " << data_count
+            //     << ", child_count = " << child_count << endl;
             }
 
 
@@ -256,7 +256,7 @@ BPlusTree<T>::BPlusTree(T *a, int size, bool dups) : dups_ok(dups), data_count(0
     for (int i = 0; i < size; ++i) {
         insert(a[i]);
         }
-    cout << "BPlusTree constructor called!" << endl;
+    //cout << "BPlusTree constructor called!" << endl;
 
     }
 //big three:
@@ -566,35 +566,35 @@ void BPlusTree<T>::remove(const T & entry) {
     if (data_count == 0 && child_count == 1) {
         BPlusTree<T>* shrink_ptr = subset[0];
 
-        cout << "Shrink pointer data count: " << shrink_ptr->data_count << endl;
-        cout << "Shrink pointer child count: " << shrink_ptr->child_count << endl;
+        // cout << "Shrink pointer data count: " << shrink_ptr->data_count << endl;
+        // cout << "Shrink pointer child count: " << shrink_ptr->child_count << endl;
 
         data_count = shrink_ptr->data_count;
         child_count = shrink_ptr->child_count;
         for (int i = 0; i < data_count; i++) {
             data[i] = shrink_ptr->data[i];
-            cout << "Copied data[" << i << "]: " << data[i] << endl;
+            //cout << "Copied data[" << i << "]: " << data[i] << endl;
             }
         for (int i = 0; i < child_count; i++) {
             subset[i] = shrink_ptr->subset[i];
-            cout << "Copied subset[" << i << "]: " << subset[i] << endl;
+            //cout << "Copied subset[" << i << "]: " << subset[i] << endl;
             }
 
         next = shrink_ptr->next;
-        cout << "Updated next pointer: " << next << endl;
+        //cout << "Updated next pointer: " << next << endl;
 
         shrink_ptr->child_count = 0;
         delete shrink_ptr;
-        cout << "Deleted shrink pointer" << endl;
+        //cout << "Deleted shrink pointer" << endl;
         }
 
     if (data_count == 0 && child_count == 0) {
         next = nullptr;
-        cout << "Tree is now empty" << endl;
+        //cout << "Tree is now empty" << endl;
         }
 
-    cout << "Data count: " << data_count << endl;
-    cout << "Child count: " << child_count << endl;
+    // cout << "Data count: " << data_count << endl;
+    // cout << "Child count: " << child_count << endl;
 
 
     verify_leaf_chain();
@@ -605,13 +605,13 @@ void BPlusTree<T>::remove(const T & entry) {
 //ANCHOR - loose_remove 
 template <typename T>
 void BPlusTree<T>::loose_remove(const T & entry) {
-    cout << "Loose Remove Fired! " << endl;
+    //cout << "Loose Remove Fired! " << endl;
     int i = first_ge(data, data_count, entry);
 
-    DEBUG_PRINT("First GE Fired! i: " << i << ", data_count: " << data_count);
+    //DEBUG_PRINT("First GE Fired! i: " << i << ", data_count: " << data_count);
     bool found = (i < data_count && data[i] == entry);
 
-    DEBUG_PRINT("Found: " << found);
+    //DEBUG_PRINT("Found: " << found);
     T delete_me = entry;
 
     if (is_leaf()) {
@@ -665,12 +665,12 @@ void BPlusTree<T>::loose_remove(const T & entry) {
             //     data[i] = smallest;
             //     }
             if (i < data_count && data[i] == entry) {
-                cout << "Entry was removed, replacing data[" << i << "] " << data[i]
-                    << " with the rightmost leaf of subset[" << (i + 1) << "]" << subset[i + 1]->data[data_count - 1] << endl;
+                // cout << "Entry was removed, replacing data[" << i << "] " << data[i]
+                //     << " with the rightmost leaf of subset[" << (i + 1) << "]" << subset[i + 1]->data[data_count - 1] << endl;
                 T rightmost;
                 subset[i + 1]->get_biggest(rightmost);
                 data[i] = rightmost;
-                cout << "rightmost: " << rightmost << endl;
+                //cout << "rightmost: " << rightmost << endl;
                 }
 
             }

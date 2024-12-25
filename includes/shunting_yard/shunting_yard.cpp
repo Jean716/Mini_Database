@@ -107,6 +107,8 @@ int ShuntingYard::precedence(Token * token) {
     return -1; // Unknown token type
     }
 
+
+
 bool ShuntingYard::is_left_paren(Token * token) {
     return token->type() == TOKEN_LEFT_PAREN && token->value() == "(";
     }

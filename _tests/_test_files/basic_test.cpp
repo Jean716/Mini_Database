@@ -39,6 +39,8 @@ const vector<string> command_list = {
      /*18*/     "select * from student where lname>J",
      /*19*/     "select * from student where lname>J and (major=CS or major=Art)"
 
+
+
      };
 
 const int MAKE_TABLE_COMMANDS = 11;
@@ -47,27 +49,10 @@ const int SELECT_COMMANDS = 20;
 bool sql_basic(bool debug = false) {
      SQL sql;
      Table t;
-     cout << ">" << command_list[0] << endl;
-     sql.command(command_list[0]);
-     cout << "basic_test: table created." << endl << endl;
-
-     for (int i = 0; i < MAKE_TABLE_COMMANDS; i++) {
+     for (int i = 0; i < command_list.size(); i++) {
           cout << ">" << command_list[i] << endl;
           sql.command(command_list[i]);
           }
-
-     cout << endl
-          << endl;
-     for (int i = MAKE_TABLE_COMMANDS; i < command_list.size(); i++) {
-          cout << "\n>" << command_list[i] << endl;
-          if (debug)
-               cout << sql.command(command_list[i]) << endl;
-          else
-               t = sql.command(command_list[i]);
-          cout << "basic_test: records selected: " << sql.select_recnos() << endl;
-          }
-
-     cout << "----- END TEST --------" << endl;
      return true;
      }
 
@@ -82,9 +67,7 @@ TEST(SQL_BASIC, SQLBasic) {
      }
 
 int main(int argc, char **argv) {
-     if (argc > 1) {
-          debug = !strcmp(argv[1], "debug");
-          }
+     debug = true;
 
      ::testing::InitGoogleTest(&argc, argv);
      std::cout << "\n\n----------running basic_test.cpp---------\n\n" << std::endl;

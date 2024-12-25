@@ -85,7 +85,7 @@ Table::Table(const string& name) {
     reindex();
 
 
-    DEBUG_PRINT("-------------------Table ctor 2 Done!----------------------------");
+    //DEBUG_PRINT("-------------------Table ctor 2 Done!----------------------------");
     }
 
 //LINK - Table ctor 3
@@ -147,7 +147,7 @@ Table::Table(const string& name, const vector<string> &fields_names) {
     // for (size_t i = 0; i < _indices.size(); ++i) {
     //     cout << "Index " << i << " initialized for field: " << _field_names[i] << endl;
     //     }
-    cout << "-----------------------------------------------" << endl;
+    //cout << "-----------------------------------------------" << endl;
     }
 
 // void Table::clear_data() {
@@ -360,7 +360,7 @@ Table Table::vector_to_table(const vector<string>& fields, const vector<long>& v
                                record.get_record().end());
           break;
         } else if (field_index == -1 || field_index == -3) {
-          cout << "Field not found: " + field << endl;
+          //cout << "Field not found: " + field << endl;
           continue;
         } else {
           record_fields.push_back(record[field_index]);
@@ -422,7 +422,7 @@ int Table::field_col_no(string field_name) {
     field_name.erase(remove_if(field_name.begin(), field_name.end(), ::isspace), field_name.end());
 
     if (field_name == "*") {
-        cout << "'*' detected; returning -2 (indicating all fields)." << endl;
+        //cout << "'*' detected; returning -2 (indicating all fields)." << endl;
         return -2;   // -2 indicates all fields
         }
 
@@ -457,7 +457,7 @@ vectorlong Table::get_matching_recnos(const string& field_name, const string& fi
 
 //LINK - select_all
 Table Table::select_all(vector<string> fields) {
-    cout << "-------Table::select_all fired!-------" << endl;
+    //cout << "-------Table::select_all fired!-------" << endl;
     vector<long> recnos;
     for (long i = 0; i <= _last_record; ++i) {
         recnos.push_back(i);
@@ -479,7 +479,7 @@ Table Table::select_all(vector<string> fields) {
 
 
 Table Table::select(const vector<string>&  fields, const Queue<Token*>& postfix) {
-    cout << "-------Table::select fired!-------" << endl;
+    //cout << "-------Table::select fired!-------" << endl;
 
     vector<long> matching_recnos = cond(postfix);
 
@@ -500,7 +500,7 @@ Table Table::select(const vector<string>&  fields, const Queue<Token*>& postfix)
 
 
 
-    DEBUG_PRINT("-------Table::select done!-------");
+    //DEBUG_PRINT("-------Table::select done!-------");
     return result;
     }
 
@@ -559,12 +559,12 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
             string field_name = string_stack.pop();
 
             int field_index = field_col_no(field_name);
-            cout << "Field index for " << field_name << ": " << field_index << endl;
+            //cout << "Field index for " << field_name << ": " << field_index << endl;
             if (field_index == -1) {
                 throw runtime_error("Field not found: " + field_name);
                 }
             if (field_index == -3) {
-                cout << "Field not found: " << field_name << ". Returning empty results." << endl;
+                // cout << "Field not found: " << field_name << ". Returning empty results." << endl;
                 return {};
                 }
 
@@ -665,12 +665,12 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
     vectorlong final_recnos = logical_stack.pop();
 
     //cout << "Final record numbers after cond evaluation:";
-    for (long recno : final_recnos) {
-        cout << recno << " ";
-        }
+    // for (long recno : final_recnos) {
+    //     cout << recno << " ";
+    //     }
     _select_recnos = final_recnos;
 
-    cout << "\n-------Table::cond done!-------" << endl;
+    //cout << "\n-------Table::cond done!-------" << endl;
 
     return final_recnos;
     }
@@ -693,12 +693,13 @@ ostream& operator<<(ostream & outs, const Table & t) {
     fstream file;
     open_fileRW(file, t.get_file_name().c_str());
     auto recnos = t.get_select_recnos();
+    sort(recnos.begin(), recnos.end());
     if (!recnos.empty()) {
       long actual_recno = 0;
       for (const auto &recno : t.get_select_recnos()) {
         FileRecord record;
         record.read(file, actual_recno);
-        outs << setw(10) << recno;
+        outs << setw(10) << actual_recno;
         for (int i = 0; i < t.get_field_names().size(); ++i) {
           outs << setw(15) << record._record[i];
         }

@@ -31,15 +31,15 @@ Parser::Parser()
     if (_keywords.empty()) {
         build_keyword_list(_keywords);
         }
-    cout << "Parser Default Constructor Fired!" << endl;
+    //cout << "Parser Default Constructor Fired!" << endl;
 
     }
 
 
 
 Parser::Parser(const char* s) : _input(s), _fail(false) {
-    cout << "Parser Constructor Fired!" << endl;
-    cout << "Input string: " << (s ? s : "null") << endl;
+    // cout << "Parser Constructor Fired!" << endl;
+    // cout << "Input string: " << (s ? s : "null") << endl;
     if (_keywords.empty()) {
         build_keyword_list(_keywords);
         }
@@ -69,7 +69,7 @@ void Parser::set_string(const string & input) {
     tokenize(input, postfix);
     init_adjacency_table();
     if (!get_parse_tree()) {
-        cout << "Failed to parse the input string." << endl;
+        //cout << "Failed to parse the input string." << endl;
         }
 
     }
@@ -195,7 +195,7 @@ void Parser::init_adjacency_table() {
     init_table(_adjacency_table);
 
     if (_tokens.empty()) {
-        cout << "Token list is empty." << endl;
+        //cout << "Token list is empty." << endl;
         _fail = true;
         return;
         }
@@ -207,12 +207,12 @@ void Parser::init_adjacency_table() {
     if (token_str == "select") {
         init_select_table(_adjacency_table);
         }
-    else if (token_str == "make") {
+    else if (token_str == "make" || token_str == "create") {
         //cout << "This is make table!" << endl;
         init_make_table(_adjacency_table);
         }
     else if (token_str == "insert") {
-        cout << "This is insert table!" << endl;
+        //cout << "This is insert table!" << endl;
         init_insert_table(_adjacency_table);
         }
 
@@ -227,7 +227,7 @@ bool Parser::get_parse_tree() {
 
     if (_tokens.empty()) {
         _fail = true;
-        cout << "Error: Token list is empty." << endl;
+        //cout << "Error: Token list is empty." << endl;
         return false;
         }
 
@@ -264,7 +264,7 @@ bool Parser::get_parse_tree() {
             //cout << "command is select!" << endl;
             process_select_state(state, _ptree, token_str);
             }
-        else if (first_token == "make") {
+        else if (first_token == "make" || first_token == "create") {
             if (state == 0) {
                 //cout << "command is make!" << endl;
                 }
@@ -293,7 +293,7 @@ bool Parser::get_parse_tree() {
         }
     else {
         _fail = true;
-        cout << "Error: SQL query did not end in a success state." << endl;
+        //cout << "Error: SQL query did not end in a success state." << endl;
         _ptree.clear();
         return false;
         }
@@ -360,7 +360,7 @@ map_sl Parser::get_column(vector<Token*> tokens) {
     }
 
 void Parser::build_keyword_list(map_sl & list) {
-    cout << "Build Keyword List Function Fired!" << endl;
+    //cout << "Build Keyword List Function Fired!" << endl;
     list["create"] = CREATE;
     list["make"] = MAKE;
     list["table"] = TABLE;
@@ -388,7 +388,7 @@ void Parser::build_keyword_list(map_sl & list) {
     list["<="] = REL_OP;
     list[">="] = REL_OP;
 
-    cout << "Keyword list built successfully!" << endl;
+    //cout << "Keyword list built successfully!" << endl;
 
     }
 Queue<Token*> Parser::convert_to_postfix(Queue<Token*>& infix_queue) {

@@ -7,7 +7,7 @@
 
 
 void init_make_table(int table[MAX_ROWS][MAX_COLUMNS]) {
-    cout << "Make table state machine Fired!" << endl;
+    //cout << "Make table state machine Fired!" << endl;
     init_table(table);
     mark_fail(table, 1);
     mark_fail(table, 2);
@@ -16,6 +16,7 @@ void init_make_table(int table[MAX_ROWS][MAX_COLUMNS]) {
     mark_success(table, 5);
 
     mark_cell(0, table, MAKE, 1);
+    mark_cell(0, table, CREATE, 1);
     mark_cell(1, table, TABLE, 2);
     mark_cell(2, table, SYM, 3);
     mark_cell(3, table, FIELDS, 4);

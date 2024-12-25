@@ -126,7 +126,7 @@ class Map
                 //cout << "Found Pair: " << (*it).key << " -> " << (*it).value << endl;
                 }
             else {
-                cout << "Key not found in Map." << endl;
+                //cout << "Key not found in Map." << endl;
                 }
             return Iterator(it);
             }

@@ -31,17 +31,23 @@ SQL::SQL() {
 Table SQL::command(const string& cmd) {
     //cout << "SQL::command() fired: " << cmd << endl;
     static int query_number = 0; // For numbering queries
-    //cout << "\n[" << query_number++ << "] " << cmd << endl; // Print the query number and command
-
+    if (cmd.substr(0, 2) == "//")
+    {
+        cout << "[" << query_number++ << "] " << cmd << endl;
+        return Table();
+    }
+    
+    cout << "[" << query_number++ << "] " << cmd << endl;
     try {
         Table result = execute_command(cmd); // Delegate execution to `execute_command`
         if (!result.get_name().empty()) { // Check if the table name is non-empty to validate result
             cout << "Table name: " << result.get_name()
-                << ", records: " << result.get_select_recnos() << endl;
+                << ", records: " << result.get_select_recnos().size() << endl;
             cout << result << endl; // Print formatted table
+            std::cout << "SQL Done." << std::endl;
             }
         else {
-            cout << "No records returned or command executed without a result table." << endl;
+            //cout << "No records returned or command executed without a result table." << endl;
             }
         return result; // Return the resulting table
         }
@@ -86,23 +92,23 @@ Table SQL::execute_command(const string& cmd) {
         return _tables[table_name];
         }
     else if (command == "insert") {
-        cout << "SQL::run: inserted." << endl;
+        //cout << "SQL::run: inserted." << endl;
         string table_name = ptree["table_name"][0];
         vector<string> values = ptree["values"];
 
         
-        std::cout << "insert into table: " << " values: ";
-        for (const auto& value : values) {
-            cout << value << " ";
-            }
-        cout << std::endl;
+        //std::cout << "insert into table: " << " values: ";
+        // for (const auto& value : values) {
+        //     cout << value << " ";
+        //     }
+        // cout << std::endl;
 
         if (_tables.find(table_name) == _tables.end()) {
             throw runtime_error("Table does not exist: " + table_name);
             }
 
         _tables[table_name].insert_into(values);
-        cout << "SQL::DONE." << endl;
+        //cout << "SQL::DONE." << endl;
 
         return _tables[table_name];
         }
