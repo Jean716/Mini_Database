@@ -1,4 +1,5 @@
 #include "table.h"
+#include <algorithm>
 #include <iostream>
 #include <fstream>
 #include <utility>
@@ -257,9 +258,9 @@ int Table::insert_into(vector<string>& fields) {
         }
     //---------------------------------------------------------
     // if (record_exists(fields)) {
-    //     cout << "Duplicate record found, skipping insertion." << endl;
-    //     return _last_record;
-    //     }
+    //   cout << "Duplicate record found, skipping insertion." << endl;
+    //   return _last_record;
+    // }
 
     //---------------------------------------------------------
     // 2. create FileRecord object and open the file
@@ -271,29 +272,34 @@ int Table::insert_into(vector<string>& fields) {
     long record_number = _last_record + 1;
     record.write(file);
 
-    //cout << "Record written successfully with record number: " << record_number << endl;
+    // cout << "Record written successfully with record number: " <<
+    // record_number << endl;
 
     // update _last_record and _select_recnos
     _last_record = record_number;
     _select_recnos.push_back(record_number);
 
     // update the indices
-    //cout << "\nUpdating _indices with field values:" << endl;
-    //------------------------for loop  -----------------------------------------
+    // cout << "\nUpdating _indices with field values:" << endl;
+    //------------------------for loop
+    //-----------------------------------------
     for (size_t i = 0; i < fields.size(); ++i) {
         string field_value = fields[i];
         string field_name = _field_names[i];
 
-        //cout << "Field name: " << _field_names[i] << endl;
+        // cout << "Field name: " << _field_names[i] << endl;
         int field_index = _field_map.at(_field_names[i]);
-        //cout << "Field index for " << field_name << ": " << field_index << endl;
+        // cout << "Field index for " << field_name << ": " << field_index <<
+        // endl;
 
-       // cout << "Inserting field value: " << field_value << " for field: " << field_name << " at index: " << field_index;
+        // cout << "Inserting field value: " << field_value << " for field: "
+        // << field_name << " at index: " << field_index;
 
         // insert into the corresponding index
         _indices[field_index].insert(fields[i], record_number);
 
-        //cout << "Inserted into _indices[" << field_index << "]: (" << field_value << ", " << record_number << ")";
+        // cout << "Inserted into _indices[" << field_index << "]: (" <<
+        // field_value << ", " << record_number << ")";
         }
 
     //------------------------for loop  done-------------------------
@@ -670,6 +676,7 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
     // for (long recno : final_recnos) {
     //     cout << recno << " ";
     //     }
+    std::sort(final_recnos.begin(), final_recnos.end());
     _select_recnos = final_recnos;
 
     //cout << "\n-------Table::cond done!-------" << endl;
@@ -681,9 +688,7 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
 //LINK - operator<<
 ostream& operator<<(ostream & outs, const Table & t) {
     //DEBUG_PRINT("-------Table operator<< fired!-------");
-    // cout << "Table name: " << t._name << ", records: " << t._last_record + 1 << endl;
-    // cout << "_last_record: " << t._last_record << endl;
-
+    cout << "Select recnos: " << t._select_recnos << endl;
     //outs << string(15 + 15 * t.get_field_names().size(), '-') << endl;
     outs << setw(10) << "record";
     for (const auto& field : t.get_field_names()) {

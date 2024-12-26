@@ -9,6 +9,7 @@
 //Files we are testing:
 #include "../../includes/sql/sql.h"
 
+
 //------------------------------------------------------------------------------------------
 
 using namespace std;
@@ -29,10 +30,10 @@ const vector<string> command_list = {
      /*10*/     "insert into student values \"Mary Ann\",   Davis,	Math,	30",
 
      /*11*/     "select * from employee",
-     /*12*/     "select last, first, dep from employee",
+     /*12*/     "select last, first, age from employee",
      /*13*/     "select last from employee",
      /*14*/     "select * from employee where last = Johnson",
-     /*15*/     "select * from employee where last=Blow and first=\"JoAnn\"",
+     /*15*/     "select * from employee where last=Blow and major=\"JoAnn\"",
 
      /*16*/     "select * from student",
      /*17*/     "select * from student where (major=CS or major=Art)",
@@ -47,10 +48,27 @@ const int SELECT_COMMANDS = 20;
 bool sql_basic(bool debug = false) {
      SQL sql;
      Table t;
-     for (int i = 0; i < command_list.size(); i++) {
+     cout << ">" << command_list[0] << endl;
+     sql.command(command_list[0]);
+     cout << "basic_test: table created." << endl << endl;
+
+     for (int i = 0; i < MAKE_TABLE_COMMANDS; i++) {
           cout << ">" << command_list[i] << endl;
           sql.command(command_list[i]);
           }
+
+     cout << endl
+          << endl;
+     for (int i = MAKE_TABLE_COMMANDS; i < command_list.size(); i++) {
+          cout << "\n>" << command_list[i] << endl;
+          if (debug)
+               cout << sql.command(command_list[i]) << endl;
+          else
+               t = sql.command(command_list[i]);
+          cout << "basic_test: records selected: " << sql.select_recnos() << endl;
+          }
+
+     cout << "----- END TEST --------" << endl;
      return true;
      }
 
@@ -65,7 +83,9 @@ TEST(SQL_BASIC, SQLBasic) {
      }
 
 int main(int argc, char **argv) {
-     debug = true;
+     if (argc > 1) {
+          debug = !strcmp(argv[1], "debug");
+          }
 
      ::testing::InitGoogleTest(&argc, argv);
      std::cout << "\n\n----------running basic_test.cpp---------\n\n" << std::endl;

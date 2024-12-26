@@ -35,6 +35,10 @@ const int LOGICAL_STATE = 120;      // logical operator
 const int NAME_STATE = 130;         // name
 const int Dot_STATE = 140;          // dot
 
+
+
+
+
 enum OPERATORS
     {
 
