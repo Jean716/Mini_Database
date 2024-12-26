@@ -57,80 +57,76 @@ TEST(SQLTest, CreateInsertAndSelect) {
   SQL sql;
 
   const vector<string> command_list = {
-      //****************************************************************************
-      //		CREATE AND INSERT
-      //****************************************************************************
+    //****************************************************************************
+    //		CREATE AND INSERT
+    //****************************************************************************
 
-      // "create table student fields last, first, major",
-      // "insert into student values Yang, Bo, \"Computer Science\"",
-      // "insert into student values Davis, John, Math",
-      // "insert into student values Johnson, \"Mary Ann\", \"Biology\"",
-      // "create table employee fields lname, fname, dept, hireyear",
-      // "insert into employee values Jackson, David, Finance, 2016",
-      // "insert into employee values Davidson, “Mary Alice”, complaints, 2012",
-      //---- student table ----------
-      /*00*/ "create table student fields fname, lname, major, age, company",
-      /*01*/ "insert into student values Flo, Yao, CS, 20, Google",
-      /*02*/ "insert into student values Bo, Yang, CS, 28, Microsoft",
-      /*03*/ "insert into student values Sammuel L., Jackson, CS, 40, Uber",
-      /*04*/ "insert into student values Flo, Jackson, Math, 21, Google",
-      /*05*/ "insert into student values Greg, Pearson, Physics, 20, Amazon",
-      /*06*/ "insert into student values Jim Bob, Smith, Math, 23, Verizon",
-      /*07*/ "insert into student values Calvin, Woo, Physics, 22, Uber",
-      /*08*/ "insert into student values Anna Grace, Del Rio, CS, 22, USAF",
-      /*09*/ "insert into student values Teresa Mae, Gowers, Chemistry, 22, Verizon",
-      /*10*/ "insert into student values Alex, Smith, Gender Studies, 53, Amazon",
+    // "create table student fields last, first, major",
+    // "insert into student values Yang, Bo, \"Computer Science\"",
+    // "insert into student values Davis, John, Math",
+    // "insert into student values Johnson, \"Mary Ann\", \"Biology\"",
+    // "create table employee fields lname, fname, dept, hireyear",
+    // "insert into employee values Jackson, David, Finance, 2016",
+    // "insert into employee values Davidson, “Mary Alice”, complaints, 2012",
+    //---- student table ----------
+    /*00*/ "create table student fields fname, lname, major, age, company",
+    /*01*/ "insert into student values Flo, Yao, CS, 20, Google",
+    /*02*/ "insert into student values Bo, Yang, CS, 28, Microsoft",
+    /*03*/ "insert into student values Sammuel L., Jackson, CS, 40, Uber",
+    /*04*/ "insert into student values Flo, Jackson, Math, 21, Google",
+    /*05*/ "insert into student values Greg, Pearson, Physics, 20, Amazon",
+    /*06*/ "insert into student values Jim Bob, Smith, Math, 23, Verizon",
+    /*07*/ "insert into student values Calvin, Woo, Physics, 22, Uber",
+    /*08*/ "insert into student values Anna Grace, Del Rio, CS, 22, USAF",
+    /*09*/ "insert into student values Teresa Mae, Gowers, Chemistry, 22, Verizon",
+    /*10*/ "insert into student values Alex, Smith, Gender Studies, 53, Amazon",
 
-      //---- employee table ----------
-      /*11*/ "make table employee fields lname, fname, dep, salary, year",
-      /*12*/ "insert into employee values Blow, Joe, CS, 100000, 2018",
-      /*13*/ "insert into employee values Blow, JoAnn, Physics, 200000, 2016",
-      /*14*/ "insert into employee values Johnson, Jack, HR, 150000, 2014",
-      /*15*/ "insert into employee values Johnson, Jimmy, Chemistry, 140000, 2018",
-      /*16*/ "insert into employee values Yao, Jimmy, Math, 145000, 2014",
-      /*17*/ "insert into employee values Yao, Flo, CS, 147000, 2012",
-      /*18*/ "insert into employee values Yang, Bo, CS, 160000, 2013",
-      /*19*/ "insert into employee values Jackson, Flo, Math, 165000, 2017",
-      /*20*/ "insert into employee values Jackson, Bo, Chemistry, 130000, 2011",
-      /*21*/ "insert into employee values Jackson, Billy, Math, 170000, 2017",
-      /*22*/ "insert into employee values Johnson, Mary Ann, Math, 165000, 2014",
-      /*23*/ "insert into employee values Johnson, Billy Bob, Physics, 142000, 2014",
-      /*24*/ "insert into employee values Johnson, Billy, Phys Ed, 102000, 2014",
-      /*25*/ "insert into employee values Van Gogh, Vincent, Art, 240000, 2015",
-      /*26*/ "insert into employee values Van Gogh, Vincent, CS, 245000, 2015",
-      /*27*/ "insert into employee values Van Gogh, Jim Bob, Phys Ed, 230000, 2010",
+    //---- employee table ----------
+    /*11*/ "make table employee fields lname, fname, dep, salary, year",
+    /*12*/ "insert into employee values Blow, Joe, CS, 100000, 2018",
+    /*13*/ "insert into employee values Blow, JoAnn, Physics, 200000, 2016",
+    /*14*/ "insert into employee values Johnson, Jack, HR, 150000, 2014",
+    /*15*/ "insert into employee values Johnson, Jimmy, Chemistry, 140000, 2018",
+    /*16*/ "insert into employee values Yao, Jimmy, Math, 145000, 2014",
+    /*17*/ "insert into employee values Yao, Flo, CS, 147000, 2012",
+    /*18*/ "insert into employee values Yang, Bo, CS, 160000, 2013",
+    /*19*/ "insert into employee values Jackson, Flo, Math, 165000, 2017",
+    /*20*/ "insert into employee values Jackson, Bo, Chemistry, 130000, 2011",
+    /*21*/ "insert into employee values Jackson, Billy, Math, 170000, 2017",
+    /*22*/ "insert into employee values Johnson, Mary Ann, Math, 165000, 2014",
+    /*23*/ "insert into employee values Johnson, Billy Bob, Physics, 142000, 2014",
+    /*24*/ "insert into employee values Johnson, Billy, Phys Ed, 102000, 2014",
+    /*25*/ "insert into employee values Van Gogh, Vincent, Art, 240000, 2015",
+    /*26*/ "insert into employee values Van Gogh, Vincent, CS, 245000, 2015",
+    /*27*/ "insert into employee values Van Gogh, Jim Bob, Phys Ed, 230000, 2010",
 
-      //****************************************************************************
-      //		SIMPLE SELECT
-      //****************************************************************************
+    //****************************************************************************
+    //		SIMPLE SELECT
+    //****************************************************************************
 
-      //------- simple strings -------------------
-      /*28*/ "select * from employee where lname = \"Van Gogh\" or fname = Flo and salary>= 165000 ",
+    //------- simple strings -------------------
+    /*28*/ "select * from employee where salary >= 100000",
 
-            //  //----- quoted strings ---------------------
-            //  ///*29*/ "select * from student where fname = \"Jim Bob\"",
+    /*29*/ "select * from employee where fname = \"Does Not Exist\"",
 
-            //  //-------- non-existing string ------------------
-            //  /*30*/ "select * from employee where fname = \"Does Not Exist\"",
+    // //****************************************************************************
+    // //		LOGICAL OPERATORS
+    // //****************************************************************************
 
-      // //****************************************************************************
-      // //		LOGICAL OPERATORS
-      // //****************************************************************************
+    // // Simple logical combinations
+    // /*31*/ "select * from student where major = CS and age < 30",
+    // /*32*/ "select * from employee where lname = Jackson or salary >= 170000",
 
-      // // Simple logical combinations
-      // /*31*/ "select * from student where major = CS and age < 30",
-      // /*32*/ "select * from employee where lname = Jackson or salary >= 170000",
+    //****************************************************************************
+    //		COMMENTS
+    //****************************************************************************
 
-      //****************************************************************************
-      //		COMMENTS
-      //****************************************************************************
+    // Add some comments to verify they are ignored
+    "// This is a comment and should not affect the execution",
+    "// Another comment for testing purposes",
 
-      // Add some comments to verify they are ignored
-      "// This is a comment and should not affect the execution",
-      "// Another comment for testing purposes",
-
-      // "select * from student where lname>J",
-  };
+    // "select * from student where lname>J",
+    };
 
   // Execute all commands
   for (size_t i = 0; i < command_list.size(); ++i) {

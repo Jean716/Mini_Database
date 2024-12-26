@@ -218,7 +218,7 @@ void Parser::init_adjacency_table() {
 
     else {
         _fail = true;
-        cout << "Error: Unrecognized keyword '" << token_str << "'." << endl;
+        //cout << "Error: Unrecognized keyword '" << token_str << "'." << endl;
         }
     }
 

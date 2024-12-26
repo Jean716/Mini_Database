@@ -15,7 +15,7 @@
 #include "../../includes/shunting_yard/shunting_yard.h"
 #include "../../includes/rpn/rpn.h"
 #include "../../includes/rpn/rpn.h"
-int Table::serial = 0;
+static int table_serial = 1;
 
 Table::Table()
     : _name("default_table"),
@@ -91,7 +91,7 @@ Table::Table(const string& name) {
 //LINK - Table ctor 3
 Table::Table(const string& name, const vector<string> &fields_names) {
     //cout << "\n-------Table ctor 3 fired!-------\n" << endl;
-    serial++;
+    //serial++;
     _name = name;
     _field_names = fields_names;
     _empty = true;
@@ -323,7 +323,7 @@ Table Table::vector_to_table(const vector<string>& fields, const vector<long>& v
         }
 
     // 2. Initialize new table,use the constructor3
-    string new_table_name = "_selected_table_" + to_string(serial);
+    string new_table_name = "_select_table_" + to_string(table_serial++);
 
     // cout << "Creating new table with name: " << new_table_name << " and fields: ";
     // for (const auto& field : actual_fields) {
@@ -678,17 +678,17 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
 
 //LINK - operator<<
 ostream& operator<<(ostream & outs, const Table & t) {
-    DEBUG_PRINT("-------Table operator<< fired!-------");
+    //DEBUG_PRINT("-------Table operator<< fired!-------");
     // cout << "Table name: " << t._name << ", records: " << t._last_record + 1 << endl;
     // cout << "_last_record: " << t._last_record << endl;
 
-    outs << string(15 + 15 * t.get_field_names().size(), '-') << endl;
-    outs << setw(10) << "Record#";
+    //outs << string(15 + 15 * t.get_field_names().size(), '-') << endl;
+    outs << setw(10) << "record";
     for (const auto& field : t.get_field_names()) {
         outs << setw(15) << field;
         }
     outs << endl;
-    outs << string(15 + 15 * t.get_field_names().size(), '-') << endl;
+    //outs << string(15 + 15 * t.get_field_names().size(), '-') << endl;
 
     fstream file;
     open_fileRW(file, t.get_file_name().c_str());
@@ -708,7 +708,7 @@ ostream& operator<<(ostream & outs, const Table & t) {
       }
     }
 
-    outs << string(15 + 15 * t.get_field_names().size(), '-') << endl;
+    //outs << string(15 + 15 * t.get_field_names().size(), '-') << endl;
 
     file.close();
     return outs;
