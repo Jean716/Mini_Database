@@ -1,5 +1,0 @@
-lname
-fname
-dep
-salary
-year

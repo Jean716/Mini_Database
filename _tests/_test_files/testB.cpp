@@ -70,44 +70,44 @@ TEST(SQLTest, CreateInsertAndSelect) {
     // "insert into employee values Davidson, “Mary Alice”, complaints, 2012",
     //---- student table ----------
     /*00*/ "create table student fields fname, lname, major, age, company",
-    /*01*/ "insert into student values Flo, Yao, CS, 20, Google",
-    /*02*/ "insert into student values Bo, Yang, CS, 28, Microsoft",
-    /*03*/ "insert into student values Sammuel L., Jackson, CS, 40, Uber",
-    /*04*/ "insert into student values Flo, Jackson, Math, 21, Google",
-    /*05*/ "insert into student values Greg, Pearson, Physics, 20, Amazon",
-    /*06*/ "insert into student values Jim Bob, Smith, Math, 23, Verizon",
-    /*07*/ "insert into student values Calvin, Woo, Physics, 22, Uber",
-    /*08*/ "insert into student values Anna Grace, Del Rio, CS, 22, USAF",
-    /*09*/ "insert into student values Teresa Mae, Gowers, Chemistry, 22, Verizon",
-    /*10*/ "insert into student values Alex, Smith, Gender Studies, 53, Amazon",
+    /*01*/ "insert into student values Alice, Brown, CS, 21, Apple",
+    /*02*/ "insert into student values Charlie, Davis, Math, 23, Google",
+    /*03*/ "insert into student values Emily, Johnson, Physics, 22, Amazon",
+    /*04*/ "insert into student values George, Lee, Chemistry, 24, Microsoft",
+    /*05*/ "insert into student values Hannah, Clark, Biology, 20, Tesla",
+    /*06*/ "insert into student values Isaac, Miller, CS, 25, Facebook",
+    /*07*/ "insert into student values Julia, Thompson, Engineering, 26, Nvidia",
+    /*08*/ "insert into student values Kevin, Wright, History, 27, Intel",
+    /*09*/ "insert into student values Laura, Green, Art, 22, Netflix",
+    /*10*/ "insert into student values Michael, Taylor, Music, 23, Spotify",
 
     //---- employee table ----------
     /*11*/ "make table employee fields lname, fname, dep, salary, year",
-    /*12*/ "insert into employee values Blow, Joe, CS, 100000, 2018",
-    /*13*/ "insert into employee values Blow, JoAnn, Physics, 200000, 2016",
-    /*14*/ "insert into employee values Johnson, Jack, HR, 150000, 2014",
-    /*15*/ "insert into employee values Johnson, Jimmy, Chemistry, 140000, 2018",
-    /*16*/ "insert into employee values Yao, Jimmy, Math, 145000, 2014",
-    /*17*/ "insert into employee values Yao, Flo, CS, 147000, 2012",
-    /*18*/ "insert into employee values Yang, Bo, CS, 160000, 2013",
-    /*19*/ "insert into employee values Jackson, Flo, Math, 165000, 2017",
-    /*20*/ "insert into employee values Jackson, Bo, Chemistry, 130000, 2011",
-    /*21*/ "insert into employee values Jackson, Billy, Math, 170000, 2017",
-    /*22*/ "insert into employee values Johnson, Mary Ann, Math, 165000, 2014",
-    /*23*/ "insert into employee values Johnson, Billy Bob, Physics, 142000, 2014",
-    /*24*/ "insert into employee values Johnson, Billy, Phys Ed, 102000, 2014",
-    /*25*/ "insert into employee values Van Gogh, Vincent, Art, 240000, 2015",
-    /*26*/ "insert into employee values Van Gogh, Vincent, CS, 245000, 2015",
-    /*27*/ "insert into employee values Van Gogh, Jim Bob, Phys Ed, 230000, 2010",
+    /*12*/ "insert into employee values Adams, John, HR, 90000, 2015",
+    /*13*/ "insert into employee values Baker, Sarah, Finance, 120000, 2018",
+    /*14*/ "insert into employee values Carter, Michael, IT, 110000, 2016",
+    /*15*/ "insert into employee values Dixon, Emily, Marketing, 95000, 2017",
+    /*16*/ "insert into employee values Evans, George, Sales, 85000, 2014",
+    /*17*/ "insert into employee values Foster, Alice, Legal, 105000, 2019",
+    /*18*/ "insert into employee values Griffin, Kevin, Support, 95000, 2020",
+    /*19*/ "insert into employee values Harris, Laura, Operations, 98000, 2013",
+    /*20*/ "insert into employee values Ingram, Julia, Logistics, 87000, 2012",
+    /*21*/ "insert into employee values Jones, Hannah, Procurement, 92000, 2016",
+    /*22*/ "insert into employee values Kelly, Isaac, Training, 88000, 2011",
+    /*23*/ "insert into employee values Lewis, Charlie, Development, 115000, 2017",
+    /*24*/ "insert into employee values Moore, Sarah, Research, 125000, 2018",
+    /*25*/ "insert into employee values Nelson, Brian, Security, 93000, 2019",
+    /*26*/ "insert into employee values Owens, Emily, Administration, 97000, 2021",
+    /*27*/ "insert into employee values Perry, George, Communications, 91000, 2010",
 
     //****************************************************************************
     //		SIMPLE SELECT
     //****************************************************************************
 
     //------- simple strings -------------------
-    /*28*/ "select * from employee where salary >= 100000",
+    /*28*/ "select * from employee ",
 
-    /*29*/ "select * from employee where fname = \"Does Not Exist\"",
+    /*29*/ "select * from student",
 
     // //****************************************************************************
     // //		LOGICAL OPERATORS

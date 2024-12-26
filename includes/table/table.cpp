@@ -103,7 +103,6 @@ Table::Table(const string& name, const vector<string> &fields_names) {
     // ofstream ofs(_file_name, ios::trunc | ios::binary);
     // ofs.close();
 
-    // 检查 fields_names 是否为空
     if (_field_names.empty()) {
         cerr << "Error: Field names vector is empty!" << endl;
         throw runtime_error("Field names vector is empty");
@@ -676,7 +675,6 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
     // for (long recno : final_recnos) {
     //     cout << recno << " ";
     //     }
-    std::sort(final_recnos.begin(), final_recnos.end());
     _select_recnos = final_recnos;
 
     //cout << "\n-------Table::cond done!-------" << endl;
