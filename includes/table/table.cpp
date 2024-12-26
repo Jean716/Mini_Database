@@ -256,10 +256,10 @@ int Table::insert_into(vector<string>& fields) {
         throw runtime_error("The number of fields in the input does not match the table definition.");
         }
     //---------------------------------------------------------
-    if (record_exists(fields)) {
-        cout << "Duplicate record found, skipping insertion." << endl;
-        return _last_record;
-        }
+    // if (record_exists(fields)) {
+    //     cout << "Duplicate record found, skipping insertion." << endl;
+    //     return _last_record;
+    //     }
 
     //---------------------------------------------------------
     // 2. create FileRecord object and open the file
@@ -348,31 +348,33 @@ Table Table::vector_to_table(const vector<string>& fields, const vector<long>& v
 
     // 5. Process each record in vector_of_recnos
     for (const auto &recno : vector_of_recnos) {
-      FileRecord record;
-      record.read(file, recno);
-      vector<string> record_fields;
+        FileRecord record;
+        record.read(file, recno);
+        vector<string> record_fields;
 
-      for (const auto &field : actual_fields) {
-        int field_index = field_col_no(field);
-        if (field_index == -2) {
-          // Handle '*': Add all fields
-          record_fields.insert(record_fields.end(), record.get_record().begin(),
-                               record.get_record().end());
-          break;
-        } else if (field_index == -1 || field_index == -3) {
-          //cout << "Field not found: " + field << endl;
-          continue;
-        } else {
-          record_fields.push_back(record[field_index]);
+        for (const auto &field : actual_fields) {
+            int field_index = field_col_no(field);
+            if (field_index == -2) {
+                // Handle '*': Add all fields
+                record_fields.insert(record_fields.end(), record.get_record().begin(),
+                    record.get_record().end());
+                break;
+                }
+            else if (field_index == -1 || field_index == -3) {
+                //cout << "Field not found: " + field << endl;
+                continue;
+                }
+            else {
+                record_fields.push_back(record[field_index]);
+                }
+            }
+
+
+        FileRecord new_record(record_fields);
+        new_record.write(new_file);
+
+        new_table.insert_into(record_fields);
         }
-      }
-    
-
-      FileRecord new_record(record_fields);
-      new_record.write(new_file);
-
-      new_table.insert_into(record_fields);
-   }
 
     // 6. Close files
     file.close();
@@ -695,18 +697,18 @@ ostream& operator<<(ostream & outs, const Table & t) {
     auto recnos = t.get_select_recnos();
     sort(recnos.begin(), recnos.end());
     if (!recnos.empty()) {
-      long actual_recno = 0;
-      for (const auto &recno : t.get_select_recnos()) {
-        FileRecord record;
-        record.read(file, actual_recno);
-        outs << setw(10) << actual_recno;
-        for (int i = 0; i < t.get_field_names().size(); ++i) {
-          outs << setw(15) << record._record[i];
+        long actual_recno = 0;
+        for (const auto &recno : t.get_select_recnos()) {
+            FileRecord record;
+            record.read(file, actual_recno);
+            outs << setw(10) << actual_recno;
+            for (int i = 0; i < t.get_field_names().size(); ++i) {
+                outs << setw(15) << record._record[i];
+                }
+            outs << endl;
+            actual_recno++;
+            }
         }
-        outs << endl;
-        actual_recno++;
-      }
-    }
 
     //outs << string(15 + 15 * t.get_field_names().size(), '-') << endl;
 
