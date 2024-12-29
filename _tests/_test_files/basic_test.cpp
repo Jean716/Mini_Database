@@ -8,12 +8,8 @@
 //------------------------------------------------------------------------------------------
 //Files we are testing:
 #include "../../includes/sql/sql.h"
-
-
 //------------------------------------------------------------------------------------------
-
 using namespace std;
-
 const vector<string> command_list = {
 
      /*00*/     "make table employee fields  last,       first,         dep,      salary, year",

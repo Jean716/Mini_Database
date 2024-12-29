@@ -47,9 +47,6 @@ void init_insert_table(int table[MAX_ROWS][MAX_COLUMNS]) {
     mark_cell(4, table, SYM, 5);
     mark_cell(5, table, SYM, 5);
     mark_cell(6, table, SYM, 5);
-
-
-
     }
 
 
@@ -100,15 +97,12 @@ void init_select_table(int table[MAX_ROWS][MAX_COLUMNS]) {
     mark_cell(CONDITION_STATE, table, REL_OP, REL_OP_STATE);
     mark_cell(LOGICAL_OP_STATE, table, SYM, CONDITION_STATE);
 
-
     mark_cell(REL_OP_STATE, table, REL_OP, REL_OP_STATE);
     mark_cell(REL_OP_STATE, table, SYM, CONDITION_STATE);
     mark_cell(CONDITION_STATE, table, LOG_OP, LOGICAL_OP_STATE);
     mark_cell(CONDITION_STATE, table, RP, RIGHT_P_STATE);
     mark_cell(RIGHT_P_STATE, table, LOG_OP, LOGICAL_OP_STATE);
     mark_cell(LOGICAL_OP_STATE, table, LP, LEFT_P_STATE);
-
-
 
     mark_cell(RIGHT_P_STATE, table, RP, END_STATE);
 

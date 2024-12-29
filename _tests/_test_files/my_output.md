@@ -1,63 +1,9 @@
-jwcomputer@Mac Final_Dec_20 % cmake -S . -B build
-CMake Warning (dev) at /opt/homebrew/share/cmake/Modules/FetchContent.cmake:1373 (message):
-  The DOWNLOAD_EXTRACT_TIMESTAMP option was not given and policy CMP0135 is
-  not set.  The policy's OLD behavior will be used.  When using a URL
-  download, the timestamps of extracted files should preferably be that of
-  the time of extraction, otherwise code that depends on the extracted
-  contents might not be rebuilt if the URL changes.  The OLD behavior
-  preserves the timestamps from the archive instead, but this is usually not
-  what you want.  Update your project to the NEW behavior or specify the
-  DOWNLOAD_EXTRACT_TIMESTAMP option with a value of true to avoid this
-  robustness issue.
-Call Stack (most recent call first):
-  CMakeLists.txt:32 (FetchContent_Declare)
-This warning is for project developers.  Use -Wno-dev to suppress it.
-
-CMake Deprecation Warning at build/_deps/googletest-src/CMakeLists.txt:4 (cmake_minimum_required):
-  Compatibility with CMake < 3.10 will be removed from a future version of
-  CMake.
-
-  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
-  to tell CMake that the project requires at least <min> but has been updated
-  to work with policies introduced by <max> or earlier.
-
-
-CMake Deprecation Warning at build/_deps/googletest-src/googlemock/CMakeLists.txt:45 (cmake_minimum_required):
-  Compatibility with CMake < 3.10 will be removed from a future version of
-  CMake.
-
-  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
-  to tell CMake that the project requires at least <min> but has been updated
-  to work with policies introduced by <max> or earlier.
-
-
-CMake Deprecation Warning at build/_deps/googletest-src/googletest/CMakeLists.txt:56 (cmake_minimum_required):
-  Compatibility with CMake < 3.10 will be removed from a future version of
-  CMake.
-
-  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
-  to tell CMake that the project requires at least <min> but has been updated
-  to work with policies introduced by <max> or earlier.
-
-
--- Configuring done (0.3s)
--- Generating done (0.0s)
--- Build files have been written to: /Users/jwcomputer/Documents/CS8_Projects/Final_Dec_20/build
-jwcomputer@Mac Final_Dec_20 % cmake --build build
-[ 28%] Built target main
-[ 32%] Built target gtest
-[ 33%] Building CXX object CMakeFiles/basic_test.dir/_tests/_test_files/basic_test.cpp.o
-[ 35%] Linking CXX executable bin/basic_test
-[ 60%] Built target basic_test
-[ 88%] Built target testB
-[ 92%] Built target gmock
-[ 96%] Built target gmock_main
-[100%] Built target gtest_main
+jwcomputer@Mac Final_Dec_20 % basic_test
+zsh: command not found: basic_test
 jwcomputer@Mac Final_Dec_20 % build/bin/basic_test
 
 
 ----------running basic_test.cpp---------
-
 
 [==========] Running 1 test from 1 test suite.
 [----------] Global test environment set-up.
@@ -196,15 +142,15 @@ basic_test: records selected: 0 1 2
 >select * from student where lname>J
 [19] select * from student where lname>J
 Table name: _select_table_8, records: 4
-Select recnos: 0 1 2 3
+Select recnos: 2 3 1 0
     record          fname          lname          major            age
-         0            Flo            Yao            Art             20
-         1             Bo           Yang             CS             28
-         2     Sammuel L.        Jackson             CS             40
-         3          Billy        Jackson           Math             27
+         0     Sammuel L.        Jackson             CS             40
+         1          Billy        Jackson           Math             27
+         2             Bo           Yang             CS             28
+         3            Flo            Yao            Art             20
 
 SQL: DONE.
-basic_test: records selected: 0 1 2 3
+basic_test: records selected: 2 3 1 0
 
 >select * from student where lname>J and (major=CS or major=Art)
 [20] select * from student where lname>J and (major=CS or major=Art)
@@ -218,10 +164,10 @@ Select recnos: 0 1 2
 SQL: DONE.
 basic_test: records selected: 0 1 2
 ----- END TEST --------
-[       OK ] SQL_BASIC.SQLBasic (27 ms)
-[----------] 1 test from SQL_BASIC (27 ms total)
+[       OK ] SQL_BASIC.SQLBasic (33 ms)
+[----------] 1 test from SQL_BASIC (33 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (27 ms total)
+[==========] 1 test from 1 test suite ran. (33 ms total)
 [  PASSED  ] 1 test.
 jwcomputer@Mac Final_Dec_20 % 

@@ -13,14 +13,16 @@ class SQL
     {
     public:
         SQL();
+        ~SQL();
         Table command(const string& cmd);
         Table execute_command(const string& cmd);
         const vector<long> select_recnos() const { return _select_recnos; }
         Map<string, Table>& tables() { return _tables; }
-        Map<string, Table> _tables; //table name-> table
     private:
         vector<long> _select_recnos;
         Parser _parser;
+        Map<string, Table> _tables; //table name-> table
+
     };
 
 

@@ -6,6 +6,7 @@
 #include <string>
 #include <utility>
 #include <fstream>
+#include <sstream>
 #include "../../includes/queue/MyQueue.h"
 #include "../../includes/token/token.h"
 #include "../../includes/bplustree/bplustree.h"
@@ -31,7 +32,6 @@ class Table
         vector<long> _select_recnos; // the result of the select operation
         Map<string, long> _field_map;
         Map<string, long>  _keyword;
-
         bool _empty;
         long _last_record; // the last record number
         //static int serial; // used to generate a unique serial number for each table
@@ -94,7 +94,6 @@ class Table
         vector<long> get_select_recnos() const { return _select_recnos; }
         string get_file_name() const { return _file_name; }
         bool record_exists(const vector<string>& fields);
-
 
     };
 

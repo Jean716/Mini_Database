@@ -65,24 +65,10 @@ Table::Table(const string& name) {
     table_file.seekg(0, ios::beg);
 
     long record_size = FileRecord::MAX_ROWS * FileRecord::MAX_COLS;
-    // long total_records =filesystem::file_size(_file_name) / record_size;
     long total_records = get_file_size(_file_name) / record_size;
-
-    // 5. filter out the empty records
-   // filter_unique_records(table_file, total_records, valid_records);
+    _last_record = total_records - 1;
     table_file.close();
 
-    // update the table state
-    _select_recnos.clear();
-    for (long i = 0; i <= _last_record; ++i) {
-        _select_recnos.push_back(i);
-        }
-    // cout << "Table(name)::_select_recnos: ";
-    // for (const auto& recno : _select_recnos) {
-    //     cout << to_string(recno);
-    //     }
-
-    // 6. reindex the table
     reindex();
 
 
@@ -100,8 +86,7 @@ Table::Table(const string& name, const vector<string> &fields_names) {
     _file_name = _name + ".tbl";
     _field_map.clear();
     _indices.clear();
-    // ofstream ofs(_file_name, ios::trunc | ios::binary);
-    // ofs.close();
+
 
     if (_field_names.empty()) {
         cerr << "Error: Field names vector is empty!" << endl;
@@ -239,7 +224,7 @@ bool Table::record_exists(const vector<string>& fields) {
     }
 //LINK - insert_into
 int Table::insert_into(vector<string>& fields) {
-    // cout << "\n-------Table::insert_into fired!-------" << endl;
+    //cout << "\n-------Table::insert_into fired!-------" << endl;
     // cout << "Fields to insert : " << fields << endl;
     // cout << "_field_names " << _field_names << endl;
     // cout << "_field_names size: " << _field_names.size() << endl;
@@ -302,15 +287,13 @@ int Table::insert_into(vector<string>& fields) {
         }
 
     //------------------------for loop  done-------------------------
-
-
     file.close();
     return record_number;
     }
 
 //LINK - vector_to_table
 Table Table::vector_to_table(const vector<string>& fields, const vector<long>& vector_of_recnos) {
-    //cout << "-------Table::vector_to_table fired!-------" << endl;
+    cout << "-------Table::vector_to_table fired!-------" << endl;
 
     // cout << "vector_to_table :: check vector_of_recnos: ";
     // for (const auto& recno : vector_of_recnos) {
@@ -464,17 +447,20 @@ vectorlong Table::get_matching_recnos(const string& field_name, const string& fi
 
 //LINK - select_all
 Table Table::select_all(vector<string> fields) {
-    //cout << "-------Table::select_all fired!-------" << endl;
+    cout << "-------Table::select_all fired!-------" << endl;
+    cout << "Debug: _last_record = " << _last_record << endl;
+
     vector<long> recnos;
     for (long i = 0; i <= _last_record; ++i) {
         recnos.push_back(i);
         }
     //---------------------------------------------------------
-    // cout << "select_all()::recnos: ";
-    // for (const auto& recno : recnos) {
-    //     cout << recno << " ";
-    //     }
-    // cout << endl;
+    if (recnos.empty()) {
+        cerr << "Error: No records found in the table." << endl;
+        }
+    else {
+        cout << "select_all(): Found " << recnos.size() << " records." << endl;
+        }
     //---------------------------------------------------------
 
     // file.close();
@@ -486,7 +472,7 @@ Table Table::select_all(vector<string> fields) {
 
 
 Table Table::select(const vector<string>&  fields, const Queue<Token*>& postfix) {
-    //cout << "-------Table::select fired!-------" << endl;
+    cout << "-------Table::select fired!-------" << endl;
 
     vector<long> matching_recnos = cond(postfix);
 
@@ -718,3 +704,4 @@ ostream& operator<<(ostream & outs, const Table & t) {
     file.close();
     return outs;
     }
+

@@ -64,6 +64,7 @@ bool STokenizer::get_token(int& start_state, string & token) {
     int last_success_state = -1;
     int last_pos = _pos;
 
+    
     while (_pos < strlen(_buffer)) {
         char current_char = _buffer[_pos];
         state = _table[state][static_cast<unsigned char>(current_char)];

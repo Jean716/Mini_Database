@@ -56,3 +56,33 @@ void open_fileW(fstream & f, const char filename[]) {
         throw;
         }
     }
+
+void write_info(const vector<string>& info, const char filename[]) {
+    ofstream out(filename);
+    if (!out.is_open()) {
+        throw runtime_error("Could not open file for writing: " + string(filename));
+        }
+    for (const auto& line : info) {
+        out << line << endl;
+        }
+    out.close();
+    }
+
+vector<string> read_info(const char filename[]) {
+    cout << "Reading info from file: " << filename << endl;
+    ifstream in(filename);
+    if (!in.is_open()) {
+        throw runtime_error("Could not open file for reading: " + string(filename));
+        }
+    vector<string> info;
+    string line;
+    while (getline(in, line)) {
+        cout << "Read line: [" << line << "]" << endl;
+        info.push_back(line);
+        }
+    in.close();
+    cout << "Read " << info.size() << " lines from file." << endl;
+    return info;
+    }
+
+
