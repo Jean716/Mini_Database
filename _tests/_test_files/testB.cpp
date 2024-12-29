@@ -26,11 +26,27 @@ void func1() {
   sql.command("insert into student values \"Diana\",      Prince, 	Warrior, 29");
   sql.command("insert into student values \"Peter\",      Parker, 	Photographer, 22");
 
+  sql.command("make table employee fields  fname,          lname,    department,    salary");
+  sql.command("insert into employee values John,           Doe,      HR,          50000");
+  sql.command("insert into employee values Jane,           Smith,    IT,          75000");
+  sql.command("insert into employee values Bill,           Gates,    Finance,     100000");
+  sql.command("insert into employee values Elon,           Musk,     Engineering, 150000");
+  sql.command("insert into employee values Jeff,           Bezos,    Management,  120000");
+  sql.command("insert into employee values Mark,           Zuckerberg,IT,         80000");
+  sql.command("insert into employee values Sundar,         Pichai,   Management,  130000");
+  sql.command("insert into employee values Tim,            Cook,     Finance,     110000");
+  sql.command("insert into employee values Satya,          Nadella,  Engineering, 140000");
+  sql.command("insert into employee values Larry,          Page,     HR,          55000");
   }
 
 void func2() {
   SQL sql;
   sql.command("select * from student");
+  sql.command("select * from employee");
+  sql.command("select * from employee where salary > 100000");
+  sql.command("select * from employee where department = IT");
+  sql.command("select * from employee where salary >= 50000 and salary <= 80000");
+  sql.command("select * from employee where department = Engineering and salary > 130000");
   }
 
 bool test() {
@@ -38,9 +54,6 @@ bool test() {
   func2();
   return true;
   }
-
-
-
 
 TEST(TEST_STUB, TestStub) {
   EXPECT_EQ(1, test_stub(false));

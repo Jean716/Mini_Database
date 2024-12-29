@@ -60,8 +60,6 @@ SQL: DONE.
 SQL::run: inserted.
 SQL: DONE.
 
-
-
 >select * from employee
 [12] select * from employee
 Table name: _select_table_1, records: 4

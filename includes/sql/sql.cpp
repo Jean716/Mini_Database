@@ -91,7 +91,7 @@ Table SQL::command(const string &cmd) {
     try {
         Table result = execute_command(cmd); // Delegate execution to `execute_command`
         cout << "SQL: DONE." << endl;
-        _tables[result.get_name()] = result;
+        //_tables[result.get_name()] = result;
         return result; // Return the resulting table
         }
     catch (const exception &e) {
@@ -126,7 +126,8 @@ Table SQL::execute_command(const string &cmd) {
             // cout << "Removing existing table file: " << table_file << endl;
             remove(table_file.c_str());
             }
-        _tables.insert(table_name, Table(table_name, fields));
+        Table new_tb(table_name, fields);
+        _tables[table_name] = new_tb;
 
         cout << "Table " << table_name << " created. cols : ";
         for (const auto &field : fields)

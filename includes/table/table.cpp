@@ -67,8 +67,21 @@ Table::Table(const string& name) {
     long record_size = FileRecord::MAX_ROWS * FileRecord::MAX_COLS;
     long total_records = get_file_size(_file_name) / record_size;
     _last_record = total_records - 1;
+        // 5. filter out the empty records
+        // filter_unique_records(table_file, total_records, valid_records);
     table_file.close();
 
+    // update the table state
+    // _select_recnos.clear();
+    // for (long i = 0; i <= _last_record; ++i) {
+    //     _select_recnos.push_back(i);
+    //     }
+    // cout << "Table(name)::_select_recnos: ";
+    // for (const auto& recno : _select_recnos) {
+    //     cout << to_string(recno);
+    //     }
+
+    // 6. reindex the table
     reindex();
 
 
@@ -86,7 +99,8 @@ Table::Table(const string& name, const vector<string> &fields_names) {
     _file_name = _name + ".tbl";
     _field_map.clear();
     _indices.clear();
-
+    // ofstream ofs(_file_name, ios::trunc | ios::binary);
+    // ofs.close();
 
     if (_field_names.empty()) {
         cerr << "Error: Field names vector is empty!" << endl;
@@ -117,35 +131,12 @@ Table::Table(const string& name, const vector<string> &fields_names) {
         }
     field_file.close();
 
-    //-------------------Table ctor 3 Done!----------------------------cout << "-------------------Table ctor 3 Done!----------------------------" << endl;
-
-    // cout << "Current state of _indices:" << endl;
-    // cout << "_indices size: " << _indices.size() << endl;
-
     if (_indices.size() != _field_names.size()) {
         cerr << "Error: _indices size (" << _indices.size()
             << ") does not match _field_names size (" << _field_names.size() << ")" << endl;
         throw runtime_error("_indices size mismatch");
         }
-
-
-    // for (size_t i = 0; i < _indices.size(); ++i) {
-    //     cout << "Index " << i << " initialized for field: " << _field_names[i] << endl;
-    //     }
-    //cout << "-----------------------------------------------" << endl;
     }
-
-// void Table::clear_data() {
-//     ofstream ofs(_file_name, ios::trunc | ios::binary);
-//     ofs.close();
-
-//     _last_record = -1;
-//     _select_recnos.clear();
-//     _empty = true;
-//     _indices.clear();
-
-//     reindex();
-//     }
 
 void Table::delete_table() {
     if (remove(_file_name.c_str()) != 0) {
