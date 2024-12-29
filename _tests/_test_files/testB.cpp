@@ -43,6 +43,7 @@ void func2() {
   SQL sql;
   sql.command("select * from student");
   sql.command("select * from employee");
+  sql.command("select fname, lname, age from student");
   sql.command("select * from employee where salary > 100000");
   sql.command("select * from employee where department = IT");
   sql.command("select * from employee where salary >= 50000 and salary <= 80000");

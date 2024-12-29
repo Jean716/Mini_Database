@@ -67,8 +67,8 @@ Table::Table(const string& name) {
     long record_size = FileRecord::MAX_ROWS * FileRecord::MAX_COLS;
     long total_records = get_file_size(_file_name) / record_size;
     _last_record = total_records - 1;
-        // 5. filter out the empty records
-        // filter_unique_records(table_file, total_records, valid_records);
+    // 5. filter out the empty records
+    // filter_unique_records(table_file, total_records, valid_records);
     table_file.close();
 
     // update the table state
@@ -228,9 +228,9 @@ int Table::insert_into(vector<string>& fields) {
     // cout << endl;
 
     // check if the number of fields matches the table definition
-    if (fields.size() != _field_names.size()) {
-        throw runtime_error("The number of fields in the input does not match the table definition.");
-        }
+    // if (fields.size() != _field_names.size()) {
+    //     throw runtime_error("The number of fields in the input does not match the table definition.");
+    //     }
     //---------------------------------------------------------
     // if (record_exists(fields)) {
     //   cout << "Duplicate record found, skipping insertion." << endl;

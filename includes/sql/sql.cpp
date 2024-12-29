@@ -48,7 +48,6 @@ SQL::SQL() {
         }
     }
 
-
 SQL::~SQL() {
     // Write the tables to "tables.txt"
     ofstream out("_tables.txt", ios::trunc);

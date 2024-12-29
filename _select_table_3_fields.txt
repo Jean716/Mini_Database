@@ -1,4 +1,1 @@
-fname
-lname
-department
-salary
+last

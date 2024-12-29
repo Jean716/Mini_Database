@@ -1,11 +1,2 @@
-_select_table_1	_select_table_1.tbl
-_select_table_2	_select_table_2.tbl
-_select_table_3	_select_table_3.tbl
-_select_table_4	_select_table_4.tbl
-_select_table_5	_select_table_5.tbl
-_select_table_6	_select_table_6.tbl
-_select_table_7	_select_table_7.tbl
-_select_table_8	_select_table_8.tbl
-_select_table_9	_select_table_9.tbl
 employee	employee.tbl
 student	student.tbl
