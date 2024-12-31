@@ -100,7 +100,6 @@ Table SQL::command(const string &cmd) {
     }
 
 Table SQL::execute_command(const string &cmd) {
-    //cout << "SQL::execute_command() fired: " << cmd << endl;
     if (cmd.empty()) {
         return Table();
         }
@@ -174,13 +173,14 @@ Table SQL::execute_command(const string &cmd) {
             // Process WHERE condition
             Queue<Token *> infix_condition;
             vector<string> infix = ptree.get("condition");
-
+            for (size_t i = 0; i < infix.size(); i++) {
+                ltrim(infix[i]);
+                rtrim(infix[i]);
+                }
             string cond;
             for (const auto &token : infix) {
                 cond += token + " ";
                 }
-
-            //cout << ">>> WHERE condition: " << cond << endl;
 
             _parser.tokenize(cond, infix_condition);
             Queue<Token *> postfix_condition = _parser.convert_to_postfix(infix_condition);

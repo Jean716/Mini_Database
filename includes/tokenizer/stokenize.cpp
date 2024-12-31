@@ -88,15 +88,15 @@ bool STokenizer::get_token(int& start_state, string & token) {
             }
         //----------------------------------------------------------
         // Handle string tokens and remove quotes
-        // if (state == STRING_STATE) {
-        //     if (token.size() > 1 && token[0] == '"' && token[token.size() - 1] == '"') {
-        //         string unquoted_token = "";
-        //         for (size_t i = 1; i < token.size() - 1; ++i) {
-        //             unquoted_token += token[i];
-        //             }
-        //         token = unquoted_token; // Replace original token with unquoted version
-        //         }
-        //     }
+        if (state == STRING_STATE) {
+            if (token.size() > 1 && token[0] == '"' && token[token.size() - 1] == '"') {
+                string unquoted_token = "";
+                for (size_t i = 1; i < token.size() - 1; ++i) {
+                    unquoted_token += token[i];
+                    }
+                token = unquoted_token; // Replace original token with unquoted version
+                }
+            }
 
         //----------------------------------------------------------
         // Special case: name token

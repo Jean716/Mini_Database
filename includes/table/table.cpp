@@ -515,8 +515,7 @@ void Table::reindex() {
 
 
 vector<long> Table::cond(const Queue<Token*>& postfix) {
-    // cout << "-------Table::cond fired!-------" << endl;
-    // cout << "Postfix: " << postfix << endl;
+    cout << "-------Table::cond fired!-------" << endl;
 
     RPN rpn(postfix);
 

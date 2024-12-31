@@ -37,6 +37,7 @@ struct MPair
     const vector<V>& second() const { return value_list; }
 
     //--------------------------------------------------------------------------------
+    //You'll need to overlod << for your vector:
     friend ostream& operator <<(ostream& outs, const MPair<K, V>& print_me) {
         outs << print_me.key << ": [";
         for (size_t i = 0; i < print_me.value_list.size(); ++i) {

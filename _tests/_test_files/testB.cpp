@@ -53,14 +53,14 @@ void func3() {
   // sql.command("select * from employee where department = Engineering and salary > 130000");
   }
 
-// void func4() {
-//   SQL sql;
+void func4() {
+  SQL sql;
   //sql.command("select * from student where ((major = \"CS\" or major = \"Math\") and (age < 30 or age > 40)) and (lname = \"Jackson\" or lname = \"Prince\")");
   // sql.command("select * from employee where ((department = \"Engineering\" or department = \"IT\") and (salary < 80000 or salary > 120000)) and (fname = \"Elon\" or fname = \"Mark\")");
-  // sql.command("select * from student where age <= 35");
-  // sql.command("select * from student where age <= 15"); // Value not in list
-  // sql.command("select * from employee where salary <= \"100000\" ");
-//}
+  sql.command("select * from student where age <= 35");
+  sql.command("select * from student where age <= 15"); // Value not in list
+  sql.command("select * from employee where salary <= 100000 ");
+  }
 
 // void func5() {
 //   SQL sql;
@@ -80,7 +80,7 @@ bool test() {
   func1();
   func2();
   // func3();
-  // func4();
+  func4();
   //func5();
   return true;
   }

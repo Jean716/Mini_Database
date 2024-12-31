@@ -71,7 +71,6 @@ void Parser::set_string(const string & input) {
     if (!get_parse_tree()) {
         //cout << "Failed to parse the input string." << endl;
         }
-    //cout << "set_string done!" << endl;
 
     }
 void Parser::tokenize(const string& input, Queue<Token*>& infix) {
@@ -141,10 +140,6 @@ void Parser::tokenize(const string& input, Queue<Token*>& infix) {
 
             i = j - 1; // Update the index
             continue;
-            }
-        // Case 3: Handle NUMBER tokens
-        else if (_tokens[i]->type() == TOKEN_NUMBER) {
-            new_tokens.push_back(new NumberToken(current_value));
             }
 
         // Case 3: Combine ALFA tokens after "values" until a comma
