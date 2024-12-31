@@ -49,7 +49,7 @@ void func3() {
   // sql.command("select fname, lname, age from employee");
   // sql.command("select * from employee where salary > 100000");
   // sql.command("select * from employee where department = IT");
-  // sql.command("select * from employee where salary >= 50000 and salary <= 80000");
+  sql.command("select * from employee where salary >= 50000 and salary <= 80000");
   // sql.command("select * from employee where department = Engineering and salary > 130000");
   }
 
@@ -79,7 +79,7 @@ void func4() {
 bool test() {
   func1();
   func2();
-  // func3();
+  func3();
   func4();
   //func5();
   return true;
