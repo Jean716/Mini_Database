@@ -84,11 +84,11 @@ long RPN::evaluate_arithmetic(const string& op, long left, long right) {
     }
 
 bool RPN::evaluate_relational(const string& op, const string& left, const string& right) {
-    //cout << "-------RPN evaluate_relational started!-------" << endl;
+    cout << "-------RPN evaluate_relational started!-------" << endl;
 
     bool is_numeric = !left.empty() && !right.empty() &&
-        all_of(left.begin(), left.end(), ::isdigit) &&
-        all_of(right.begin(), right.end(), ::isdigit);
+        std::all_of(left.begin(), left.end(), ::isdigit) &&
+        std::all_of(right.begin(), right.end(), ::isdigit);
 
     if (is_numeric) {
         long left_num = stol(left);

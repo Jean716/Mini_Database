@@ -19,14 +19,12 @@ class RPN
             }
         vector<long> evaluate();
 
-        long evaluate_arithmetic(const string& op, long left, long right);
-        bool evaluate_relational(const string& op, const string& left, const string& right);
-        vector<long> evaluate_logical(const string& op, const vector<long>& left_set, const vector<long>& right_set);
-
 
     private:
         Queue<Token*> _postfix;
-
+        long evaluate_arithmetic(const string& op, long left, long right);
+        bool evaluate_relational(const string& op, const string& left, const string& right);
+        vector<long> evaluate_logical(const string& op, const vector<long>& left_set, const vector<long>& right_set);
     };
 
 

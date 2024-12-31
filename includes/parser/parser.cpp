@@ -190,7 +190,7 @@ void Parser::tokenize(const string& input, Queue<Token*>& infix) {
     }
 
 void Parser::init_adjacency_table() {
-    //cout << "Init Adjacency Table Function Fired!" << endl;
+    cout << "Init Adjacency Table Function Fired!" << endl;
     init_table(_adjacency_table);
 
     if (_tokens.empty()) {
