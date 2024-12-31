@@ -51,7 +51,7 @@ void init_insert_table(int table[MAX_ROWS][MAX_COLUMNS]) {
 
 
 void init_select_table(int table[MAX_ROWS][MAX_COLUMNS]) {
-    cout << "Select table state machine Fired!" << endl;
+    //cout << "Select table state machine Fired!" << endl;
     const int START_STATE = 0;
     const int COMMAND_STATE = 1;
     const int FIELDS_STATE = 2;
