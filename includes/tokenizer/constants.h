@@ -6,7 +6,7 @@
 
 const int MAX_COLUMNS = 512;
 const int MAX_ROWS = 200;
-const int MAX_BUFFER = 100;
+const int MAX_BUFFER = 1024;
 
 const char ALFA[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const char DIGITS[] = "0123456789";

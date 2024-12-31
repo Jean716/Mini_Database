@@ -26,7 +26,12 @@ void func1() {
   sql.command("insert into student values \"Diana\",      Prince, 	Warrior, 29");
   sql.command("insert into student values \"Peter\",      Parker, 	Photographer, 22");
 
-  sql.command("make table employee fields  fname,          lname,    department,    salary");
+
+  }
+
+void func2() {
+  SQL sql;
+  sql.command("make table employee fields  fname,          lname,    department,  salary");
   sql.command("insert into employee values John,           Doe,      HR,          50000");
   sql.command("insert into employee values Jane,           Smith,    IT,          75000");
   sql.command("insert into employee values Bill,           Gates,    Finance,     100000");
@@ -39,20 +44,32 @@ void func1() {
   sql.command("insert into employee values Larry,          Page,     HR,          55000");
   }
 
-void func2() {
+void func3() {
   SQL sql;
   sql.command("select * from student");
   sql.command("select * from employee");
-  sql.command("select fname, lname, age from student");
+  sql.command("select fname, lname, age from employee");
   sql.command("select * from employee where salary > 100000");
   sql.command("select * from employee where department = IT");
   sql.command("select * from employee where salary >= 50000 and salary <= 80000");
   sql.command("select * from employee where department = Engineering and salary > 130000");
   }
 
+void func4() {
+  SQL sql;
+  sql.command("select * from student where ((major = \"CS\" or major = \"Math\") and (age < 30 or age > 40)) and (lname = \"Jackson\" or lname = \"Prince\")");
+  sql.command("select * from employee where ((department = \"Engineering\" or department = \"IT\") and (salary < 80000 or salary > 120000)) and (fname = \"Elon\" or fname = \"Mark\")");
+  sql.command("select * from student where age <= 35");
+  sql.command("select * from student where age <= 15"); // Value not in list
+  sql.command("select * from employee where salary <= 100000");
+  sql.command("select * from employee where salary <= 40000"); // Value not in list
+  }
+
 bool test() {
   func1();
   func2();
+  //func3();
+  func4();
   return true;
   }
 

@@ -15,7 +15,6 @@
 #include "../../includes/stack/MyStack.h"
 #include "../../includes/shunting_yard/shunting_yard.h"
 #include "../../includes/rpn/rpn.h"
-#include "../../includes/rpn/rpn.h"
 static int table_serial = 1;
 
 Table::Table()
@@ -284,7 +283,7 @@ int Table::insert_into(vector<string>& fields) {
 
 //LINK - vector_to_table
 Table Table::vector_to_table(const vector<string>& fields, const vector<long>& vector_of_recnos) {
-    cout << "-------Table::vector_to_table fired!-------" << endl;
+    //cout << "-------Table::vector_to_table fired!-------" << endl;
 
     // cout << "vector_to_table :: check vector_of_recnos: ";
     // for (const auto& recno : vector_of_recnos) {
@@ -463,7 +462,7 @@ Table Table::select_all(vector<string> fields) {
 
 
 Table Table::select(const vector<string>&  fields, const Queue<Token*>& postfix) {
-    cout << "-------Table::select fired!-------" << endl;
+    //cout << "-------Table::select fired!-------" << endl;
 
     vector<long> matching_recnos = cond(postfix);
 
@@ -515,15 +514,13 @@ void Table::reindex() {
     }
 
 
-
-//LINK - cond
 vector<long> Table::cond(const Queue<Token*>& postfix) {
-    //cout << "-------Table::cond fired!-------" << endl;
-    //cout << "Postfix expression: ";
-    //cout << postfix << endl;
+    cout << "-------Table::cond fired!-------" << endl;
+
+    RPN rpn(postfix);
 
     ResultSet result_set;
-    Stack<vectorlong> logical_stack;
+    Stack<vector<long>> logical_stack;
     Stack<string> string_stack;
     Queue<Token*> temp_postfix = postfix;
 
@@ -533,7 +530,6 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
         if (token->type() == TOKEN_STRING || token->type() == TOKEN_NUMBER || token->type() == TOKEN_ALFA) {
             string_stack.push(token->value());
             }
-
         else if (token->type() == TOKEN_RELATIONAL_OPERATOR) {
             if (string_stack.size() < 2) {
                 throw runtime_error("Invalid condition: Missing field or value");
@@ -543,67 +539,22 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
             string field_name = string_stack.pop();
 
             int field_index = field_col_no(field_name);
-            //cout << "Field index for " << field_name << ": " << field_index << endl;
             if (field_index == -1) {
                 throw runtime_error("Field not found: " + field_name);
                 }
             if (field_index == -3) {
-                // cout << "Field not found: " << field_name << ". Returning empty results." << endl;
-                return {};
+                return {}; // Field not found; return empty results.
                 }
 
             const auto& field_index_map = _indices[field_index];
-            // cout << "Debug cond(): printing _indices: ";
-            // for (const auto& pair : field_index_map) {
-            //     cout << pair.first() << " -> " << pair.second() << endl;
-            //     }
-
             vector<long> matching_recnos;
 
-            if (token->value() == "=") {
-                //cout << "Processing '=': field_value = " << field_value << endl;
-                auto range = field_index_map.equal_range(field_value);
-                for (auto it = range.first; it != range.second; ++it) {
-                    matching_recnos.insert(matching_recnos.end(), it->second().begin(), it->second().end());
-
+            for (const auto& pair : field_index_map) {
+                const auto& key = pair.first();
+                const auto& recnos = pair.second();
+                if (rpn.evaluate_relational(token->value(), key, field_value)) {
+                    matching_recnos.insert(matching_recnos.end(), recnos.begin(), recnos.end());
                     }
-                }
-            else if (token->value() == "!=") {
-                for (auto it = field_index_map.begin(); it != field_index_map.end(); ++it) {
-                    if (it->first() != field_value) {
-                        matching_recnos.insert(matching_recnos.end(), it->second().begin(), it->second().end());
-                        }
-                    }
-                }
-            else if (token->value() == "<") {
-                auto end = field_index_map.lower_bound(field_value);
-                for (auto it = field_index_map.begin(); it != end; ++it) {
-                    matching_recnos.insert(matching_recnos.end(), it->second().begin(), it->second().end());
-                    }
-                }
-            else if (token->value() == ">") {
-                //cout << "Processing '>': field_value = " << field_value << endl;
-
-                auto start = field_index_map.upper_bound(field_value);
-                for (auto it = start; it != field_index_map.end(); ++it) {
-                    //cout << "Matching record: Key = " << it->first() << ", Record = " << it->second() << endl;
-                    matching_recnos.insert(matching_recnos.end(), it->second().begin(), it->second().end());
-                    }
-                }
-            else if (token->value() == "<=") {
-                auto end = field_index_map.lower_bound(field_value);
-                for (auto it = field_index_map.begin(); it != end; ++it) {
-                    matching_recnos.insert(matching_recnos.end(), it->second().begin(), it->second().end());
-                    }
-                }
-            else if (token->value() == ">=") {
-                auto start = field_index_map.lower_bound(field_value);
-                for (auto it = start; it != field_index_map.end(); ++it) {
-                    matching_recnos.insert(matching_recnos.end(), it->second().begin(), it->second().end());
-                    }
-                }
-            else {
-                throw runtime_error("Unknown relational operator: " + token->value());
                 }
 
             logical_stack.push(matching_recnos);
@@ -614,27 +565,9 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
                 }
 
             vector<long> right_set = logical_stack.pop();
-            vector<long>  left_set = logical_stack.pop();
-            vector<long>  result;
+            vector<long> left_set = logical_stack.pop();
 
-            if (token->value() == "AND" || token->value() == "&&" || token->value() == "and") {
-                ResultSet result_set(left_set);
-                result_set.and_with(right_set);
-                result = result_set.get_recnos();
-                }
-            else if (token->value() == "OR" || token->value() == "||" || token->value() == "or") {
-                ResultSet result_set(left_set);
-                result_set.or_with(right_set);
-                result = result_set.get_recnos();
-                // cout << "Result set after OR operation: ";
-                // for (long recno : result) {
-                //     cout << recno << " ";
-                //     }
-                }
-            else {
-                throw runtime_error("Unknown logical operator: " + token->value());
-                }
-
+            vector<long> result = rpn.evaluate_logical(token->value(), left_set, right_set);
             logical_stack.push(result);
             }
         else {
@@ -646,19 +579,12 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
         throw runtime_error("Invalid RPN expression: Remaining logical operands");
         }
 
-    vectorlong final_recnos = logical_stack.pop();
-
-    //cout << "Final record numbers after cond evaluation:";
-    // for (long recno : final_recnos) {
-    //     cout << recno << " ";
-    //     }
+    vector<long> final_recnos = logical_stack.pop();
     _select_recnos = final_recnos;
 
-    //cout << "\n-------Table::cond done!-------" << endl;
-
+    cout << "-------Table::cond done!-------" << endl;
     return final_recnos;
     }
-
 
 //LINK - operator<<
 ostream& operator<<(ostream & outs, const Table & t) {

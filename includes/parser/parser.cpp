@@ -73,7 +73,6 @@ void Parser::set_string(const string & input) {
         }
 
     }
-
 void Parser::tokenize(const string& input, Queue<Token*>& infix) {
     // cout << "Tokenize Function Fired!" << endl;
     // cout << "Input string: " << input << endl;
@@ -81,7 +80,7 @@ void Parser::tokenize(const string& input, Queue<Token*>& infix) {
     strncpy(c_input, input.c_str(), MAX_BUFFER - 1);
     c_input[MAX_BUFFER - 1] = '\0';
 
-    // cout << "Input string: " << c_input << endl;
+    //cout << "Input string: " << c_input << endl;
 
     STokenizer tokenizer(c_input);
     Token* token = nullptr;
@@ -223,7 +222,7 @@ void Parser::init_adjacency_table() {
     }
 
 bool Parser::get_parse_tree() {
-    //cout << "Get Parse Tree Function Fired!" << endl;
+    // cout << "Get Parse Tree Function Fired!" << endl;
 
     if (_tokens.empty()) {
         _fail = true;

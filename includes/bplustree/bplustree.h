@@ -1181,6 +1181,7 @@ void BPlusTree<T>::verify_leaf_chain() {
 
 template <typename T>
 typename BPlusTree<T>::Iterator BPlusTree<T>::lower_bound(const T & entry) {
+    //cout << "BPlusTree<T>::Lower bound fired!" << endl;
     int i = first_ge(data, data_count, entry);
     bool found = (i < data_count && data[i] == entry);
 

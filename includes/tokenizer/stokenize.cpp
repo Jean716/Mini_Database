@@ -59,12 +59,13 @@ void STokenizer::make_table(int _table[][MAX_COLUMNS]) {
 
 
 bool STokenizer::get_token(int& start_state, string & token) {
+    // cout << "STokenizer::get_token called." << endl;
+    // cout << "token: " << token << endl;
     token.clear();
     int state = start_state;
     int last_success_state = -1;
     int last_pos = _pos;
 
-    
     while (_pos < strlen(_buffer)) {
         char current_char = _buffer[_pos];
         state = _table[state][static_cast<unsigned char>(current_char)];
@@ -72,7 +73,6 @@ bool STokenizer::get_token(int& start_state, string & token) {
 
         token += current_char;
         _pos++;
-
 
 
         //----------------------------------------------------------
@@ -108,25 +108,16 @@ bool STokenizer::get_token(int& start_state, string & token) {
                 next_pos++;
                 }
 
-            //  case1: name token (ALFA + DOT)
-            // cout << "Checking for ALFA + DOT. Current char: " << _buffer[_pos]
-            //     << ", Next char: " << _buffer[next_pos]
-            //     << ", Position: " << _pos << endl;
-
             if (next_pos < strlen(_buffer) && isalpha(_buffer[next_pos]) && _buffer[next_pos + 2] == '.') {
-                // cout << "ALFA + DOT detected. Combining token: '"
-                //     << _buffer[next_pos] << "." << "'" << endl;
 
                 token += ' ';  // Add the space
                 token += _buffer[next_pos];  // Add the ALFA
                 token += _buffer[next_pos + 1];  // Add the DOT
                 _pos = next_pos + 2;  // Update _pos after ALFA + DOT
                 state = NAME_STATE;  // Transition to NAME_STATE
-                //cout << "Combined token so far: " << token << ". Updated position: " << _pos << endl;
 
                 }
             else {
-                // cout << "ALFA + DOT not detected. Retaining ALFA_STATE. Current token: " << token << endl;
 
                 state = ALFA_STATE;
                 }
@@ -149,16 +140,12 @@ bool STokenizer::get_token(int& start_state, string & token) {
     return false;
     }
 
-
-
-
 STokenizer& operator>>(STokenizer & s, Token * &t) {
     string token_str;
     int last_success_state = 0;
     static bool is_keyword = false;  // Track if we're in the 'values' section
 
     if (s.get_token(last_success_state, token_str)) {
-
 
         switch (last_success_state) {
                 case NUMBER_STATE:
@@ -200,8 +187,6 @@ STokenizer& operator>>(STokenizer & s, Token * &t) {
                 case NAME_STATE:
                     t = new ALFAToken(token_str);
                     break;
-
-                    break;
                 default:
                     throw runtime_error("Unrecognized token: " + token_str);
             }
@@ -215,9 +200,6 @@ STokenizer& operator>>(STokenizer & s, Token * &t) {
     }
 
 
-
-
-
 int STokenizer::_table[MAX_ROWS][MAX_COLUMNS];
 
 
@@ -229,9 +211,6 @@ void STokenizer::setup_alpha_state(int _table[][MAX_COLUMNS]) {
     mark_cell(START_STATE, _table, '_', ALFA_STATE);  // underscore 
     mark_cell(ALFA_STATE, _table, '_', ALFA_STATE);
     mark_cell(ALFA_STATE, _table, '.', ALFA_STATE);
-
-
-
     }
 
 void STokenizer::setup_number_state(int _table[][MAX_COLUMNS]) {

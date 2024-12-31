@@ -197,6 +197,7 @@ class MMap
             }
 
         Iterator    lower_bound(K const&  key) const {
+            //cout << "Lower bound const called!" << endl;
             return Iterator(mmap.lower_bound(MPair<K, V>(key)));
             }
 

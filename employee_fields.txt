@@ -1,5 +1,4 @@
-last
-first
-dep
+fname
+lname
+department
 salary
-year

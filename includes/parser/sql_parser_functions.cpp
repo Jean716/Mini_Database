@@ -51,6 +51,7 @@ void init_insert_table(int table[MAX_ROWS][MAX_COLUMNS]) {
 
 
 void init_select_table(int table[MAX_ROWS][MAX_COLUMNS]) {
+    //cout << "Select table state machine Fired!" << endl;
     const int START_STATE = 0;
     const int COMMAND_STATE = 1;
     const int FIELDS_STATE = 2;
@@ -69,6 +70,7 @@ void init_select_table(int table[MAX_ROWS][MAX_COLUMNS]) {
     mark_success(table, FIELDS_STATE);
     mark_fail(table, FROM_STATE);
     mark_success(table, TABLE_NAME_STATE);
+    mark_fail(table, WHERE_STATE);
     mark_success(table, CONDITION_STATE);
     mark_fail(table, LOGICAL_OP_STATE);
     mark_fail(table, REL_OP_STATE);
@@ -101,10 +103,10 @@ void init_select_table(int table[MAX_ROWS][MAX_COLUMNS]) {
     mark_cell(REL_OP_STATE, table, SYM, CONDITION_STATE);
     mark_cell(CONDITION_STATE, table, LOG_OP, LOGICAL_OP_STATE);
     mark_cell(CONDITION_STATE, table, RP, RIGHT_P_STATE);
+
     mark_cell(RIGHT_P_STATE, table, LOG_OP, LOGICAL_OP_STATE);
     mark_cell(LOGICAL_OP_STATE, table, LP, LEFT_P_STATE);
-
-    mark_cell(RIGHT_P_STATE, table, RP, END_STATE);
+    mark_cell(RIGHT_P_STATE, table, RP, RIGHT_P_STATE);
 
     }
 
