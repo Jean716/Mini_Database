@@ -25,8 +25,6 @@ void func1() {
   sql.command("insert into student values \"Bruce\",      Wayne, 	Business, 40");
   sql.command("insert into student values \"Diana\",      Prince, 	Warrior, 29");
   sql.command("insert into student values \"Peter\",      Parker, 	Photographer, 22");
-
-
   }
 
 void func2() {
@@ -48,28 +46,42 @@ void func3() {
   SQL sql;
   sql.command("select * from student");
   sql.command("select * from employee");
-  sql.command("select fname, lname, age from employee");
-  sql.command("select * from employee where salary > 100000");
-  sql.command("select * from employee where department = IT");
-  sql.command("select * from employee where salary >= 50000 and salary <= 80000");
-  sql.command("select * from employee where department = Engineering and salary > 130000");
+  // sql.command("select fname, lname, age from employee");
+  // sql.command("select * from employee where salary > 100000");
+  // sql.command("select * from employee where department = IT");
+  // sql.command("select * from employee where salary >= 50000 and salary <= 80000");
+  // sql.command("select * from employee where department = Engineering and salary > 130000");
   }
 
-void func4() {
-  SQL sql;
-  sql.command("select * from student where ((major = \"CS\" or major = \"Math\") and (age < 30 or age > 40)) and (lname = \"Jackson\" or lname = \"Prince\")");
-  sql.command("select * from employee where ((department = \"Engineering\" or department = \"IT\") and (salary < 80000 or salary > 120000)) and (fname = \"Elon\" or fname = \"Mark\")");
-  sql.command("select * from student where age <= 35");
-  sql.command("select * from student where age <= 15"); // Value not in list
-  sql.command("select * from employee where salary <= 100000");
-  sql.command("select * from employee where salary <= 40000"); // Value not in list
-  }
+// void func4() {
+//   SQL sql;
+  //sql.command("select * from student where ((major = \"CS\" or major = \"Math\") and (age < 30 or age > 40)) and (lname = \"Jackson\" or lname = \"Prince\")");
+  // sql.command("select * from employee where ((department = \"Engineering\" or department = \"IT\") and (salary < 80000 or salary > 120000)) and (fname = \"Elon\" or fname = \"Mark\")");
+  // sql.command("select * from student where age <= 35");
+  // sql.command("select * from student where age <= 15"); // Value not in list
+  // sql.command("select * from employee where salary <= \"100000\" ");
+//}
+
+// void func5() {
+//   SQL sql;
+//   sql.command("select * from student where ((major = \"Physics\" or major = \"Chemistry\") and (age < 10 or age > 80)) and (lname = \"Smith\" or lname = \"Brown\")");
+//   sql.command("select * from employee where ((department = \"HR\" or department = \"Management\") and (salary < 70000 or salary > 200000)) and (fname = \"Jeff\" or fname = \"Mark\")");
+//   sql.command("select * from student where (((major = \"CS\" and age > 20) or (major = \"Math\" and age < 30)) and lname = \"Jackson\") and (fname = \"Billy\" or fname = \"Sammuel L.\")");
+//   sql.command("select * from employee where ((salary >= 75000 and salary <= 100000) or (salary > 50000 and salary < 75000)) and (department = \"IT\" or department = \"HR\")");
+//   sql.command("select * from employee where ((department = \"Engineering\" or department = \"Finance\") and (salary > 100000)) or ((fname = \"John\" or lname = \"Smith\") and salary <= 80000)");
+//   sql.command("select * from student where ((major = \"CS\" or major = \"Math\") and (lname < \"K\" or lname > \"Z\")) and (fname = \"Clark\" or fname = \"Bruce\")");
+//   sql.command("select * from student where ((major = \"CS\" or major = \"Math\") and (lname >= \"D\" and lname <= \"M\")) and (fname = \"Billy\")");
+//   sql.command("select * from employee where department = \"Medicine\" and salary > 200000");
+//   }
+
+
 
 bool test() {
   func1();
   func2();
-  //func3();
-  func4();
+  // func3();
+  // func4();
+  //func5();
   return true;
   }
 

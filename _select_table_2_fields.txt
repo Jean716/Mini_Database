@@ -1,4 +1,3 @@
-fname
-lname
-department
-salary
+last
+first
+age

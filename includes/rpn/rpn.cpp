@@ -84,13 +84,16 @@ long RPN::evaluate_arithmetic(const string& op, long left, long right) {
     }
 
 bool RPN::evaluate_relational(const string& op, const string& left, const string& right) {
-    //cout << "-------RPN evaluate_relational started!-------" << endl;
+    // cout << "-------RPN evaluate_relational started!-------" << endl;
+    bool left_is_numeric = is_number(left);
+    bool right_is_numeric = is_number(right);
 
-    bool is_numeric = !left.empty() && !right.empty() &&
-        all_of(left.begin(), left.end(), ::isdigit) &&
-        all_of(right.begin(), right.end(), ::isdigit);
+    // cout << "  Operator: " << op << ", Left: " << left << ", Right: " << right << endl;
+    // cout << "  Left Is Numeric: " << (left_is_numeric ? "true" : "false") << endl;
+    // cout << "  Right Is Numeric: " << (right_is_numeric ? "true" : "false") << endl;
 
-    if (is_numeric) {
+// Case 1: Both operands are numeric
+    if (left_is_numeric && right_is_numeric) {
         long left_num = stol(left);
         long right_num = stol(right);
 
@@ -101,7 +104,9 @@ bool RPN::evaluate_relational(const string& op, const string& left, const string
         if (op == "<=") return left_num <= right_num;
         if (op == ">=") return left_num >= right_num;
         }
-    else {
+
+    // Case 2: Both operands are non-numeric
+    if (!left_is_numeric && !right_is_numeric) {
         if (op == "=") return left == right;
         if (op == "!=") return left != right;
         if (op == "<") return left < right;
@@ -110,8 +115,9 @@ bool RPN::evaluate_relational(const string& op, const string& left, const string
         if (op == ">=") return left >= right;
         }
 
-
-    throw runtime_error("Unknown relational operator: " + op);
+    // Case 3: Mismatched types (numeric vs. non-numeric)
+    cout << "  Error: Mismatched operand types (numeric vs. non-numeric)." << endl;
+    return false; // Treat mismatched types as non-matching
     }
 
 vector<long> RPN::evaluate_logical(const string& op, const vector<long>& left_set, const vector<long>& right_set) {

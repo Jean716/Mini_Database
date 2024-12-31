@@ -12,7 +12,10 @@ using namespace std;
 #else
 #define DEBUG_PRINT(x)
 #endif
+inline bool is_number(const string &s) {
+    return !s.empty() && all_of(s.begin(), s.end(), ::isdigit);
 
+    }
 //-----------------------------------Function Declarations---------------------------------------
 template <class T>
 T maximal(const T& a, const T& b);                      // return the larger of the two items
@@ -188,10 +191,6 @@ void detach_item(T data[], int& n, T & entry) {
 
 template <class T>
 void delete_item(T data[], int i, int& n, T & entry) {
-    DEBUG_PRINT("Delete_item Function Fired!");
-    DEBUG_PRINT("Deleting item at index " << i << ", n: " << n);
-    DEBUG_PRINT("Deleting item: " << data[i]);
-
     entry = data[i]; // place the item in entry
     if (i == n - 1) {
         cout << "Deleting last/only element: " << data[i] << endl;
@@ -208,16 +207,10 @@ void delete_item(T data[], int i, int& n, T & entry) {
         }
     n--; // reduce the size of the array
 
-
-    DEBUG_PRINT("Data after deletion: ");
-    for (int k = 0; k < n; ++k) {
-        DEBUG_PRINT(data[k] << " - ");
-        }
     }
 
 template <class T>
 void merge(T data1[], int& n1, T data2[], int& n2) { // append data2 to the right of data1
-    DEBUG_PRINT("Calling merge: n1 = " << n1 << ", n2 = " << n2);
     for (int i = 0; i < n2; ++i) {
         data1[n1] = data2[i]; // append data2 to the right of data1
         n1++;
