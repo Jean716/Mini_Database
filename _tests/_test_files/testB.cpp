@@ -11,10 +11,15 @@ bool test_stub(bool debug = false) {
     }
   return true;
   }
+TEST(TEST_STUB, TestStub) {
+  EXPECT_EQ(1, test_stub(false));
+  }
+
 
 void func1() {
   SQL sql;
   sql.command("make table student fields  fname,          lname,    major,    age");
+
   sql.command("insert into student values Flo,            Yao, 	Art, 	20");
   sql.command("insert into student values Bo, 		     Yang, 	CS, 		28");
   sql.command("insert into student values \"Sammuel L.\", Jackson, 	CS, 		40");
@@ -25,11 +30,17 @@ void func1() {
   sql.command("insert into student values \"Bruce\",      Wayne, 	Business, 40");
   sql.command("insert into student values \"Diana\",      Prince, 	Warrior, 29");
   sql.command("insert into student values \"Peter\",      Parker, 	Photographer, 22");
+  sql.command("insert into student values \"Alice\",      Lee, 	Chemistry, 25");
+  sql.command("insert into student values \"Bob\",        Kim, 	Physics,   19");
+  sql.command("insert into student values \"Charlie\",    Brown, 	Literature, 50");
+  sql.command("insert into student values \"David\",      White, 	Art,       33");
+  sql.command("insert into student values \"Eva\",        Green, 	Math,      31");
   }
 
 void func2() {
   SQL sql;
   sql.command("make table employee fields  fname,          lname,    department,  salary");
+
   sql.command("insert into employee values John,           Doe,      HR,          50000");
   sql.command("insert into employee values Jane,           Smith,    IT,          75000");
   sql.command("insert into employee values Bill,           Gates,    Finance,     100000");
@@ -40,59 +51,36 @@ void func2() {
   sql.command("insert into employee values Tim,            Cook,     Finance,     110000");
   sql.command("insert into employee values Satya,          Nadella,  Engineering, 140000");
   sql.command("insert into employee values Larry,          Page,     HR,          55000");
+  sql.command("insert into employee values Alice,          Johnson,  Finance,     20000");
+  sql.command("insert into employee values Bob,            Brown,    IT,          25000");
+  sql.command("insert into employee values Charlie,        Black,    HR,          30000");
+  sql.command("insert into employee values David,          White,    Engineering, 45000");
+  sql.command("insert into employee values Eva,            Green,    Management,  60000");
   }
 
-void func3() {
+void test_less_than_or_equal() {
   SQL sql;
-  sql.command("select * from student");
-  sql.command("select * from employee");
-  // sql.command("select fname, lname, age from employee");
-  // sql.command("select * from employee where salary > 100000");
-  // sql.command("select * from employee where department = IT");
-  sql.command("select * from employee where salary >= 50000 and salary <= 80000");
-  // sql.command("select * from employee where department = Engineering and salary > 130000");
+
+  sql.command("select * from employee where salary <= 50000");
+  sql.command("select * from employee where salary <= 100000");
+  sql.command("select * from employee where salary <= 20000");
+  sql.command("select * from employee where salary <= 80000");
+  sql.command("select * from employee where salary <= 150000");
+
+  sql.command("select * from student where age <= 30");
+  sql.command("select * from student where age <= 20");
+  sql.command("select * from student where age <= 50");
   }
 
-void func4() {
-  SQL sql;
-  //sql.command("select * from student where ((major = \"CS\" or major = \"Math\") and (age < 30 or age > 40)) and (lname = \"Jackson\" or lname = \"Prince\")");
-  // sql.command("select * from employee where ((department = \"Engineering\" or department = \"IT\") and (salary < 80000 or salary > 120000)) and (fname = \"Elon\" or fname = \"Mark\")");
-  sql.command("select * from student where age <= 35");
-  sql.command("select * from student where age <= 15"); // Value not in list
-  sql.command("select * from employee where salary <= 100000 ");
-  }
-
-// void func5() {
-//   SQL sql;
-//   sql.command("select * from student where ((major = \"Physics\" or major = \"Chemistry\") and (age < 10 or age > 80)) and (lname = \"Smith\" or lname = \"Brown\")");
-//   sql.command("select * from employee where ((department = \"HR\" or department = \"Management\") and (salary < 70000 or salary > 200000)) and (fname = \"Jeff\" or fname = \"Mark\")");
-//   sql.command("select * from student where (((major = \"CS\" and age > 20) or (major = \"Math\" and age < 30)) and lname = \"Jackson\") and (fname = \"Billy\" or fname = \"Sammuel L.\")");
-//   sql.command("select * from employee where ((salary >= 75000 and salary <= 100000) or (salary > 50000 and salary < 75000)) and (department = \"IT\" or department = \"HR\")");
-//   sql.command("select * from employee where ((department = \"Engineering\" or department = \"Finance\") and (salary > 100000)) or ((fname = \"John\" or lname = \"Smith\") and salary <= 80000)");
-//   sql.command("select * from student where ((major = \"CS\" or major = \"Math\") and (lname < \"K\" or lname > \"Z\")) and (fname = \"Clark\" or fname = \"Bruce\")");
-//   sql.command("select * from student where ((major = \"CS\" or major = \"Math\") and (lname >= \"D\" and lname <= \"M\")) and (fname = \"Billy\")");
-//   sql.command("select * from employee where department = \"Medicine\" and salary > 200000");
-//   }
-
-
-
-bool test() {
+void test() {
   func1();
   func2();
-  func3();
-  func4();
-  //func5();
-  return true;
-  }
+  test_less_than_or_equal();
 
-TEST(TEST_STUB, TestStub) {
-  EXPECT_EQ(1, test_stub(false));
   }
-
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   std::cout << "\n\n----------running testB.cpp---------\n\n" << std::endl;
   test();
-  //test_table_save_and_load();
   return RUN_ALL_TESTS();
   }

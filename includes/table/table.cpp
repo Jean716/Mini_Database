@@ -556,7 +556,7 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
                     matching_recnos.insert(matching_recnos.end(), recnos.begin(), recnos.end());
                     }
                 }
-
+            cout << "Matching recnos: " << matching_recnos << endl;
             logical_stack.push(matching_recnos);
             }
         else if (token->type() == TOKEN_LOGICAL_OPERATOR) {

@@ -85,6 +85,7 @@ long RPN::evaluate_arithmetic(const string& op, long left, long right) {
 
 bool RPN::evaluate_relational(const string& op, const string& left, const string& right) {
     //cout << "-------RPN evaluate_relational started!-------" << endl;
+    // cout << "Operator: " << op << ", Left: " << left << ", Right: " << right << endl;
 
     bool is_numeric = !left.empty() && !right.empty() &&
         all_of(left.begin(), left.end(), ::isdigit) &&
@@ -93,6 +94,7 @@ bool RPN::evaluate_relational(const string& op, const string& left, const string
     if (is_numeric) {
         long left_num = stol(left);
         long right_num = stol(right);
+        // cout << "Numeric comparison: Left num: " << left_num << ", Right num: " << right_num << endl;
 
         if (op == "=") return left_num == right_num;
         if (op == "!=") return left_num != right_num;
@@ -102,6 +104,8 @@ bool RPN::evaluate_relational(const string& op, const string& left, const string
         if (op == ">=") return left_num >= right_num;
         }
     else {
+        // cout << "String comparison: Left: " << left << ", Right: " << right << endl;
+
         if (op == "=") return left == right;
         if (op == "!=") return left != right;
         if (op == "<") return left < right;
@@ -109,7 +113,6 @@ bool RPN::evaluate_relational(const string& op, const string& left, const string
         if (op == "<=") return left <= right;
         if (op == ">=") return left >= right;
         }
-
 
     throw runtime_error("Unknown relational operator: " + op);
     }

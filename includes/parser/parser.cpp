@@ -178,15 +178,15 @@ void Parser::tokenize(const string& input, Queue<Token*>& infix) {
         }
 
     //---------------------------------------
-    //cout << "Tokens: " << endl;
+    cout << "Tokens: " << endl;
     _tokens.clear();
     _tokens = new_tokens;
-    // for (Token* token : _tokens) {
-    //     cout << *token << "->";
-    //     }
-    // cout << endl;
+    for (Token* token : _tokens) {
+        cout << *token << "->";
+        }
+    cout << endl;
 
-    // cout << "Tokenization done!" << endl;
+    cout << "Tokenization done!" << endl;
     }
 
 void Parser::init_adjacency_table() {

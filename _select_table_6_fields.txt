@@ -1,4 +1,4 @@
 fname
 lname
-department
-salary
+major
+age
