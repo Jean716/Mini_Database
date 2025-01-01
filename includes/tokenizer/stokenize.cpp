@@ -149,6 +149,7 @@ STokenizer& operator>>(STokenizer & s, Token * &t) {
 
         switch (last_success_state) {
                 case NUMBER_STATE:
+                case DECIMAL_STATE:
                     t = new NumberToken(token_str);
                     break;
                 case STRING_STATE:

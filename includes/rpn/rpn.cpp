@@ -1,4 +1,5 @@
 #include "rpn.h"
+#include <string>
 vector<long> RPN::evaluate() {
     cout << "-------RPN evaluate started!-------" << endl;
 
