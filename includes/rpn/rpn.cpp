@@ -3,7 +3,7 @@
 #include <sstream>
 #include "../../includes/stl_utils/string_utilities.h"
 
-vector<long> RPN::evaluate() {
+vector<long> RPN::evaluate() { //unused
     cout << "-------RPN evaluate started!-------" << endl;
 
     Stack<ResultSet> logical_stack;
@@ -82,42 +82,6 @@ vector<long> RPN::evaluate() {
     throw runtime_error("Invalid RPN expression: No results");
     }
 
-static bool is_number(const string &s) {
-    return !s.empty() && find_if(s.begin(),
-        s.end(), [] (char c)
-        { return !(isdigit(c) || c == '.'); }) == s.end();
-    }
-
-static bool is_time(const string &s, long &time_stamp) {
-    if (s.empty())
-        return false;
-    // get hour min sec from hh:mm:ss
-    if (s.find(':') != string::npos) {
-        int hour, min, sec = 0;
-        char delimiter1, delimiter2;
-        stringstream ss(s);
-        ss >> hour >> delimiter1 >> min;
-        if (ss.bad() || ss.fail()) {
-            return false;
-            }
-        if (delimiter1 == ':') {
-            if (ss.eof()) {
-                sec = 0;
-                time_stamp = hour * 3600 + min * 60 + sec;
-                return true;
-                }
-            ss >> delimiter2 >> sec;
-            if (delimiter2 != ':') {
-                return false;
-                }
-            time_stamp = hour * 3600 + min * 60 + sec;
-            return true;
-            }
-        return false;
-        }
-    return false;
-    }
-
 long RPN::evaluate_arithmetic(const string &op, long left, long right) {
     if (op == "+")
         return left + right;
@@ -141,58 +105,6 @@ bool RPN::evaluate_relational(const string &op, const string &left, const string
     remove_all_spaces(left_trimmed);
     remove_all_spaces(right_trimmed);
 
-    // number
-    if (!left_trimmed.empty() && !right_trimmed.empty() &&
-        is_number(left_trimmed) &&
-        is_number(right_trimmed)) {
-        try {
-            double left_num = stod(left_trimmed);
-            double right_num = stod(right_trimmed);
-            if (op == "=")
-                return left_num == right_num;
-            if (op == "!=")
-                return left_num != right_num;
-            if (op == "<")
-                return left_num < right_num;
-            if (op == ">")
-                return left_num > right_num;
-            if (op == "<=")
-                return left_num <= right_num;
-            if (op == ">=")
-                return left_num >= right_num;
-            }
-        catch (const invalid_argument &e) {
-            throw runtime_error("Invalid number format: " + left_trimmed + ", " + right_trimmed);
-            }
-        }
-
-    // time
-    long left_time = 0, right_time = 0;
-    if (!left_trimmed.empty() && !right_trimmed.empty() &&
-        is_time(left_trimmed, left_time) &&
-        is_time(right_trimmed, right_time)) {
-        try {
-            long left_num = left_time;
-            long right_num = right_time;
-            if (op == "=")
-                return left_num == right_num;
-            if (op == "!=")
-                return left_num != right_num;
-            if (op == "<")
-                return left_num < right_num;
-            if (op == ">")
-                return left_num > right_num;
-            if (op == "<=")
-                return left_num <= right_num;
-            if (op == ">=")
-                return left_num >= right_num;
-            }
-        catch (const invalid_argument &e) {
-            throw runtime_error("Invalid number format: " + left_trimmed + ", " + right_trimmed);
-            }
-        }
-
-    // string
     if (op == "=")
         return left_trimmed == right_trimmed;
     if (op == "!=")
