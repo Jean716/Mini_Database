@@ -31,7 +31,7 @@ void func1() {
 void func2() {
   SQL sql;
   sql.command("make table employee fields fname, lname, department, salary");
-  sql.command("insert into employee values John, Doe, HR, 50000");
+  sql.command("insert into employee values John, Doe, HR,   50000.0");
   sql.command("insert into employee values Jane, Smith, IT, 75000");
   sql.command("insert into employee values Bill, Gates, Finance, 10000");
   sql.command("insert into employee values Elon, Musk, Engineering, 150000");
@@ -63,9 +63,10 @@ void func3() {
   sql.command("select * from employee");
   sql.command("select * from  employee where salary <= 150000");
   sql.command("select * from employee where salary <= 10000000");
-  sql.command("select * from employee where fnnnname = \"Bill\" or salary <= 10000000");
+  sql.command("select * from employee where aaa = 1 or salary <= 50000");
 
   }
+
 
 
 bool test() {

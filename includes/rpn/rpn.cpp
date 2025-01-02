@@ -73,6 +73,11 @@ vector<long> RPN::evaluate() {
     throw runtime_error("Invalid RPN expression: No results");
     }
 
+static bool is_number(const std::string& s) {
+    return !s.empty() && find_if(s.begin(),
+        s.end(), [] (char c) { return !(isdigit(c) || c == '.');  }) == s.end();
+    }
+
 long RPN::evaluate_arithmetic(const string& op, long left, long right) {
     if (op == "+") return left + right;
     if (op == "-") return left - right;
@@ -85,12 +90,12 @@ long RPN::evaluate_arithmetic(const string& op, long left, long right) {
     }
 
 bool RPN::evaluate_relational(const string& op, const string& left, const string& right) {
-    //cout << "-------RPN evaluate_relational started!-------" << endl;
+    // cout << "-------RPN evaluate_relational started!-------" << endl;
     // cout << "Operator: " << op << ", Left: " << left << ", Right: " << right << endl;
 
     bool is_numeric = !left.empty() && !right.empty() &&
-        all_of(left.begin(), left.end(), ::isdigit) &&
-        all_of(right.begin(), right.end(), ::isdigit);
+        is_number(left) &&
+        is_number(right);
 
     if (is_numeric) {
         try {

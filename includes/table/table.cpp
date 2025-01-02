@@ -542,7 +542,9 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
             // if (field_index == -1) {
             //     throw runtime_error("Field not found: " + field_name);
             //     }
+
             if (field_index == -3) {
+                cout << "Field not found: " << field_name << endl;
                 vector<long> empty_set;
                 logical_stack.push(empty_set);
                 continue; // skip this iteration
@@ -574,9 +576,7 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
             vector<long> result = rpn.evaluate_logical(token->value(), left_set, right_set);
 
             cout << "Logical operation result: " << result << endl;
-            for (const auto& recno : result) {
-                cout << recno << " ";
-                }
+
             logical_stack.push(result);
             }
         else {
