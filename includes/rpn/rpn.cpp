@@ -93,19 +93,22 @@ bool RPN::evaluate_relational(const string& op, const string& left, const string
         all_of(right.begin(), right.end(), ::isdigit);
 
     if (is_numeric) {
-        long left_num = stol(left);
-        long right_num = stol(right);
-        // cout << "Numeric comparison: Left num: " << left_num << ", Right num: " << right_num << endl;
+        try {
+            long left_num = stol(left);
+            long right_num = stol(right);
+            if (op == "=") return left_num == right_num;
+            if (op == "!=") return left_num != right_num;
+            if (op == "<") return left_num < right_num;
+            if (op == ">") return left_num > right_num;
+            if (op == "<=") return left_num <= right_num;
+            if (op == ">=") return left_num >= right_num;
+            }
+        catch (const invalid_argument& e) {
+            throw runtime_error("Invalid number format: " + left + ", " + right);
+            }
 
-        if (op == "=") return left_num == right_num;
-        if (op == "!=") return left_num != right_num;
-        if (op == "<") return left_num < right_num;
-        if (op == ">") return left_num > right_num;
-        if (op == "<=") return left_num <= right_num;
-        if (op == ">=") return left_num >= right_num;
         }
     else {
-        // cout << "String comparison: Left: " << left << ", Right: " << right << endl;
 
         if (op == "=") return left == right;
         if (op == "!=") return left != right;

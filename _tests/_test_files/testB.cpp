@@ -28,31 +28,44 @@ void func1() {
 
 
   }
-
 void func2() {
   SQL sql;
-  sql.command("make table employee fields  fname,          lname,    department,  salary");
-  sql.command("insert into employee values John,           Doe,      HR,          50000");
-  sql.command("insert into employee values Jane,           Smith,    IT,          75000");
-  sql.command("insert into employee values Bill,           Gates,    Finance,     100000");
-  sql.command("insert into employee values Elon,           Musk,     Engineering, 150000");
-  sql.command("insert into employee values Jeff,           Bezos,    Management,  120000");
-  sql.command("insert into employee values Mark,           Zuckerberg,IT,         80000");
-  sql.command("insert into employee values Sundar,         Pichai,   Management,  130000");
-  sql.command("insert into employee values Tim,            Cook,     Finance,     2.3500");
-  sql.command("insert into employee values Satya,          Nadella,  Engineering, 2.3500");
-  sql.command("insert into employee values Larry,          Page,     HR,          55000");
+  sql.command("make table employee fields fname, lname, department, salary");
+  sql.command("insert into employee values John, Doe, HR, 50000");
+  sql.command("insert into employee values Jane, Smith, IT, 75000");
+  sql.command("insert into employee values Bill, Gates, Finance, 10000");
+  sql.command("insert into employee values Elon, Musk, Engineering, 150000");
+  sql.command("insert into employee values Jeff, Bezos, Management, 120000");
+  sql.command("insert into employee values Mark, Zuckerberg,IT, 80000");
+  sql.command("insert into employee values Sundar, Pichai, Management, 130000");
+  sql.command("insert into employee values Tim, Cook, Finance, 110000");
+  sql.command("insert into employee values Satya, Nadella, Engineering, 140000");
+  sql.command("insert into employee values Larry, Page, HR, 55000");
   }
+// void func2() {
+//   SQL sql;
+//   sql.command("make table employee fields  fname,          lname,    department,  salary");
+//   sql.command("insert into employee values John,           Doe,      HR,          50000");
+//   sql.command("insert into employee values Jane,           Smith,    IT,          75000");
+//   sql.command("insert into employee values Bill,           Gates,    Finance,     100000");
+//   sql.command("insert into employee values Elon,           Musk,     Engineering, 150000");
+//   sql.command("insert into employee values Jeff,           Bezos,    Management,  120000");
+//   sql.command("insert into employee values Mark,           Zuckerberg,IT,         80000");
+//   sql.command("insert into employee values Sundar,         Pichai,   Management,  130000");
+//   sql.command("insert into employee values Tim,            Cook,     Finance,     110000");
+//   sql.command("insert into employee values Satya,          Nadella,  Engineering, 140000");
+//   sql.command("insert into employee values Larry,          Page,     HR,          55000");
+//   }
 
 void func3() {
   SQL sql;
   sql.command("select * from student");
   sql.command("select * from employee");
-  sql.command("select fname, lname, age from employee");
-  sql.command("select * from employee where salary <= 23500");
+  sql.command("select * from  employee where salary <= 150000");
+  sql.command("select * from employee where salary <= 10000000");
+  sql.command("select * from employee where fnnnname = \"Bill\" or salary <= 10000000");
 
   }
-
 
 
 bool test() {

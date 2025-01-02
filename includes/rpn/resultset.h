@@ -5,7 +5,8 @@
 #include <string>
 #include <iostream>
 #include <set>
-#include <algorithm> // for set_intersection, set_union
+#include <algorithm> // for sort set_intersection, set_union
+#include <iterator>   // for back_inserter
 #include "../../includes/bplustree/multimap.h"
 #include "../../includes/queue/MyQueue.h"
 #include "../../includes/table/table.h"

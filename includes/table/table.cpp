@@ -539,16 +539,18 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
             string field_name = string_stack.pop();
 
             int field_index = field_col_no(field_name);
-            if (field_index == -1) {
-                throw runtime_error("Field not found: " + field_name);
-                }
+            // if (field_index == -1) {
+            //     throw runtime_error("Field not found: " + field_name);
+            //     }
             if (field_index == -3) {
-                return {}; // Field not found; return empty results.
+                vector<long> empty_set;
+                logical_stack.push(empty_set);
+                continue; // skip this iteration
                 }
 
             const auto& field_index_map = _indices[field_index];
             vector<long> matching_recnos;
-
+            cout << "Evaluating relational operation: " << token->value() << endl;
             for (const auto& pair : field_index_map) {
                 const auto& key = pair.first();
                 const auto& recnos = pair.second();
@@ -567,7 +569,14 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
             vector<long> right_set = logical_stack.pop();
             vector<long> left_set = logical_stack.pop();
 
+            cout << "Performing logical operation: " << token->value() << endl;
+
             vector<long> result = rpn.evaluate_logical(token->value(), left_set, right_set);
+
+            cout << "Logical operation result: " << result << endl;
+            for (const auto& recno : result) {
+                cout << recno << " ";
+                }
             logical_stack.push(result);
             }
         else {

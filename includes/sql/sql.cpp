@@ -165,6 +165,8 @@ Table SQL::execute_command(const string &cmd) {
         vector<string> fields = ptree.get("fields");
         Table result;
 
+        cout << ">>> Processing SELECT command on table: " << table_name << endl;
+
         if (_tables.find(table_name) == _tables.end()) {
             throw runtime_error("Table does not exist: " + table_name);
             }
@@ -173,6 +175,16 @@ Table SQL::execute_command(const string &cmd) {
             // Process WHERE condition
             Queue<Token *> infix_condition;
             vector<string> infix = ptree.get("condition");
+
+
+            // Debug WHERE condition
+            cout << ">>> WHERE condition: ";
+            for (const auto &token : infix) {
+                cout << token << " ";
+                }
+            cout << endl;
+
+
             for (size_t i = 0; i < infix.size(); i++) {
                 ltrim(infix[i]);
                 rtrim(infix[i]);
