@@ -1,2 +1,4 @@
 employee	employee.tbl
+schedule	schedule.tbl
 student	student.tbl
+time_test	time_test.tbl

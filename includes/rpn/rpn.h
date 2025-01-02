@@ -11,7 +11,7 @@
 class RPN
     {
     public:
-        //RPN(const Queue<Token*>& input) : _postfix(input) {}
+        RPN() {}
         RPN(const Queue<Token*>& input) : _postfix(input) {}
 
         void set_input(Queue<Token*>& input) {

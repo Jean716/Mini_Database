@@ -212,6 +212,7 @@ void STokenizer::setup_alpha_state(int _table[][MAX_COLUMNS]) {
     mark_cell(START_STATE, _table, '_', ALFA_STATE);  // underscore 
     mark_cell(ALFA_STATE, _table, '_', ALFA_STATE);
     mark_cell(ALFA_STATE, _table, '.', ALFA_STATE);
+    //mark_cell(ALFA_STATE, _table, ':', ALFA_STATE);
     }
 
 void STokenizer::setup_number_state(int _table[][MAX_COLUMNS]) {
@@ -247,6 +248,7 @@ void STokenizer::setup_string_state(int _table[][MAX_COLUMNS]) {
     mark_cells(OPEN_STRING_STATE, _table, DIGITS, OPEN_STRING_STATE);
     mark_cells(OPEN_STRING_STATE, _table, SPACES, OPEN_STRING_STATE);
     mark_cells(OPEN_STRING_STATE, _table, PUNC, OPEN_STRING_STATE);
+    mark_cell(OPEN_STRING_STATE, _table, ':', OPEN_STRING_STATE);
     mark_cell(OPEN_STRING_STATE, _table, '"', STRING_STATE);
     }
 
