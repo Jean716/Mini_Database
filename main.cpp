@@ -1,68 +1,62 @@
+// Interactive shell for Mini_Database.
+//
+//   ./bin/main                 start an interactive session
+//   ./bin/main < script.sql    run commands from a file, one per line
+//   ./bin/main --verbose       also show the engine's internal trace
+//                              (tokenizer, RPN evaluation, B+ tree ops)
+//
+// Tables are persisted as binary files in the current working directory,
+// so data survives between sessions.
+#include <cstring>
 #include <iostream>
-#include <iomanip>
+#include <sstream>
+#include <string>
+#include <unistd.h>
 
-#include "includes/bplustree/map.h"
-#include "includes/table/table.h"
-#include "includes/token/token.h"
-#include "includes/queue/MyQueue.h"
-#include "includes/token/child_tokens.h"
-
-#include <cassert>
+#include "sql/sql.h"
 using namespace std;
 
-void test_copy_tree() {
-    cout << "=== Testing copy_tree ===" << endl;
+static bool is_blank_or_comment(const string& line) {
+    size_t i = line.find_first_not_of(" \t\r");
+    return i == string::npos || line.compare(i, 2, "--") == 0;
+}
 
-    BPlusTree<int> original;
-    original.insert(10);
-    original.insert(20);
-    original.insert(30);
-    original.insert(40);
-    original.insert(50);
-    original.insert(60);
+int main(int argc, char** argv) {
+    const bool interactive = isatty(STDIN_FILENO);
+    const bool verbose = argc > 1 && strcmp(argv[1], "--verbose") == 0;
 
-    cout << "Original Tree:" << endl;
-    original.print_tree();
-    original.verify_leaf_chain();
+    // The engine writes a detailed execution trace to stdout. Unless
+    // --verbose is given, send that trace to a buffer we throw away and
+    // print only the query results.
+    streambuf* console = cout.rdbuf();
+    ostringstream trace;
+    auto quiet = [&] { if (!verbose) cout.rdbuf(trace.rdbuf()); };
+    auto loud = [&] { cout.rdbuf(console); trace.str(""); };
 
-    // 测试单参数的 copy_tree
-    BPlusTree<int> copy1;
-    copy1.copy_tree(original);
+    quiet();
+    SQL sql;
+    loud();
 
-    cout << "\nCopied Tree (single parameter):" << endl;
-    copy1.print_tree();
-    copy1.verify_leaf_chain();
-
-    BPlusTree<int> copy2;
-    BPlusTree<int>* last_node = nullptr;
-    copy2.copy_tree(original, last_node);
-
-    cout << "\nCopied Tree (with last_node):" << endl;
-    copy2.print_tree();
-    copy2.verify_leaf_chain();
-
-    cout << "\nModifying original tree by inserting 70 and 80..." << endl;
-    original.insert(70);
-    original.insert(80);
-
-    cout << "\nOriginal Tree after modification:" << endl;
-    original.print_tree();
-    original.verify_leaf_chain();
-
-    cout << "\nCopied Tree (single parameter) after modification of original:" << endl;
-    copy1.print_tree();
-    copy1.verify_leaf_chain();
-
-    cout << "\nCopied Tree (with last_node) after modification of original:" << endl;
-    copy2.print_tree();
-    copy2.verify_leaf_chain();
-
-    cout << "\n=== End of copy_tree test ===" << endl;
+    if (interactive) {
+        cout << "Mini_Database shell. Supported commands:\n"
+             << "  make table <name> fields <f1>, <f2>, ...\n"
+             << "  insert into <name> values <v1>, <v2>, ...\n"
+             << "  select <*|f1, f2> from <name> [where <condition>]\n"
+             << "Type 'exit' to quit.\n";
     }
 
-int main(int argv, char** argc) {
+    string line;
+    while (true) {
+        if (interactive) cout << "\nsql> " << flush;
+        if (!getline(cin, line)) break;
+        if (line == "exit" || line == "quit") break;
+        if (is_blank_or_comment(line)) continue;
+        if (!interactive) cout << "\nsql> " << line << '\n';
 
-    test_copy_tree();
-    cout << "\n\n\n=====================" << endl;
+        quiet();
+        Table result = sql.command(line);
+        loud();
+        if (line.find("select") != string::npos) cout << result;
+    }
     return 0;
-    }
+}

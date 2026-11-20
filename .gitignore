@@ -82,3 +82,15 @@ googletest/
 .vs
 out/
 build/other/
+# ---------------------------------------------------------------------------
+# Mini_Database runtime data (tables are created in the working directory)
+# ---------------------------------------------------------------------------
+*.tbl
+*_fields.txt
+_tables.txt
+
+# Compiled binaries and debug symbols
+testB
+*.dSYM/
+*.gcda
+*.gcno

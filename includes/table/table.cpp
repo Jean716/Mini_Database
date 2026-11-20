@@ -597,7 +597,6 @@ vector<long> Table::cond(const Queue<Token*>& postfix) {
 //LINK - operator<<
 ostream& operator<<(ostream & outs, const Table & t) {
     //DEBUG_PRINT("-------Table operator<< fired!-------");
-    cout << "Select recnos: " << t._select_recnos << endl;
     //outs << string(15 + 15 * t.get_field_names().size(), '-') << endl;
     outs << setw(10) << "record";
     for (const auto& field : t.get_field_names()) {
