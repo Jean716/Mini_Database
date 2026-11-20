@@ -118,43 +118,17 @@ ctest --output-on-failure
 `examples/bplustree_demo.cpp` builds to `bin/bplustree_demo` and prints tree
 shapes during copy and modification, which helps when stepping through the code.
 
-### Bugs found by the property tests
+## Roadmap
 
-Writing the randomized tests exposed three bugs in the original B+ tree, all
-now fixed:
-
-1. **`size()` double-counted keys.** It added the separator keys stored in inner
-   nodes, which are copies of leaf keys, so a 500-element tree reported 998.
-2. **Borrowing broke the leaf chain.** When a leaf borrowed a key from its
-   right sibling, `transfer_left` repointed `next` past that sibling, so its
-   keys disappeared from iteration while `contains()` still found them.
-3. **Merging inner nodes corrupted a leaf pointer.** `merge_with_next_subset`
-   indexed the left child's subtrees with the *parent's* index `i` when
-   updating a `next` pointer, and chose the wrong separator key. No pointer
-   change is needed there, because the leaf chain is already continuous.
-
-After the fixes, a stress run of 30 seeds × 20,000 operations on keys 0–3000,
-checking contents, `contains()`, and invariants after every step, reports no
-failures.
-
-## Known limitations and next steps
-
-- **All values are strings.** Comparisons are lexicographic, so
-  `salary > 99999` does not match `100000`. Next step: typed columns, or
-  numeric comparison when both sides parse as numbers.
-- **`WHERE` scans every key of a column's index.** It does not use the tree's
-  `find` / `lower_bound` / `upper_bound`, so a condition costs O(distinct
-  values) rather than O(log n + k). Next step: route `=` to `find` and range
-  operators to bound-based leaf scans.
-- **No `delete` / `update` / `drop` commands.** The B+ tree supports removal,
-  but the SQL layer does not expose it yet.
-- **Fixed-width records:** at most 10 fields of up to 255 characters each
-  (`FileRecord::MAX_ROWS` / `MAX_COLS`).
-- **No `not` operator.** It is recognized by the tokenizer but not evaluated.
+- Typed columns with numeric comparison (values are currently compared as strings)
+- Index-based conditions: `=` via `find`, ranges via `lower_bound` / `upper_bound`, for O(log n + k) instead of scanning every key
+- `delete` / `update` / `drop` commands (the B+ tree already supports removal)
+- `not` operator
+- Variable-width records (currently up to 10 fields of 255 characters each)
 
 ## Background
 
 Built as the final project for CS 8 at Pasadena City College; the CMake
 skeleton and test harness layout follow the course template. After the course,
-the B+ tree bugs above were fixed, the GoogleTest suites were rewritten to
-assert real results, and the interactive shell was added.
+the test suites were rewritten to assert real results and the interactive shell
+was added.
