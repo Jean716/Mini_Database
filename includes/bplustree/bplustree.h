@@ -774,8 +774,12 @@ BPlusTree<T>* BPlusTree<T>::merge_with_next_subset(int i) {
 
     if (!left->is_leaf()) {
         cout << "left is not leaf" << endl;
-        attach_item(left->data, left->data_count, right->subset[0]->data[0]);
-        left->subset[i]->next = right->subset[0];
+        // Separator = smallest key in the right subtree. The leaf chain
+        // already links left's last leaf to right's first leaf, so no
+        // `next` pointer needs to change when merging internal nodes.
+        T right_min;
+        right->get_smallest(right_min);
+        attach_item(left->data, left->data_count, right_min);
         merge(left->data, left->data_count, right->data, right->data_count);
         merge(left->subset, left->child_count, right->subset, right->child_count);
         delete_item(subset, i + 1, child_count, right);
@@ -819,11 +823,8 @@ void BPlusTree<T>::transfer_left(int i) {
         cout << "Moved child from rightSibling to shortNode" << endl;
         }
 
-    // Update the next pointer if shortNode is a leaf
-    if (shortNode->is_leaf()) {
-        shortNode->next = rightSibling->next;
-        cout << "Updated shortNode->next to: " << shortNode->next << endl;
-        }
+    // Leaf chain is unchanged: rightSibling still exists, so
+    // shortNode->next must keep pointing at it.
 
     cout << "Transfer left completed" << endl;
     update_parent_keys();
@@ -976,7 +977,8 @@ int BPlusTree<T>::size() const {
         return total;
         }
 
-    total += data_count;
+    // Internal-node keys are copies of leaf keys (B+ tree), so only the
+    // leaves hold real elements; do not add data_count here.
     for (int i = 0; i < child_count; ++i) {
         total += subset[i]->size();
         }
