@@ -154,7 +154,7 @@ failures.
 
 ## Background
 
-Built as a data structures course project at Pasadena City College; the CMake
+Built as the final project for CS 8 at Pasadena City College; the CMake
 skeleton and test harness layout follow the course template. After the course,
 the B+ tree bugs above were fixed, the GoogleTest suites were rewritten to
 assert real results, and the interactive shell was added.
